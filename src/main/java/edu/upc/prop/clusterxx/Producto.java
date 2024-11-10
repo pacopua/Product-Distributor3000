@@ -1,3 +1,4 @@
+package edu.upc.prop.clusterxx;
 
 public abstract class Producto implements Algoritmo {
     private int id;

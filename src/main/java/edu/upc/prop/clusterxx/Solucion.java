@@ -1,3 +1,5 @@
+package edu.upc.prop.clusterxx;
+
 import java.util.Arrays;
 
 public class Solucion {
