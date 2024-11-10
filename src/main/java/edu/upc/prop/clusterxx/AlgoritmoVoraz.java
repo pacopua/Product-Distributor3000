@@ -1,3 +1,5 @@
+package edu.upc.prop.clusterxx;
+
 public class AlgoritmoVoraz implements Algoritmo {
 
     @Override
