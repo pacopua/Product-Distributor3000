@@ -63,6 +63,17 @@ public class Solucion {
         return false;
     }
 
+    /**
+     * Calcula la sinergia de una casilla
+     * @param x Fila de la casilla
+     * @param y Columna de la casilla
+     * @return Valor de las sinergias de la casilla
+     */
+    public double calcularSinergia(int x, int y) {
+        // TODO
+        return 0;
+    }
+
     public boolean importarSolucion(String path) {
         // TODO
         return false;
