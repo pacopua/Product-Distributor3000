@@ -1,3 +1,4 @@
+//Class by Adria Cebrian Ruiz
 package src.main.java.edu.upc.prop.clusterxx;
 
 public interface Algoritmo {
@@ -5,5 +6,5 @@ public interface Algoritmo {
 
     Solucion calcular_solucion(Solucion s);
 
-    Solucion recursive_calcular(Solucion s);
+    //Solucion recursive_calcular(Solucion s);
 }

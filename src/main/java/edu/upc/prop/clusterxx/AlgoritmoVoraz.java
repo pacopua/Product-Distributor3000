@@ -1,3 +1,4 @@
+//Class by Adria Cebrian Ruiz
 package src.main.java.edu.upc.prop.clusterxx;
 
 public class AlgoritmoVoraz implements Algoritmo {
@@ -40,9 +41,16 @@ public class AlgoritmoVoraz implements Algoritmo {
     public Solucion recursive_calcular(Solucion s, int y, int x) {
         Solucion best_solution = copiar_solucion(s);
         if(y == s.distribucion.length-1 && x == s.distribucion[0].length-1) return best_solution;
+        else if(x == s.distribucion[0].length-1) {
+            x = 0;
+            ++y;
+        }
         for(int i = 0; i < s.distribucion.length; ++i) {
             for(int j = 0; j < s.distribucion[0].length; ++j) {
-                Solucion aux = recursive_calcular(s, )
+                Solucion aux = copiar_solucion(s);
+                aux.intercambiarProductos(y,x);
+                recursive_calcular(aux, y, x+1);
+                if (aux.calidad > best_solution.calidad) best_solution = aux;
             }
         }
         return best_solution;
