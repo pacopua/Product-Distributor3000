@@ -1,11 +1,11 @@
-package edu.upc.prop.clusterxx;
+package src.main.java.edu.upc.prop.clusterxx;
 
 import java.util.Arrays;
 
 public class Solucion {
-    private int[][] distribucion;
-    private double calidad;
-    private int num_pasos;
+    public int[][] distribucion;
+    public double calidad;
+    public int num_pasos;
 
     public void imprimirDistribucio () {}
 
