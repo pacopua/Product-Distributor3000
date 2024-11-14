@@ -34,6 +34,17 @@ public class MatrizAdyacencia {
     }
 
     /**
+     * Obtiene la sinergia entre dos productos
+     * @param p1 Producto 1
+     * @param p2 Producto 2
+     * @return Sinergia entre los productos, -1 si son el mismo producto
+     */
+    public double getSinergia(int p1, int p2) {
+        if (p1 == p2) return -1;
+        return matriz[p1][p2];
+    }
+
+    /**
      * Obtiene la matriz de adyacencia
      * @return Matriz de adyacencia
      */
