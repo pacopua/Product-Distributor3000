@@ -1,10 +1,9 @@
 package edu.upc.prop.clusterxx;
 
-import java.io.*;
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.Arrays;
 
-public class Solucion {
+public class Solucion implements Serializable, Cloneable {
     private int[][] distribucion;
     private double calidad;
     private int numPasos;

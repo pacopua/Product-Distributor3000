@@ -1,10 +1,9 @@
 package edu.upc.prop.clusterxx;
 
 
-import java.io.*;
-import java.util.ArrayList;
+import java.io.Serializable;
 
-public class MatrizAdyacencia {
+public class MatrizAdyacencia implements Serializable {
     private double[][] matriz;
     private int numProductos;
 
