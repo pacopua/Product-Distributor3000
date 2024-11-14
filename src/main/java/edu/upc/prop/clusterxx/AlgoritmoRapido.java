@@ -19,14 +19,14 @@ public class AlgoritmoRapido implements Algoritmo{
 
     public Solucion copiar_solucion(Solucion s) {
         Solucion best_solution = new Solucion();
-        best_solution.distribucion = new int[s.distribucion.length][s.distribucion[0].length];
-        for(int i = 0; i < s.distribucion.length; ++i) {
-            for(int j = 0; j < s.distribucion[0].length; ++j) {
-                best_solution.distribucion[i][j] = s.distribucion[i][j];
+        best_solution.setDistribucion(new int[s.getDistribucion().length][s.getDistribucion()[0].length]);
+        for(int i = 0; i < s.getDistribucion().length; ++i) {
+            for(int j = 0; j < s.getDistribucion()[0].length; ++j) {
+                best_solution.getDistribucion()[i][j] = s.getDistribucion()[i][j];
             }
         }
-        best_solution.calidad = s.calidad;
-        best_solution.num_pasos = s.num_pasos;
+        best_solution.setCalidad(s.getCalidad());;
+        best_solution.setNumPasos(s.getNumPasos());
         return best_solution;
     }
 
@@ -47,14 +47,14 @@ public class AlgoritmoRapido implements Algoritmo{
         public List<Successor> getSuccessors(Object a) {
             ArrayList<Successor> retVal = new ArrayList();
             Solucion sol_actual = (Solucion)a;
-            for(int i = 0; i < sol_actual.distribucion.length; ++i) {
-                for(int j = 0; i < sol_actual.distribucion[0].length; ++j) {
-                    for(int x = 0; x < sol_actual.distribucion.length; ++x) {
-                        for(int y = 0; y < sol_actual.distribucion[0].length; ++y) {
+            for(int i = 0; i < sol_actual.getDistribucion().length; ++i) {
+                for(int j = 0; i < sol_actual.getDistribucion()[0].length; ++j) {
+                    for(int x = 0; x < sol_actual.getDistribucion().length; ++x) {
+                        for(int y = 0; y < sol_actual.getDistribucion()[0].length; ++y) {
                             Solucion newstate = copiar_solucion(sol_actual);
                             if(newstate.intercambiarProductos(i,j, x,y));
-                            String S = "intercambiados producto: " + sol_actual.distribucion[i][j] + " por producto: "
-                                    + sol_actual.distribucion[x][y];
+                            String S = "intercambiados producto: " + sol_actual.getDistribucion()[i][j] + " por producto: "
+                                    + sol_actual.getDistribucion()[x][y];
                             retVal.add(new Successor(S, newstate));
                         }
                     }
