@@ -1,6 +1,6 @@
 package edu.upc.prop.clusterxx;
 
-public abstract class Producto implements Algoritmo {
+public class Producto { //antes, no sé por qué, era abstracta y subclase de algoritmo
     private int id;
     private String nombre;
     private double precio;
