@@ -1,5 +1,7 @@
 package edu.upc.prop.clusterxx;
 
+import java.io.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Solucion {
@@ -17,7 +19,7 @@ public class Solucion {
     public Solucion(int files, int columnes) {
         this.calidad = 0;
         this.numPasos = 0;
-        this.establecerFilasColumnas(files, columnes);
+        this.introducir_numero_columnas_i_filas(files, columnes);
     }
 
     /**
@@ -33,7 +35,7 @@ public class Solucion {
      * @param files Número de filas
      * @param columnes Número de columnas
      */
-    public void establecerFilasColumnas(int files, int columnes) {
+    public void introducir_numero_columnas_i_filas(int files, int columnes) {
         this.distribucion = new int[files][columnes];
         this.filas = files;
         this.columnas = columnes;
@@ -42,43 +44,86 @@ public class Solucion {
     /**
      * Imprime la distribución de la solución en la salida estándar
      */
-    public void imprimirDistribucio () {}
+    public void imprimir_distribucion() {
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
+                System.out.print(distribucion[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
 
     /**
      * Intercambia dos productos de la solución
-     * @param x_p1 Fila del primer producto
-     * @param y_p1 Columna del primer producto
-     * @param x_p2 Fila del segundo producto
-     * @param y_p2 Columna del segundo producto
+     * @param fila_p1 Fila del primer producto
+     * @param columna_p1 Columna del primer producto
+     * @param fila_p2 Fila del segundo producto
+     * @param columna_p2 Columna del segundo producto
      * @return true si se ha podido intercambiar los productos, false en caso contrario
      */
-    public boolean intercambiarProductos(int x_p1, int y_p1, int x_p2, int y_p2) {
-        if (0 <= x_p1 && x_p1 < filas && 0 <= y_p1 && y_p1 < columnas &&
-            0 <= x_p2 && x_p2 < filas && 0 <= y_p2 && y_p2 < columnas) {
-            int aux = distribucion[x_p1][y_p1];
-            distribucion[x_p1][y_p1] = distribucion[x_p2][y_p2];
-            distribucion[x_p2][y_p2] = aux;
+    public boolean intercambiar_productos(int fila_p1, int columna_p1, int fila_p2, int columna_p2) {
+        if (0 <= fila_p1 && fila_p1 < filas && 0 <= columna_p1 && columna_p1 < columnas &&
+            0 <= fila_p2 && fila_p2 < filas && 0 <= columna_p2 && columna_p2 < columnas) {
+            int aux = distribucion[fila_p1][columna_p1];
+            distribucion[fila_p1][columna_p1] = distribucion[fila_p2][columna_p2];
+            distribucion[fila_p2][columna_p2] = aux;
             return true;
         }
         return false;
     }
 
-    public boolean importarSolucion(String path) {
-        // TODO
-        return false;
+    /**
+     * Importa una solución desde un fichero
+     * @param path Ruta del fichero
+     * @throws IOException Si el fichero no existe o está vacío
+     */
+    public void importar_solucion(String path) throws IOException {
+        ArrayList<String> lines = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                lines.add(line);
+            }
+        }
+
+        if (lines.isEmpty()) {
+            throw new IOException("Empty file");
+        }
+
+        int num_filas = lines.size();
+        int num_columnas = lines.getFirst().split(",").length;
+        if (num_filas != filas || num_columnas != columnas) {
+            introducir_numero_columnas_i_filas(lines.size(), lines.getFirst().length());
+        }
+
+        for (int i = 0; i < num_filas; i++) {
+            String[] values = lines.get(i).split(",");
+            for (int j = 0; j < num_columnas; j++) {
+                distribucion[i][j] = Integer.parseInt(values[j]);
+            }
+        }
     }
 
-    public boolean exportarSolucion(String path) {
-        // TODO
-        return false;
-    }
+    /**
+     * Exporta la solución a un fichero
+     * @param path Ruta del fichero
+     * @throws IOException Si no se puede escribir en el fichero
+     */
+    public void exportar_solucion(String path) throws IOException {
+        try (BufferedWriter writer = new BufferedWriter(new PrintWriter(path))) {
+            StringBuilder line = new StringBuilder();
+            for (int i = 0; i < filas; i++) {
+                for (int j = 0; j < columnas; j++) {
+                    line.append(distribucion[i][j]);
+                    if (j < columnas - 1) {
+                        line.append(",");
+                    }
+                }
+                writer.write(line.toString());
+                writer.newLine();
+            }
 
-    public void calcular_solucion_optima() {
-        // TODO
-    }
-
-    public void calcular_solucion_rapida() {
-        // TODO
+        }
     }
 
     /**
