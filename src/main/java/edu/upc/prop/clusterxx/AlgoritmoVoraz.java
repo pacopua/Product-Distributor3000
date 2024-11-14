@@ -18,24 +18,37 @@ public class AlgoritmoVoraz implements Algoritmo {
         return best_solution;
     }
 
+    public double calcular_sinergias(Solucion s, int i, int j) {
+        double suma = 0;
+        if(i > 0) {
+            suma += MatrizAdyacencia.getSinergia(s.distribucion[i][j], s.distribucion[i-1][j]);
+        }
+        if(i < s.distribucion.length - 1) {
+            suma += MatrizAdyacencia.getSinergia(s.distribucion[i][j], s.distribucion[i+1][j]);
+            if(j == 0)
+                if(i%2 != 0) suma += MatrizAdyacencia.getSinergia(s.distribucion[i][j], s.distribucion[i+1][j]);
+            if(j == s.distribucion[0].length - 1)
+                if(i%2 == 0) suma += MatrizAdyacencia.getSinergia(s.distribucion[i][j], s.distribucion[i+1][j]);
+        }
+        if(i == 0 && j == 0) {
+            suma += MatrizAdyacencia.getSinergia(s.distribucion[i][j], s.distribucion[s.distribucion.length-1][s.distribucion[0].length-1]);
+        }
+        else if(i == s.distribucion.length-1 && j == s.distribucion[0].length-1) {
+            suma += MatrizAdyacencia.getSinergia(s.distribucion[i][j], s.distribucion[0][0]);
+        }
+        if(j < s.distribucion[0].length - 1) {
+            suma += MatrizAdyacencia.getSinergia(s.distribucion[i][j], s.distribucion[i][j+1]);
+        }
+        if (j > 0) {
+            suma += MatrizAdyacencia.getSinergia(s.distribucion[i][j], s.distribucion[i][j-1]);
+        }
+        return suma;
+    }
+
     public void change_positions(Solucion s, int i, int j, int y, int x) {
-        if(i != 0 || i != (s.distribucion.length - 1)) {
-
-            if (j != 0 || i != (s.distribucion[0].length - 1)) {
-                s.calidad -= s.distribucion[i][j] * s.distribucion[i-1][j] + s.distribucion[i][j] * s.distribucion[i][j-1] + s.distribucion[i][j] * s.distribucion[i+1][j] + s.distribucion[i][j] * s.distribucion[i][j+1];
-                s.calidad += s.distribucion[y][x] * s.distribucion[i-1][j] + s.distribucion[y][x] * s.distribucion[i][j-1] + s.distribucion[y][x] * s.distribucion[i+1][j] + s.distribucion[y][x] * s.distribucion[i][j+1];
-            }
-            else {
-                if(i % 2 == 0);
-            }
-        }
-        if(y != 0 || y != (s.distribucion.length - 1)) {
-            if (x != 0 || x != (s.distribucion[0].length - 1)) {
-                s.calidad -= s.distribucion[y][x] * s.distribucion[y-1][x] + s.distribucion[y][x] * s.distribucion[y][x-1] + s.distribucion[y][x] * s.distribucion[y+1][x] + s.distribucion[y][x] * s.distribucion[y][x+1];
-                s.calidad += s.distribucion[i][j] * s.distribucion[y-1][x] + s.distribucion[i][j] * s.distribucion[y][x-1] + s.distribucion[i][j] * s.distribucion[y+1][x] + s.distribucion[i][j] * s.distribucion[y][x+1];
-            }
-        }
-
+        s.calidad -= calcular_sinergias(s, i, j);
+        s.calidad -= calcular_sinergias(s, y, x);
+        s.intercambiarProductos()
     }
 
     public Solucion recursive_calcular(Solucion s, int y, int x) {
@@ -48,7 +61,7 @@ public class AlgoritmoVoraz implements Algoritmo {
         for(int i = 0; i < s.distribucion.length; ++i) {
             for(int j = 0; j < s.distribucion[0].length; ++j) {
                 Solucion aux = copiar_solucion(s);
-                aux.intercambiarProductos(y,x);
+                change_positions(s, y, x, i, j);
                 recursive_calcular(aux, y, x+1);
                 if (aux.calidad > best_solution.calidad) best_solution = aux;
             }
