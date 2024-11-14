@@ -1,5 +1,12 @@
 package edu.upc.prop.clusterxx;
 
+
+/*
+TODO: Programar funciones
+importar_matriz_relaciones(path)
+exportar_matriz_relaciones(path)
+
+ */
 public class MatrizAdyacencia {
     private double[][] matriz;
     private int numProductos;
