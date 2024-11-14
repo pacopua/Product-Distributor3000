@@ -73,60 +73,6 @@ public class Solucion {
     }
 
     /**
-     * Importa una solución desde un fichero
-     * @param path Ruta del fichero
-     * @throws IOException Si el fichero no existe o está vacío
-     */
-    public void importar_solucion(String path) throws IOException {
-        ArrayList<String> lines = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                lines.add(line);
-            }
-        }
-
-        if (lines.isEmpty()) {
-            throw new IOException("Empty file");
-        }
-
-        int num_filas = lines.size();
-        int num_columnas = lines.getFirst().split(",").length;
-        if (num_filas != filas || num_columnas != columnas) {
-            introducir_numero_columnas_i_filas(lines.size(), lines.getFirst().length());
-        }
-
-        for (int i = 0; i < num_filas; i++) {
-            String[] values = lines.get(i).split(",");
-            for (int j = 0; j < num_columnas; j++) {
-                distribucion[i][j] = Integer.parseInt(values[j]);
-            }
-        }
-    }
-
-    /**
-     * Exporta la solución a un fichero
-     * @param path Ruta del fichero
-     * @throws IOException Si no se puede escribir en el fichero
-     */
-    public void exportar_solucion(String path) throws IOException {
-        try (BufferedWriter writer = new BufferedWriter(new PrintWriter(path))) {
-            StringBuilder line = new StringBuilder();
-            for (int i = 0; i < filas; i++) {
-                for (int j = 0; j < columnas; j++) {
-                    line.append(distribucion[i][j]);
-                    if (j < columnas - 1) {
-                        line.append(",");
-                    }
-                }
-                writer.write(line.toString());
-                writer.newLine();
-            }
-
-        }
-    }
-
-    /**
      * Devuelve la distribución de la solución
      * @return Matriz de enteros con la distribución de la solución
      */
