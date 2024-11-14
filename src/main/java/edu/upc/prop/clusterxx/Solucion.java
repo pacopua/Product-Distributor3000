@@ -60,6 +60,18 @@ public class Solucion {
         }
     }
 
+    public void imprimir() {
+        System.out.println("estoy imprimiendo");
+        for (int i = 0; i < filas; ++i) {
+            System.out.print("{");
+            for (int j = 0; j < columnas; ++j) {
+                System.out.print(distribucion[i][j]);
+                if(j < filas - 1) System.out.print(", ");
+            }
+            System.out.println("}");
+        }
+    }
+
     /**
      * Intercambia dos productos de la solución
      * @param fila_p1 Fila del primer producto
@@ -106,10 +118,6 @@ public class Solucion {
         }
         writer.close();
     }
-
-    public void calcular_solucion_optima() {}
-    public void calcular_solucion_rapida() {}
-
     /**
      * Devuelve la distribución de la solución
      * @return Matriz de enteros con la distribución de la solución

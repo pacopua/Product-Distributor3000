@@ -12,8 +12,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 public class AlgoritmoRapido implements Algoritmo{
-    public void ejecutar() {
-
+    public Solucion ejecutar(Solucion s) {
+        return s;
     }
     public Solucion calcular_solucion(Solucion s) {return s;}
 

@@ -1,7 +1,7 @@
 package src.main.java.edu.upc.prop.clusterxx;
 
 public class MatrizAdyacencia {
-    private static double[][] matriz;
+    public static double[][] matriz;
     private static int numProductos;
 
     /**
@@ -39,6 +39,7 @@ public class MatrizAdyacencia {
         if (0 <= p1 && p1 < numProductos && 0 <= p2 && p2 < numProductos) {
             return matriz[p1][p2];
         }
+        else if (p1 == -1 || p2 == -1) return 0;
         return -1;
     }
 
@@ -46,7 +47,7 @@ public class MatrizAdyacencia {
      * Obtiene la matriz de adyacencia
      * @return Matriz de adyacencia
      */
-    public double[][] getMatriz() {
+    public static double[][] getMatriz() {
         return matriz;
     }
 

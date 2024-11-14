@@ -2,7 +2,7 @@
 package src.main.java.edu.upc.prop.clusterxx;
 
 public interface Algoritmo {
-    void ejecutar();
+    Solucion ejecutar(Solucion s);
 
     Solucion calcular_solucion(Solucion s);
 
