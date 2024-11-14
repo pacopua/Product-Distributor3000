@@ -13,6 +13,14 @@ public class Solucion {
 
     /**
      * Constructor de la clase Solucion
+     */
+    public Solucion() {
+        this.calidad = 0;
+        this.numPasos = 0;
+    }
+
+    /**
+     * Constructor de la clase Solucion
      * @param files Número de filas de la solución
      * @param columnes Número de columnas de la solución
      */
@@ -20,14 +28,6 @@ public class Solucion {
         this.calidad = 0;
         this.numPasos = 0;
         this.introducir_numero_columnas_i_filas(files, columnes);
-    }
-
-    /**
-     * Constructor de la clase Solucion
-     */
-    public Solucion() {
-        this.calidad = 0;
-        this.numPasos = 0;
     }
 
     /**
@@ -172,6 +172,21 @@ public class Solucion {
      */
     public void setNumPasos(int numPasos) {
         this.numPasos = numPasos;
+    }
+
+    @Override
+    protected Solucion clone() throws CloneNotSupportedException {
+        Solucion solucion = (Solucion) super.clone();
+        // implement clone function
+        solucion.introducir_numero_columnas_i_filas(filas, columnas);
+        solucion.setCalidad(calidad);
+        solucion.setNumPasos(numPasos);
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
+                solucion.distribucion[i][j] = distribucion[i][j];
+            }
+        }
+        return solucion;
     }
 
     @Override
