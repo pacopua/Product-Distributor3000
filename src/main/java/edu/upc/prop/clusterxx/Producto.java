@@ -1,23 +1,14 @@
 package edu.upc.prop.clusterxx;
 
 public class Producto { //antes, no sé por qué, era abstracta y subclase de algoritmo
-    private int id;
     private String nombre;
     private double precio;
 
     public Producto(int id, String nombre, double precio) {
-        this.id = id;
         this.nombre = nombre;
         this.precio = precio;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getNombre() {
         return nombre;
@@ -38,7 +29,6 @@ public class Producto { //antes, no sé por qué, era abstracta y subclase de al
     @Override
     public String toString() {
         return "Producto{" +
-                "id=" + id +
                 ", nombre='" + nombre + '\'' +
                 ", precio=" + precio +
                 '}';

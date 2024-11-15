@@ -163,7 +163,7 @@ public class ListaProductos {
      * @return true si se ha podido eliminar y false si no.
      */
     public boolean eliminarProducto(int id) {
-        return productos.removeIf(p -> p.getId() == id);
+        return productos.remove(id) != null;
     }
 
     /**
@@ -172,9 +172,7 @@ public class ListaProductos {
      * @return instancia del producto, en caso de que no exista NULL.
      */
     public Optional<Producto> getProducto(int id) {
-        return productos.stream()
-                .filter(p -> p.getId() == id)
-                .findFirst();
+        return Optional.ofNullable(productos.get(id));
     }
 
     @Override
