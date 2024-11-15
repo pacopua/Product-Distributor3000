@@ -3,7 +3,7 @@ package src.main.java.edu.upc.prop.clusterxx;
 import java.io.Serializable;
 
 public class MatrizAdyacencia implements Serializable {
-    private static double[][] matriz;
+    public static double[][] matriz;
     private static int numProductos;
 
     /**
@@ -38,11 +38,11 @@ public class MatrizAdyacencia implements Serializable {
      * @return Sinergia entre los productos, -1 si son el mismo producto
      */
     public static double getSinergia(int p1, int p2) {
-        if(p1 == p2) return -1;
         if (0 <= p1 && p1 < numProductos && 0 <= p2 && p2 < numProductos) {
             return matriz[p1][p2];
         }
         else if (p1 == -1 || p2 == -1) return 0;
+        else if(p1 == p2) return -1;
         return -1;
     }
 

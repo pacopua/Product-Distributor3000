@@ -14,14 +14,28 @@ public class Main {
 
 
 
-    Solucion s = new Solucion(2, 2);
+    Solucion s = new Solucion(3, 3);
     MatrizAdyacencia m = new MatrizAdyacencia(4);
-    double [][] matrix = {{0, 10, 15, 20},{10, 0, 35, 25},{15, 35, 0, 30},{20, 25, 30, 0}};
+    double [][] matrix = {
+            { 0, 10,  15,  20 },
+            { 10, 0,  35,  25 },
+            { 15, 35,  0,  30 },
+            { 20, 25, 30,   0 }
+    };
     MatrizAdyacencia.matriz = matrix;
-    AlgoritmoVoraz a = new AlgoritmoVoraz();
-    Solucion x = a.ejecutar(s);
-    x.imprimirDistribucio();
-    System.out.println("calidad" + x.getCalidad());
+    Solucion adecuada = new Solucion();
+    for(int i = 0; i < 10; ++i) {
+      AlgoritmoRapido a = new AlgoritmoRapido();
+      Solucion x = a.ejecutar(s);
+      System.out.println("solución final: ");
+      x.imprimir_distribucion();
+      System.out.println("calidad: " + x.getCalidad());
+      if(x.getCalidad() > adecuada.getCalidad()) adecuada = x;
+    }
+
+    System.out.println("solución definitiva: ");
+    adecuada.imprimir_distribucion();
+    System.out.println("calidad: " + adecuada.getCalidad());
 
 
 
