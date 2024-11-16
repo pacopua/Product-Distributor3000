@@ -14,7 +14,7 @@ import com.google.gson.reflect.TypeToken;
 /**
  * Lista que contiene referencias a todos los productos
  */
-public class ListaProductos {
+public class ListaProductos implements Serializable {
     private ArrayList<Producto> productos;
     private final Gson gson;
 
@@ -83,7 +83,6 @@ public class ListaProductos {
                 String[] datos = linea.split(delimitador);
                 if (datos.length == 3) {
                     nuevosProductos.add(new Producto(
-                            Integer.parseInt(datos[0].trim()),
                             datos[1].trim(),
                             Double.parseDouble(datos[2].trim())
                     ));

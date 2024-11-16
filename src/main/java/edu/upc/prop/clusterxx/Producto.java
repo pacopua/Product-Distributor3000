@@ -1,10 +1,12 @@
 package edu.upc.prop.clusterxx;
 
-public class Producto { //antes, no sé por qué, era abstracta y subclase de algoritmo
+import java.io.Serializable;
+
+public class Producto implements Serializable {
     private String nombre;
     private double precio;
 
-    public Producto(int id, String nombre, double precio) {
+    public Producto(String nombre, double precio) {
         this.nombre = nombre;
         this.precio = precio;
     }
