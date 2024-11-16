@@ -100,14 +100,15 @@ public class AlgoritmoVoraz implements Algoritmo {
     }
 
     public void change_positions(Solucion s, int i, int j, int y, int x) {
-        //s.setCalidad(s.getCalidad()-calcular_sinergias(s, i, j));
-        //s.setCalidad(s.getCalidad()-calcular_sinergias(s, y, x));
+        s.setCalidad(s.getCalidad()-2*calcular_sinergias(s, i, j));
+        s.setCalidad(s.getCalidad()-2*calcular_sinergias(s, y, x));
         s.intercambiar_productos(i, j, y, x);
-        //s.setCalidad(s.getCalidad()+calcular_sinergias(s, i, j));
-        //s.setCalidad(s.getCalidad()+calcular_sinergias(s, y, x));
+        s.setCalidad(s.getCalidad()+2*calcular_sinergias(s, i, j));
+        s.setCalidad(s.getCalidad()+2*calcular_sinergias(s, y, x));
     }
 
     public Solucion recursive_calcular(Solucion s, int y, int x) {
+        s.setNumPasos(s.getNumPasos() + 1);
         ++contador;
         System.out.println("Contador = " + contador);
         Solucion best_solution = s;
@@ -120,14 +121,21 @@ public class AlgoritmoVoraz implements Algoritmo {
             for(int j = 0; j < s.getDistribucion()[0].length; ++j) {
                 //System.out.println("Aquitoy");
                 Solucion aux = copiar_solucion(s);
-                aux.intercambiar_productos(i, j, y, x);
+
+                //change_positions(aux, i, j, y, x);
                 //aux.imprimir_distribucion();
+
+                aux.intercambiar_productos(i, j, y, x);
                 aux.setCalidad(calcular_todas(aux));
                 //System.out.println("la calidad es:" + aux.getCalidad());
                 System.out.println("alternativa calidad es: " + calcular_todas(aux));
+                System.out.println("numero de pasos: " + aux.getNumPasos());
                 System.out.println("x: " + x + " y: " + y);
                 aux = recursive_calcular(aux, y, x+1);
                 if (aux.getCalidad() > best_solution.getCalidad()) best_solution = aux;
+                else if(aux.getCalidad() == best_solution.getCalidad()) {
+                    if(aux.getNumPasos() < best_solution.getNumPasos()) best_solution = aux;
+                }
             }
         }
         return best_solution;
