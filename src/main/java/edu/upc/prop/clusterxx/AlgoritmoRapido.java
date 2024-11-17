@@ -11,6 +11,10 @@ public class AlgoritmoRapido extends ControladorAlgoritmos {
     private final int MAX_ITERATIONS = Integer.MAX_VALUE;
     private final int MAX_ATTEMPTS = 10;
 
+    public AlgoritmoRapido(MatrizAdyacencia m) {
+        super(m);
+    }
+
     /**
      * Esta función inicializa de manera aleatoria una solución y luego llama a un algoritmo de ordenación aproximado
      * @param s instancia de solución que queremos ordenar
@@ -33,7 +37,7 @@ public class AlgoritmoRapido extends ControladorAlgoritmos {
 
             //int x = 0;
             //boolean b[] = new boolean[MatrizAdyacencia.getMatriz().length];
-            for (int i = 0; i < MatrizAdyacencia.getMatriz().length; ++i) {
+            for (int i = 0; i < matrizAdyacencia.getMatriz().length; ++i) {
                 int aux_i = random.nextInt(0, s.getDistribucion().length - 1);
                 int aux_j = random.nextInt(0, s.getDistribucion()[0].length - 1);
                 while (s.getDistribucion()[aux_i][aux_j] < i && s.getDistribucion()[aux_i][aux_j] != -1) {

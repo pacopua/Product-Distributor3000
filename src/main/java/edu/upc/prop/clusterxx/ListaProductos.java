@@ -16,7 +16,7 @@ import com.google.gson.reflect.TypeToken;
  * Controlador de los productos, contiene una lista de todos los productos.
  * El id de un producto es su posición en la lista.
  */
-public class ListaProductos implements Serializable {
+public class ListaProductos implements Serializable, Cloneable {
     private ArrayList<Producto> productos;
     private static final Gson gson = new GsonBuilder()
             .setPrettyPrinting()
@@ -151,10 +151,24 @@ public class ListaProductos implements Serializable {
     }
 
     /**
-     * @return una copia de la lista de productos.
+     * @return el arraylist de los productos.
      */
     public List<Producto> getListaProductos() {
-        return new ArrayList<>(productos); // Return a copy to preserve encapsulation
+        return productos;
+    }
+
+    /**
+     * @return una copia de la lista de productos.
+     */
+    @Override
+    public ListaProductos clone() {
+        try {
+            return (ListaProductos) super.clone();
+        }
+        catch (CloneNotSupportedException e) {
+            System.err.println("Error al clonar el objeto: " + e.getMessage());
+            return null;
+        }
     }
 
     /**

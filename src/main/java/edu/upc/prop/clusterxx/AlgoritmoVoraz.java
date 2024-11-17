@@ -9,6 +9,10 @@ public class AlgoritmoVoraz extends ControladorAlgoritmos {
     public int contador = 0;
     public double best_value = Double.NEGATIVE_INFINITY;
 
+    public AlgoritmoVoraz(MatrizAdyacencia m) {
+        super(m);
+    }
+
     /**
      * configura una solución inicial para luego llamar un algoritmo recursivo que comprueba
      * todas las soluciones y se queda la mejor
@@ -27,7 +31,7 @@ public class AlgoritmoVoraz extends ControladorAlgoritmos {
 
         for (int i = 0; i < s.getDistribucion().length; ++i) {
             for (int j = 0; j < s.getDistribucion()[0].length; ++j) {
-                if(x < MatrizAdyacencia.getMatriz().length) {
+                if(x < matrizAdyacencia.getMatriz().length) {
                     s.getDistribucion()[i][j] = x;
                     s.setCalidad(s.getCalidad() + calcular_sinergias(s, i, j));
                     ++x;

@@ -14,11 +14,7 @@ public class AlgoritmoVorazTest {
     private MatrizAdyacencia ma9x9;
     private AlgoritmoVoraz av;
 
-    @Before
-    public void initAlgoritmo(){
-        av = new AlgoritmoVoraz();
-    }
-
+    // TODO: faltan productos de prueba para la solución
     @Before
     public void initSolucion() {
         s = new Solucion(4, 4);
@@ -26,6 +22,7 @@ public class AlgoritmoVorazTest {
 
     @Test
     public void testAlgoritmoVoraz4x4() {
+        av = new AlgoritmoVoraz(ma4x4);
         ma4x4 = new MatrizAdyacencia(
                 new double[][] {
                         { 0, 10,  15,  20 },
@@ -41,6 +38,7 @@ public class AlgoritmoVorazTest {
 
     @Test
     public void testAlgoritmoRapido9x9() {
+        av = new AlgoritmoVoraz(ma9x9);
         ma9x9 = new MatrizAdyacencia(
                 new double[][] {
                         {  0,29,82,46,68,52,72,42,51},

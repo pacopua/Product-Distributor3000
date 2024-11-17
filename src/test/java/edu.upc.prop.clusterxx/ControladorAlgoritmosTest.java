@@ -12,8 +12,8 @@ public class ControladorAlgoritmosTest {
 
     @Before
     public void setUp() {
-        algoritmo = new ControladorAlgoritmos();
         inicializarMatrizDePrueba();
+        algoritmo = new ControladorAlgoritmos(matrizAdyacencia);
     }
 
     private void inicializarMatrizDePrueba() {
@@ -28,7 +28,7 @@ public class ControladorAlgoritmosTest {
         // añadir más si hace falta
     }
 
-    // TODO: cálculos y tests de sinergias en solución en vez de algoritmo?? - Marcel
+    // TODO: productos de prueba para las soluciones
 
     @Test
     public void testCalcularSinergias() {

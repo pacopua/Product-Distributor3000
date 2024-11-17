@@ -8,6 +8,8 @@ import javafx.scene.layout.Priority;
 import javafx.util.converter.DefaultStringConverter;
 import javafx.util.converter.DoubleStringConverter;
 
+import java.util.ArrayList;
+
 import static edu.upc.prop.clusterxx.ProductoController.doubleFilter;
 import static edu.upc.prop.clusterxx.ProductoController.nonEmptyFilter;
 
@@ -74,7 +76,6 @@ public class ProductoCell extends ListCell<Producto> {
         setEditable(false);
         if (producto != null) {
             id = Sistema.getListaProductos().getListaProductos().indexOf(producto);
-
             nombre.setText(producto.getNombre());
             nombre.textProperty().addListener((observable, oldValue, newValue) -> producto.setNombre(newValue));
             precio.setText(Double.toString(producto.getPrecio()));

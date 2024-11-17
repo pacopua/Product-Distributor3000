@@ -15,6 +15,7 @@ public class AlgoritmoRapidoTest {
 
     }
 
+    // TODO: faltan productos de prueba para la solución
     @Before
     public void initSolucion() {
         s = new Solucion(4, 4);
@@ -31,7 +32,7 @@ public class AlgoritmoRapidoTest {
                 }
         );
 
-        ar = new AlgoritmoRapido();
+        ar = new AlgoritmoRapido(ma4x4);
         s = ar.ejecutar(s, 30);
         assertTrue(s.getCalidad() >= 80);
     }
@@ -51,7 +52,7 @@ public class AlgoritmoRapidoTest {
                         { 51,23,41,62,21,55,23,33, 0}
                 }
         );
-        ar = new AlgoritmoRapido();
+        ar = new AlgoritmoRapido(ma9x9);
         s = ar.ejecutar(s, 30);
         assertTrue(s.getCalidad() >= 246);
     }

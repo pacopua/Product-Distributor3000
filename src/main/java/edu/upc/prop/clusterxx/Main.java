@@ -37,7 +37,7 @@ public class Main {
 
     //Solucion adecuada = new Solucion();
     //for(int i = 0; i < 10; ++i) {
-      AlgoritmoRapido a = new AlgoritmoRapido();
+      AlgoritmoRapido a = new AlgoritmoRapido(m);
       Solucion x = a.ejecutar(s, 30);
       System.out.println("solución final: ");
       x.imprimir_distribucion();
