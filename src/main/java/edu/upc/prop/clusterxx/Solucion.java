@@ -3,7 +3,6 @@ package edu.upc.prop.clusterxx;
 
 import java.io.Serializable;
 import java.util.Arrays;
-import java.util.Optional;
 
 public class Solucion implements Serializable, Cloneable {
     private final ListaProductos productos;
@@ -108,6 +107,14 @@ public class Solucion implements Serializable, Cloneable {
             }
         }
         return distribucionProductos;
+    }
+
+    /**
+     * Devuelve la distribución de la solución con los IDs de los productos
+     * @return Matriz de enteros con la distribución de la solución
+     */
+    public int[][] getIDsDistribucion() {
+        return distribucion;
     }
 
     /**
