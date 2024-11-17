@@ -3,8 +3,10 @@ package edu.upc.prop.clusterxx;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Optional;
 
 public class Solucion implements Serializable, Cloneable {
+    private final ListaProductos productos;
     private int[][] distribucion;
     private double calidad;
     private int numPasos;
@@ -14,9 +16,10 @@ public class Solucion implements Serializable, Cloneable {
     /**
      * Constructor de la clase Solucion
      */
-    public Solucion() {
+    public Solucion(ListaProductos productos) {
         this.calidad = 0;
         this.numPasos = 0;
+        this.productos = productos.clone();
     }
 
     /**
@@ -24,9 +27,10 @@ public class Solucion implements Serializable, Cloneable {
      * @param files Número de filas de la solución
      * @param columnes Número de columnas de la solución
      */
-    public Solucion(int files, int columnes) {
+    public Solucion(ListaProductos productos, int files, int columnes) {
         this.calidad = 0;
         this.numPasos = 0;
+        this.productos = productos.clone();
         this.introducir_numero_columnas_i_filas(files, columnes);
     }
 
@@ -34,10 +38,11 @@ public class Solucion implements Serializable, Cloneable {
      * Constructor de la clase Solucion
      * @param matriz Matriz de enteros con la distribución de la solución
      */
-    public Solucion(int[][] matriz) {
+    public Solucion(ListaProductos productos, int[][] matriz) {
         if (matriz.length == 0) {
             throw new IllegalArgumentException("La matriz no puede estar vacía");
         }
+        this.productos = productos.clone();
         this.calidad = 0;
         this.numPasos = 0;
         this.introducir_numero_columnas_i_filas(matriz.length, matriz[0].length);
@@ -65,7 +70,7 @@ public class Solucion implements Serializable, Cloneable {
     public void imprimir_distribucion() {
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
-                System.out.print(distribucion[i][j] + " ");
+                System.out.print(productos.getProducto(distribucion[i][j]) + " ");
             }
             System.out.println();
         }
@@ -95,8 +100,14 @@ public class Solucion implements Serializable, Cloneable {
      * Devuelve la distribución de la solución
      * @return Matriz de enteros con la distribución de la solución
      */
-    public int[][] getDistribucion() {
-        return distribucion;
+    public Producto[][] getDistribucion() {
+        Producto[][] distribucionProductos = new Producto[filas][columnas];
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
+                distribucionProductos[i][j] = productos.getProducto(distribucion[i][j]).orElse(null);
+            }
+        }
+        return distribucionProductos;
     }
 
     /**
