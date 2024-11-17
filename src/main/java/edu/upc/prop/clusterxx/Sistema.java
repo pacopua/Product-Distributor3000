@@ -44,9 +44,11 @@ public class Sistema {
     public static void importarLista(File f) throws IOException, ClassNotFoundException {
         FileInputStream fileIn = new FileInputStream(f);
         ObjectInputStream objectIn = new ObjectInputStream(fileIn);
+        System.out.println(listaProductos);
         listaProductos = (ListaProductos) objectIn.readObject();
+        System.out.println(listaProductos);
         // TODO: expandir matriz para que quepan todos los productos? encogerla si hay menos?
-        Sistema.actualizarDatos();
+        actualizarDatos();
     }
     public static void exportarLista(File f) throws IOException {
         FileOutputStream fileOut = new FileOutputStream(f);
@@ -58,7 +60,7 @@ public class Sistema {
         ObjectInputStream objectIn = new ObjectInputStream(fileIn);
         matrizAdyacencia = (MatrizAdyacencia) objectIn.readObject();
         // TODO: expandir matriz para que quepan todos los productos? encogerla si hay menos?
-        Sistema.actualizarDatos();
+        actualizarDatos();
     }
     public static void exportarMatriz(File f) throws IOException {
         FileOutputStream fileOut = new FileOutputStream(f);
@@ -70,7 +72,7 @@ public class Sistema {
         ObjectInputStream objectIn = new ObjectInputStream(fileIn);
         solucion = (Solucion) objectIn.readObject();
         // TODO: que hacemos si la solución no es compatible con el nuevo número de productos?
-        Sistema.actualizarDatos();
+        actualizarDatos();
     }
     public static void exportarSolucion(File f) throws IOException {
         FileOutputStream fileOut = new FileOutputStream(f);

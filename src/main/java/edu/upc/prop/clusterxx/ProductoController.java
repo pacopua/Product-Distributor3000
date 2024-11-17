@@ -36,9 +36,8 @@ public class ProductoController {
                 new TextFormatter<>(new DoubleStringConverter(), 0., doubleFilter));
     }
     @FXML
-    protected void onAñadirProducto() {
+    protected void onAnadirProducto() {
         Producto producto = new Producto(
-                Sistema.getListaProductos().getListaProductos().size(), // ...
                 (String) nombre.getTextFormatter().getValue(),
                 (double) precio.getTextFormatter().getValue()
         );
@@ -47,7 +46,7 @@ public class ProductoController {
         MatrizAdyacencia matrizNueva = new MatrizAdyacencia(Sistema.getListaProductos().getCantidadProductos());
         for (int i = 0; i < Sistema.getMatrizAdyacencia().getNumProductos(); i++)
             for (int j = 0; j < Sistema.getMatrizAdyacencia().getNumProductos(); j++)
-                matrizNueva.modificar_singergias(i, j, Sistema.getMatrizAdyacencia().getSinergia(i, j));
+                matrizNueva.modificar_sinergias(i, j, Sistema.getMatrizAdyacencia().getSinergia(i, j));
         Sistema.setMatrizAdyacencia(matrizNueva);
 
         ((Stage) nombre.getScene().getWindow()).close();

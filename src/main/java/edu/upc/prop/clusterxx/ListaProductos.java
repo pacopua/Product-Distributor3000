@@ -17,17 +17,16 @@ import com.google.gson.reflect.TypeToken;
  * El id de un producto es su posición en la lista.
  */
 public class ListaProductos implements Serializable {
-    private static ArrayList<Producto> productos;
-    private final Gson gson;
+    private ArrayList<Producto> productos;
+    private static final Gson gson = new GsonBuilder()
+            .setPrettyPrinting()
+            .create();
 
     /**
      * Constructora, el estado inicial es una lista vacía.
      */
     public ListaProductos() {
         productos = new ArrayList<>();
-        gson = new GsonBuilder()
-                .setPrettyPrinting()
-                .create();
     }
 
     /**

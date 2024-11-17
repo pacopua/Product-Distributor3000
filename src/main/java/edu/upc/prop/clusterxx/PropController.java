@@ -86,7 +86,7 @@ public class PropController {
         Sistema.exportarEstado(out);
     }
     @FXML
-    protected void onImportarLista() throws IOException, ClassNotFoundException {
+    protected void onImportarLista() {
         if (!confirmarImportar()) return;
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Escoja el archivo de origen");
@@ -94,17 +94,27 @@ public class PropController {
         fileChooser.getExtensionFilters().add(listFilter);
         fileChooser.setSelectedExtensionFilter(listFilter);
         File in = fileChooser.showOpenDialog(pane.getScene().getWindow());
-        Sistema.importarLista(in);
+        try {
+            Sistema.importarLista(in);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
     @FXML
-    protected void onExportarLista() throws IOException {
+    protected void onExportarLista() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Escoja el archivo de destino");
         fileChooser.setInitialFileName("products.list");
         fileChooser.getExtensionFilters().add(listFilter);
         fileChooser.setSelectedExtensionFilter(listFilter);
         File out = fileChooser.showSaveDialog(pane.getScene().getWindow());
-        Sistema.exportarLista(out);
+        try {
+            Sistema.exportarLista(out);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
     @FXML
     protected void onImportarRelaciones() throws IOException, ClassNotFoundException {

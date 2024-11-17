@@ -29,7 +29,7 @@
          <Label text="Nombre" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          <Separator minHeight="32.0" prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="4" />
          <Separator minHeight="32.0" prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="9" />
-            <Button mnemonicParsing="false" onAction="#onAñadirProducto" text="Añadir Producto" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="10" />
+            <Button mnemonicParsing="false" onAction="#onAnadirProducto" text="Añadir Producto" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="10" />
       <Label text="Precio" GridPane.columnIndex="1" GridPane.rowIndex="5" />
       <TextField fx:id="nombre" text="Nuevo Producto" GridPane.columnIndex="1" GridPane.rowIndex="2" />
       <TextField fx:id="precio" text="1.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
