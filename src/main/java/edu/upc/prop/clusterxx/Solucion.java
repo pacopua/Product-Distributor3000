@@ -99,7 +99,15 @@ public class Solucion implements Serializable, Cloneable {
      * Devuelve la distribución de la solución
      * @return Matriz de enteros con la distribución de la solución
      */
-    public Producto[][] getDistribucion() {
+    public int[][] getDistribucion() {
+        return distribucion;
+    }
+
+    /**
+     * Devuelve la distribución de la solución con los IDs de los productos
+     * @return Matriz de enteros con la distribución de la solución
+     */
+    public Producto[][] getDistribucionProductos() {
         Producto[][] distribucionProductos = new Producto[filas][columnas];
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
@@ -107,14 +115,6 @@ public class Solucion implements Serializable, Cloneable {
             }
         }
         return distribucionProductos;
-    }
-
-    /**
-     * Devuelve la distribución de la solución con los IDs de los productos
-     * @return Matriz de enteros con la distribución de la solución
-     */
-    public int[][] getIDsDistribucion() {
-        return distribucion;
     }
 
     /**
