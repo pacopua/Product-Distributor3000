@@ -7,13 +7,14 @@ import java.util.Arrays;
 
 public class MatrizAdyacenciaTest {
     private MatrizAdyacencia mat;
+    // en vdd la matriz es estática ns por qué estamos creando instancias tod0 el rato
 
     @Before
     public void initMatriz() {
         mat = new MatrizAdyacencia(3);
-        mat.modificar_singergias(0, 1, 1.0);
-        mat.modificar_singergias(0, 2, 2.0);
-        mat.modificar_singergias(1, 2, 3.0);
+        mat.modificar_sinergias(0, 1, 1.0);
+        mat.modificar_sinergias(0, 2, 2.0);
+        mat.modificar_sinergias(1, 2, 3.0);
     }
 
     @Test
