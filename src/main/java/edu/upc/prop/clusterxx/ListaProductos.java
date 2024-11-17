@@ -13,16 +13,17 @@ import java.lang.reflect.Type;
 import com.google.gson.reflect.TypeToken;
 
 /**
- * Lista que contiene referencias a todos los productos
+ * Controlador de los productos, contiene una lista de todos los productos.
+ * El id de un producto es su posición en la lista.
  */
-public class ControladorProductos implements Serializable {
-    private ArrayList<Producto> productos;
+public class ListaProductos implements Serializable {
+    private static ArrayList<Producto> productos;
     private final Gson gson;
 
     /**
      * Constructora, el estado inicial es una lista vacía.
      */
-    public ControladorProductos() {
+    public ListaProductos() {
         productos = new ArrayList<>();
         gson = new GsonBuilder()
                 .setPrettyPrinting()

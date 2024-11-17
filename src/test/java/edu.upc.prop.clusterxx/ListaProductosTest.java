@@ -16,15 +16,15 @@ import java.util.Optional;
 /**
  * Test para Lista Productos (un test por metodo)
  */
-public class ControladorProductosTest {
-    private ControladorProductos listaProductos;
+public class ListaProductosTest {
+    private ListaProductos listaProductos;
     private static final String TEST_JSON_FILE = "test_products.json";
     private static final String TEST_CSV_FILE = "test_products.csv";
     private static final String TEST_TXT_FILE = "test_products.txt";
 
     @Before
     public void setUp() {
-        listaProductos = new ControladorProductos();
+        listaProductos = new ListaProductos();
         listaProductos.addProducto(new Producto( "Test Product", 9.99));
     }
 
@@ -60,7 +60,7 @@ public class ControladorProductosTest {
     public void testExportarEImportarJSON() throws IOException {
         listaProductos.exportarAJSON(TEST_JSON_FILE);
 
-        ControladorProductos nuevaLista = new ControladorProductos();
+        ListaProductos nuevaLista = new ListaProductos();
         nuevaLista.ImportarLista(TEST_JSON_FILE);
 
         assertEquals(listaProductos.getCantidadProductos(), nuevaLista.getCantidadProductos());
@@ -75,7 +75,7 @@ public class ControladorProductosTest {
             writer.write("1,Test CSV Product,29.99\n");
         }
 
-        ControladorProductos nuevaLista = new ControladorProductos();
+        ListaProductos nuevaLista = new ListaProductos();
         nuevaLista.ImportarLista(TEST_CSV_FILE);
 
         List<Producto> productos = nuevaLista.getListaProductos();
@@ -90,7 +90,7 @@ public class ControladorProductosTest {
             writer.write("1|Test TXT Product|39.99\n");
         }
 
-        ControladorProductos nuevaLista = new ControladorProductos();
+        ListaProductos nuevaLista = new ListaProductos();
         nuevaLista.ImportarLista(TEST_TXT_FILE);
 
         List<Producto> productos = nuevaLista.getListaProductos();

@@ -40,32 +40,6 @@ public class ProductoTest {
     }
 
     @Test
-    public void testEquals() {
-        // Same values
-        Producto producto2 = new Producto(TEST_NOMBRE, TEST_PRECIO);
-        assertEquals(producto, producto2);
-
-        // Different object, same ID
-        Producto producto3 = new Producto( "Different Name", 20.0);
-        assertEquals(producto, producto3); // Should be equal because same ID
-
-        // Different ID
-        Producto producto4 = new Producto(TEST_NOMBRE, TEST_PRECIO);
-        assertNotEquals(producto, producto4);
-    }
-
-    @Test
-    public void testHashCode() {
-        // Same values should have same hash code
-        Producto producto2 = new Producto(TEST_NOMBRE, TEST_PRECIO);
-        assertEquals(producto.hashCode(), producto2.hashCode());
-
-        // Different object, same ID should have same hash code
-        Producto producto3 = new Producto("Different Name", 20.0);
-        assertEquals(producto.hashCode(), producto3.hashCode());
-    }
-
-    @Test
     public void testToString() {
         String expectedString = producto.toString();
         assertTrue(expectedString.contains(TEST_NOMBRE));

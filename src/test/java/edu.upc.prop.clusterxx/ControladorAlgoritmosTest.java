@@ -28,7 +28,7 @@ public class ControladorAlgoritmosTest {
         // añadir más si hace falta
     }
 
-    // TODO: biel creo que los tests de sinergias deberían ser de matriz de adyacencia 😔
+    // TODO: cálculos y tests de sinergias en solución en vez de algoritmo?? - Marcel
 
     @Test
     public void testCalcularSinergias() {
@@ -58,4 +58,12 @@ public class ControladorAlgoritmosTest {
         double expected =  6 * 4; // todos están conectados
         assertEquals(expected, totalSynergy, 0.001);
     }
+    /*
+    @Test
+    public void testCalcularSinergias2() {
+        Solucion solucion = new Solucion(4, 4);
+        int[][] distribucion = {}
+    }
+    */
+
 }
