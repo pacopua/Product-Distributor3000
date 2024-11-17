@@ -1,8 +1,9 @@
-package src.test.java.edu.upc.prop.clusterxx;
+//package src.main.java.edu.upc.prop.clusterxx;   <- marcad src como root para no poner el path entero -Marcel
+package edu.upc.prop.clusterxx;
 
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
-import src.main.java.edu.upc.prop.clusterxx.Main;
+//import src.main.java.edu.upc.prop.clusterxx.Main; <- para qué? -Marcel
 
 public class TestDivisionShould {
   @Test

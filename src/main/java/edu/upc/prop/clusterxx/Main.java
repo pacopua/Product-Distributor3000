@@ -1,4 +1,5 @@
-package src.main.java.edu.upc.prop.clusterxx;
+//package src.main.java.edu.upc.prop.clusterxx;   <- marcad src como root para no poner el path entero -Marcel
+package edu.upc.prop.clusterxx;
 
 import aima.search.framework.Problem;
 import aima.search.framework.Search;

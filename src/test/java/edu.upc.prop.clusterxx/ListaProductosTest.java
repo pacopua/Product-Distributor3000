@@ -1,11 +1,11 @@
-package src.test.java.edu.upc.prop.clusterxx;
+//package src.main.java.edu.upc.prop.clusterxx;   <- marcad src como root para no poner el path entero -Marcel
+package edu.upc.prop.clusterxx;
 
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.After;
 import static org.junit.Assert.*;
-import src.main.java.edu.upc.prop.clusterxx.*;
 
 import java.io.File;
 import java.io.FileWriter;
