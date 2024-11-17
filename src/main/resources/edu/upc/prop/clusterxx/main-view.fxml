@@ -55,7 +55,7 @@
                <children>
                   <Button mnemonicParsing="false" onAction="#onImportarRelaciones" text="Importar Relaciones" GridPane.columnIndex="2" GridPane.rowIndex="5" />
                   <Button mnemonicParsing="false" onAction="#onExportarRelaciones" text="Exportar Relaciones" GridPane.columnIndex="3" GridPane.rowIndex="5" />
-                  <ListView prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1" GridPane.rowSpan="3" />
+                  <ListView fx:id="relacionesView" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1" GridPane.rowSpan="3" />
                </children>
             </GridPane>
          </content>
@@ -72,6 +72,8 @@
                </columnConstraints>
                <rowConstraints>
                   <RowConstraints maxHeight="16.0" minHeight="16.0" prefHeight="16.0" valignment="CENTER" vgrow="NEVER" />
+                  <RowConstraints maxHeight="32.0" valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="16.0" minHeight="16.0" prefHeight="16.0" valignment="CENTER" vgrow="NEVER" />
                   <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
                   <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
                   <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
@@ -80,14 +82,26 @@
                   <RowConstraints maxHeight="16.0" minHeight="16.0" prefHeight="16.0" valignment="CENTER" vgrow="NEVER" />
                </rowConstraints>
                <children>
-                  <Button mnemonicParsing="false" onAction="#onNuevaSolucion" text="Nueva Solución" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                  <Button mnemonicParsing="false" onAction="#onImportarSolucion" text="Importar Solución" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-                  <Button mnemonicParsing="false" onAction="#onExportarSolucion" text="Exportar Solución" GridPane.columnIndex="3" GridPane.rowIndex="5" />
-                  <ScrollPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1" GridPane.rowSpan="3">
+                  <Button mnemonicParsing="false" onAction="#onNuevaSolucion" text="Nueva Solución" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                  <Button mnemonicParsing="false" onAction="#onImportarSolucion" text="Importar Solución" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+                  <Button mnemonicParsing="false" onAction="#onExportarSolucion" text="Exportar Solución" GridPane.columnIndex="3" GridPane.rowIndex="7" />
+                  <ScrollPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="3" GridPane.rowSpan="3">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
                     </content>
                   </ScrollPane>
+                  <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <children>
+                        <Label text="Calidad: " />
+                        <Label fx:id="calidad" text="0.0" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                     <children>
+                        <Label text="Pasos: " />
+                        <Label fx:id="pasos" text="0" />
+                     </children>
+                  </HBox>
                </children>
             </GridPane>
          </content>
@@ -104,6 +118,7 @@
                </columnConstraints>
                <rowConstraints>
                   <RowConstraints maxHeight="16.0" minHeight="16.0" prefHeight="16.0" valignment="CENTER" vgrow="NEVER" />
+                  <RowConstraints maxHeight="16.0" minHeight="16.0" prefHeight="16.0" valignment="CENTER" vgrow="NEVER" />
                   <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
                   <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
                   <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
@@ -112,10 +127,10 @@
                   <RowConstraints maxHeight="16.0" minHeight="16.0" prefHeight="16.0" valignment="CENTER" vgrow="NEVER" />
                </rowConstraints>
                <children>
-                  <Button mnemonicParsing="false" onAction="#onImportarEstado" text="Importar Estado" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-                  <Button mnemonicParsing="false" onAction="#onExportarEstado" text="Exportar Estado" GridPane.columnIndex="3" GridPane.rowIndex="5" />
-                  <Button mnemonicParsing="false" onAction="#onSalir" text="Guardar y Salir" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                  <ScrollPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1" GridPane.rowSpan="3">
+                  <Button mnemonicParsing="false" onAction="#onImportarEstado" text="Importar Estado" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                  <Button mnemonicParsing="false" onAction="#onExportarEstado" text="Exportar Estado" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+                  <Button mnemonicParsing="false" onAction="#onSalir" text="Guardar y Salir" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                  <ScrollPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="2" GridPane.rowSpan="3">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
                      </content>

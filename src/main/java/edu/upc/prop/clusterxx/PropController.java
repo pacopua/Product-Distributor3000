@@ -1,7 +1,5 @@
 package edu.upc.prop.clusterxx;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -9,7 +7,6 @@ import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,6 +18,12 @@ public class PropController {
     private TabPane pane;
     @FXML
     private ListView productosView;
+    @FXML
+    private ListView relacionesView;
+    @FXML
+    private Label calidad;
+    @FXML
+    private Label pasos;
 
     ButtonType si = new ButtonType("Sí", ButtonBar.ButtonData.OK_DONE);
     ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
@@ -43,8 +46,10 @@ public class PropController {
 
     @FXML
     private void initialize() {
-        ObservableList<Producto> productosList = FXCollections.observableArrayList();
-        productosView.setItems(productosList);
+        productosView.setCellFactory(producto -> new ProductoCell());
+        productosView.setItems(Sistema.observableProducts);
+        relacionesView.setCellFactory(productPair -> new RelacionCell());
+        relacionesView.setItems(Sistema.observableProductPairs);
     }
 
     protected boolean confirmarImportar() {
@@ -81,8 +86,7 @@ public class PropController {
         Sistema.exportarEstado(out);
     }
     @FXML
-    protected void onImportarLista() {
-        /*
+    protected void onImportarLista() throws IOException, ClassNotFoundException {
         if (!confirmarImportar()) return;
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Escoja el archivo de origen");
@@ -91,11 +95,9 @@ public class PropController {
         fileChooser.setSelectedExtensionFilter(listFilter);
         File in = fileChooser.showOpenDialog(pane.getScene().getWindow());
         Sistema.importarLista(in);
-        */
     }
     @FXML
-    protected void onExportarLista() {
-        /*
+    protected void onExportarLista() throws IOException {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Escoja el archivo de destino");
         fileChooser.setInitialFileName("products.list");
@@ -103,11 +105,9 @@ public class PropController {
         fileChooser.setSelectedExtensionFilter(listFilter);
         File out = fileChooser.showSaveDialog(pane.getScene().getWindow());
         Sistema.exportarLista(out);
-        */
     }
     @FXML
-    protected void onImportarRelaciones() {
-        /*
+    protected void onImportarRelaciones() throws IOException, ClassNotFoundException {
         if (!confirmarImportar()) return;
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Escoja el archivo de origen");
@@ -115,24 +115,20 @@ public class PropController {
         fileChooser.getExtensionFilters().add(relacionesFilter);
         fileChooser.setSelectedExtensionFilter(relacionesFilter);
         File in = fileChooser.showOpenDialog(pane.getScene().getWindow());
-        Sistema.importarRelaciones(in);
-        */
+        Sistema.importarMatriz(in);
     }
     @FXML
-    protected void onExportarRelaciones() {
-        /*
+    protected void onExportarRelaciones() throws IOException {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Escoja el archivo de destino");
         fileChooser.setInitialFileName("relations.matrix");
         fileChooser.getExtensionFilters().add(relacionesFilter);
         fileChooser.setSelectedExtensionFilter(relacionesFilter);
         File out = fileChooser.showSaveDialog(pane.getScene().getWindow());
-        Sistema.exportarRelaciones(out);
-        */
+        Sistema.exportarMatriz(out);
     }
     @FXML
-    protected void onImportarSolucion() {
-        /*
+    protected void onImportarSolucion() throws IOException, ClassNotFoundException {
         if (!confirmarImportar()) return;
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Escoja el archivo de origen");
@@ -141,11 +137,9 @@ public class PropController {
         fileChooser.setSelectedExtensionFilter(solucionFilter);
         File in = fileChooser.showOpenDialog(pane.getScene().getWindow());
         Sistema.importarSolucion(in);
-        */
     }
     @FXML
-    protected void onExportarSolucion() {
-        /*
+    protected void onExportarSolucion() throws IOException {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Escoja el archivo de destino");
         fileChooser.setInitialFileName("result.solution");
@@ -153,10 +147,6 @@ public class PropController {
         fileChooser.setSelectedExtensionFilter(solucionFilter);
         File out = fileChooser.showSaveDialog(pane.getScene().getWindow());
         Sistema.exportarSolucion(out);
-        */
-    }
-    protected void close(WindowEvent event) {
-        event.consume();
     }
     @FXML
     protected boolean onSalir() {
@@ -208,7 +198,9 @@ public class PropController {
         stage.setTitle("Nueva Solución");
         stage.setScene(scene);
         stage.setResizable(false);
-        stage.show();
+        stage.showAndWait();
+        calidad.setText(Double.toString(Sistema.getSolucion().getCalidad()));
+        pasos.setText(Integer.toString(Sistema.getSolucion().getNumPasos()));
     }
 
     @FXML
@@ -221,6 +213,7 @@ public class PropController {
         stage.setTitle("Nuevo Producto");
         stage.setScene(scene);
         stage.setResizable(false);
-        stage.show();
+        stage.showAndWait();
+        Sistema.actualizarDatos();
     }
 }

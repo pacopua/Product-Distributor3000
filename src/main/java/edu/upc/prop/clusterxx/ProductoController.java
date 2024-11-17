@@ -3,7 +3,7 @@ package edu.upc.prop.clusterxx;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
-import javafx.util.StringConverter;
+import javafx.stage.Stage;
 import javafx.util.converter.DefaultStringConverter;
 import javafx.util.converter.DoubleStringConverter;
 
@@ -14,16 +14,16 @@ public class ProductoController {
     TextField nombre;
     @FXML
     TextField precio;
-    UnaryOperator<TextFormatter.Change> nonEmptyFilter = change -> {
+    public static UnaryOperator<TextFormatter.Change> nonEmptyFilter = change -> {
         String newText = change.getControlNewText();
         if (newText.matches(".+")) {
             return change;
         }
         return null;
     };
-    UnaryOperator<TextFormatter.Change> doubleFilter = change -> {
+    public static UnaryOperator<TextFormatter.Change> doubleFilter = change -> {
         String newText = change.getControlNewText();
-        if (newText.matches("[0-9]+\\.?[0-9]*")) {
+        if (newText.matches("[0-9]+\\.?[0-9]?[0-9]?")) {
             return change;
         }
         return null;
@@ -37,6 +37,19 @@ public class ProductoController {
     }
     @FXML
     protected void onAñadirProducto() {
+        Producto producto = new Producto(
+                Sistema.getListaProductos().getListaProductos().size(), // ...
+                (String) nombre.getTextFormatter().getValue(),
+                (double) precio.getTextFormatter().getValue()
+        );
+        Sistema.getListaProductos().addProducto(producto);
 
+        MatrizAdyacencia matrizNueva = new MatrizAdyacencia(Sistema.getListaProductos().getCantidadProductos());
+        for (int i = 0; i < Sistema.getMatrizAdyacencia().getNumProductos(); i++)
+            for (int j = 0; j < Sistema.getMatrizAdyacencia().getNumProductos(); j++)
+                matrizNueva.modificar_singergias(i, j, Sistema.getMatrizAdyacencia().getSinergia(i, j));
+        Sistema.setMatrizAdyacencia(matrizNueva);
+
+        ((Stage) nombre.getScene().getWindow()).close();
     }
 }

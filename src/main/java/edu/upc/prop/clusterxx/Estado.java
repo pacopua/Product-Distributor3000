@@ -4,13 +4,16 @@ import java.io.Serializable;
 
 public class Estado implements Serializable {
     private Solucion solucion;
-    // lista prod
+    private ListaProductos listaProductos;
     // matriz
-    Estado(Solucion solucion) {
+    Estado(Solucion solucion, ListaProductos listaProductos) {
         this.solucion = solucion;
+        this.listaProductos = listaProductos;
     }
-
     public Solucion getSolucion() {
         return solucion;
+    }
+    public ListaProductos getListaProductos() {
+        return listaProductos;
     }
 }
