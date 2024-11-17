@@ -32,9 +32,11 @@ public class Sistema {
         Estado estado = (Estado) objectIn.readObject();
         solucion = estado.getSolucion();
         listaProductos = estado.getListaProductos();
+        matrizAdyacencia = estado.getMatrizAdyacencia();
+        solucion = estado.getSolucion();
     }
     public static void exportarEstado(File f) throws IOException {
-        Estado estado = new Estado(solucion, listaProductos);
+        Estado estado = new Estado(solucion, listaProductos, matrizAdyacencia);
         FileOutputStream fileOut = new FileOutputStream(f);
         ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
         objectOut.writeObject(estado);
@@ -68,6 +70,7 @@ public class Sistema {
         ObjectInputStream objectIn = new ObjectInputStream(fileIn);
         solucion = (Solucion) objectIn.readObject();
         // TODO: que hacemos si la solución no es compatible con el nuevo número de productos?
+        Sistema.actualizarDatos();
     }
     public static void exportarSolucion(File f) throws IOException {
         FileOutputStream fileOut = new FileOutputStream(f);
