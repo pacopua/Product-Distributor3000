@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<TabPane fx:id="pane" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.upc.prop.clusterxx.PropController">
+   <tabs>
+      <Tab text="Productos">
+         <content>
+            <GridPane alignment="CENTER">
+               <columnConstraints>
+                  <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="16.0" minWidth="16.0" prefWidth="16.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" percentWidth="30.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" percentWidth="30.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" percentWidth="30.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="16.0" minWidth="16.0" prefWidth="16.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="16.0" minHeight="16.0" prefHeight="16.0" valignment="CENTER" vgrow="NEVER" />
+                  <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="16.0" minHeight="16.0" prefHeight="16.0" valignment="CENTER" vgrow="NEVER" />
+                  <RowConstraints maxHeight="32.0" valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="16.0" minHeight="16.0" prefHeight="16.0" valignment="CENTER" vgrow="NEVER" />
+               </rowConstraints>
+               <children>
+                  <Button mnemonicParsing="false" onAction="#onNuevoProducto" text="Nuevo Producto" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <Button mnemonicParsing="false" onAction="#onImportarLista" text="Importar Lista" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                  <Button mnemonicParsing="false" onAction="#onExportarLista" text="Exportar Lista" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+                  <ListView fx:id="productosView" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1" GridPane.rowSpan="3" />
+               </children>
+            </GridPane>
+         </content>
+      </Tab>
+      <Tab text="Relaciones">
+         <content>
+            <GridPane alignment="CENTER">
+               <columnConstraints>
+                  <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="16.0" minWidth="16.0" prefWidth="16.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" percentWidth="30.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" percentWidth="30.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" percentWidth="30.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="16.0" minWidth="16.0" prefWidth="16.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="16.0" minHeight="16.0" prefHeight="16.0" valignment="CENTER" vgrow="NEVER" />
+                  <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="16.0" minHeight="16.0" prefHeight="16.0" valignment="CENTER" vgrow="NEVER" />
+                  <RowConstraints maxHeight="32.0" valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="16.0" minHeight="16.0" prefHeight="16.0" valignment="CENTER" vgrow="NEVER" />
+               </rowConstraints>
+               <children>
+                  <Button mnemonicParsing="false" onAction="#onImportarRelaciones" text="Importar Relaciones" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                  <Button mnemonicParsing="false" onAction="#onExportarRelaciones" text="Exportar Relaciones" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+                  <ListView fx:id="relacionesView" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1" GridPane.rowSpan="3" />
+               </children>
+            </GridPane>
+         </content>
+      </Tab>
+      <Tab text="Solución">
+         <content>
+            <GridPane alignment="CENTER">
+               <columnConstraints>
+                  <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="16.0" minWidth="16.0" prefWidth="16.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" percentWidth="30.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" percentWidth="30.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" percentWidth="30.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="16.0" minWidth="16.0" prefWidth="16.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="16.0" minHeight="16.0" prefHeight="16.0" valignment="CENTER" vgrow="NEVER" />
+                  <RowConstraints maxHeight="32.0" valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="16.0" minHeight="16.0" prefHeight="16.0" valignment="CENTER" vgrow="NEVER" />
+                  <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="16.0" minHeight="16.0" prefHeight="16.0" valignment="CENTER" vgrow="NEVER" />
+                  <RowConstraints maxHeight="32.0" valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="16.0" minHeight="16.0" prefHeight="16.0" valignment="CENTER" vgrow="NEVER" />
+               </rowConstraints>
+               <children>
+                  <Button mnemonicParsing="false" onAction="#onNuevaSolucion" text="Nueva Solución" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                  <Button mnemonicParsing="false" onAction="#onImportarSolucion" text="Importar Solución" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+                  <Button mnemonicParsing="false" onAction="#onExportarSolucion" text="Exportar Solución" GridPane.columnIndex="3" GridPane.rowIndex="7" />
+                  <ScrollPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="3" GridPane.rowSpan="3">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                    </content>
+                  </ScrollPane>
+                  <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <children>
+                        <Label text="Calidad: " />
+                        <Label fx:id="calidad" text="0.0" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                     <children>
+                        <Label text="Pasos: " />
+                        <Label fx:id="pasos" text="0" />
+                     </children>
+                  </HBox>
+               </children>
+            </GridPane>
+         </content>
+      </Tab>
+      <Tab text="Sistema">
+         <content>
+            <GridPane alignment="CENTER">
+               <columnConstraints>
+                  <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="16.0" minWidth="16.0" prefWidth="16.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" percentWidth="30.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" percentWidth="30.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" percentWidth="30.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="16.0" minWidth="16.0" prefWidth="16.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="16.0" minHeight="16.0" prefHeight="16.0" valignment="CENTER" vgrow="NEVER" />
+                  <RowConstraints maxHeight="16.0" minHeight="16.0" prefHeight="16.0" valignment="CENTER" vgrow="NEVER" />
+                  <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="16.0" minHeight="16.0" prefHeight="16.0" valignment="CENTER" vgrow="NEVER" />
+                  <RowConstraints maxHeight="32.0" valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="16.0" minHeight="16.0" prefHeight="16.0" valignment="CENTER" vgrow="NEVER" />
+               </rowConstraints>
+               <children>
+                  <Button mnemonicParsing="false" onAction="#onImportarEstado" text="Importar Estado" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                  <Button mnemonicParsing="false" onAction="#onExportarEstado" text="Exportar Estado" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+                  <Button mnemonicParsing="false" onAction="#onSalir" text="Guardar y Salir" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                  <ScrollPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="2" GridPane.rowSpan="3">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                     </content>
+                  </ScrollPane>
+               </children>
+            </GridPane>
+         </content>
+      </Tab>
+   </tabs>
+</TabPane>
