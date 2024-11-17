@@ -17,6 +17,15 @@ public class MatrizAdyacencia implements Serializable {
     }
 
     /**
+     * Constructor de la clase MatrizAdyacencia
+     * @param matrix Matriz de adyacencia
+     */
+    public MatrizAdyacencia(double[][] matrix) {
+        matriz = matrix;
+        numProductos = matrix.length;
+    }
+
+    /**
      * Modifica la sinergia entre dos productos
      * @param p1 Producto 1
      * @param p2 Producto 2
@@ -53,6 +62,14 @@ public class MatrizAdyacencia implements Serializable {
      */
     public static double[][] getMatriz() {
         return matriz;
+    }
+
+    /**
+     * Establece la matriz de adyacencia
+     * @param matrix Matriz de adyacencia
+     */
+    public static void setMatriz(double[][] matrix) {
+        matriz = matrix;
     }
 
     /**
