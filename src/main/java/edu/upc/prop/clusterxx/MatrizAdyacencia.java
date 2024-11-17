@@ -2,10 +2,9 @@
 package edu.upc.prop.clusterxx;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class MatrizAdyacencia implements Serializable {
-    private ArrayList<ArrayList<Double>> matriz;
+    private double[][] matriz;
     private int numProductos;
 
     /**
@@ -13,13 +12,7 @@ public class MatrizAdyacencia implements Serializable {
      * @param n Número de productos
      */
     public MatrizAdyacencia(int n) {
-        matriz = new ArrayList<>();
-        for (int i = 0; i < n; i++) {
-            matriz.add(new ArrayList<>());
-            for (int j = 0; j < n; j++) {
-                matriz.get(i).add(-1.0);
-            }
-        }
+        matriz = new double[n][n];
         numProductos = n;
     }
 
@@ -28,7 +21,49 @@ public class MatrizAdyacencia implements Serializable {
      * @param matriz Matriz de adyacencia
      */
     public MatrizAdyacencia(double[][] matriz) {
-        // TODO: Implementar
+        this.matriz = matriz;
+        numProductos = matriz.length;
+    }
+
+    /**
+     * Añade un producto a la matriz de adyacencia
+     */
+    public void anadirProducto() {
+        double[][] nueva_matriz = new double[numProductos + 1][numProductos + 1];
+        for (int i = 0; i < numProductos; i++) {
+            for (int j = 0; j < numProductos; j++) {
+                nueva_matriz[i][j] = matriz[i][j];
+            }
+        }
+        matriz = nueva_matriz;
+        numProductos++;
+    }
+
+    /**
+     * Elimina un producto de la matriz de adyacencia
+     * @param producto Producto a eliminar
+     * @return true si se ha podido eliminar el producto, false en caso contrario
+     */
+    public boolean eliminarProducto(int producto) {
+        if (0 <= producto && producto < numProductos) {
+            double[][] nueva_matriz = new double[numProductos - 1][numProductos - 1];
+            for (int i = 0; i < numProductos; i++) {
+                for (int j = 0; j < numProductos; j++) {
+                    if (i < producto && j < producto) {
+                        nueva_matriz[i][j] = matriz[i][j];
+                    } else if (i < producto && j > producto) {
+                        nueva_matriz[i][j - 1] = matriz[i][j];
+                    } else if (i > producto && j < producto) {
+                        nueva_matriz[i - 1][j] = matriz[i][j];
+                    } else if (i > producto && j > producto) {
+                        nueva_matriz[i - 1][j - 1] = matriz[i][j];
+                    }
+                }
+            }
+            matriz = nueva_matriz;
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -40,8 +75,8 @@ public class MatrizAdyacencia implements Serializable {
      */
     public void modificar_sinergias(int p1, int p2, double nueva_sinergia) {
         if (0 <= p1 && p1 < numProductos && 0 <= p2 && p2 < numProductos) {
-            matriz.get(p1).set(p2, nueva_sinergia);
-            matriz.get(p2).set(p1, nueva_sinergia);
+            matriz[p1][p2] = nueva_sinergia;
+            matriz[p2][p1] = nueva_sinergia;
         }
     }
 
@@ -57,7 +92,7 @@ public class MatrizAdyacencia implements Serializable {
                 && p1 < numProductos
                 && 0 <= p2
                 && p2 < numProductos) {
-            return matriz.get(p1).get(p2);
+            return matriz[p1][p2];
         }
         return -1;
     }
@@ -66,7 +101,7 @@ public class MatrizAdyacencia implements Serializable {
      * Obtiene la matriz de adyacencia
      * @return Matriz de adyacencia
      */
-    public ArrayList<ArrayList<Double>> getMatriz() {
+    public double[][] getMatriz() {
         return matriz;
     }
 
@@ -74,9 +109,9 @@ public class MatrizAdyacencia implements Serializable {
      * Establece la matriz de adyacencia
      * @param matriz Matriz de adyacencia
      */
-    public void setMatriz(ArrayList<ArrayList<Double>> matriz) {
+    public void setMatriz(double[][] matriz) {
         this.matriz = matriz;
-        numProductos = matriz.size();
+        numProductos = matriz.length;
     }
 
     /**
