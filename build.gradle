@@ -33,8 +33,7 @@ javafx {
 
 dependencies {
     implementation 'com.google.code.gson:gson:2.8.9'
-    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+    testImplementation('junit:junit:4.13.1')
 }
 
 test {
