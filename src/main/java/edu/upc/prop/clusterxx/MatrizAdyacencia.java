@@ -1,11 +1,11 @@
+//package src.main.java.edu.upc.prop.clusterxx;   <- marcad src como root para no poner el path entero -Marcel
 package edu.upc.prop.clusterxx;
-
 
 import java.io.Serializable;
 
 public class MatrizAdyacencia implements Serializable {
-    private double[][] matriz;
-    private int numProductos;
+    public static double[][] matriz;
+    private static int numProductos;
 
     /**
      * Constructor de la clase MatrizAdyacencia
@@ -38,16 +38,20 @@ public class MatrizAdyacencia implements Serializable {
      * @param p2 Producto 2
      * @return Sinergia entre los productos, -1 si son el mismo producto
      */
-    public double getSinergia(int p1, int p2) {
-        if (p1 == p2) return -1;
-        return matriz[p1][p2];
+    public static double getSinergia(int p1, int p2) {
+        if (0 <= p1 && p1 < numProductos && 0 <= p2 && p2 < numProductos) {
+            return matriz[p1][p2];
+        }
+        else if (p1 == -1 || p2 == -1) return 0;
+        else if(p1 == p2) return -1;
+        return -1;
     }
 
     /**
      * Obtiene la matriz de adyacencia
      * @return Matriz de adyacencia
      */
-    public double[][] getMatriz() {
+    public static double[][] getMatriz() {
         return matriz;
     }
 
