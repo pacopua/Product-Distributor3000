@@ -31,6 +31,24 @@ public class Solucion implements Serializable, Cloneable {
     }
 
     /**
+     * Constructor de la clase Solucion
+     * @param matriz Matriz de enteros con la distribución de la solución
+     */
+    public Solucion(int[][] matriz) {
+        if (matriz.length == 0) {
+            throw new IllegalArgumentException("La matriz no puede estar vacía");
+        }
+        this.calidad = 0;
+        this.numPasos = 0;
+        this.introducir_numero_columnas_i_filas(matriz.length, matriz[0].length);
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
+                distribucion[i][j] = matriz[i][j];
+            }
+        }
+    }
+
+    /**
      * Establece el número de filas y columnas de la solución
      * @param files Número de filas
      * @param columnes Número de columnas
@@ -120,6 +138,11 @@ public class Solucion implements Serializable, Cloneable {
         this.numPasos = numPasos;
     }
 
+    /**
+     * Devuelve la copia de la solución
+     * @return Copia de la solución
+     * @throws CloneNotSupportedException Excepción lanzada si no se puede clonar la solución
+     */
     @Override
     protected Solucion clone() throws CloneNotSupportedException {
         Solucion solucion = (Solucion) super.clone();
@@ -135,6 +158,11 @@ public class Solucion implements Serializable, Cloneable {
         return solucion;
     }
 
+    /**
+     * Compara dos objetos
+     * @param obj Objeto a comparar
+     * @return true si los objetos son iguales, false en caso contrario
+     */
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Solucion) {
@@ -143,6 +171,11 @@ public class Solucion implements Serializable, Cloneable {
         return super.equals(obj);
     }
 
+    /**
+     * Compara dos soluciones
+     * @param sol Solución a comparar
+     * @return true si las soluciones son iguales, false en caso contrario
+     */
     public boolean equals(Solucion sol) {
         if (this.filas != sol.filas || this.columnas != sol.columnas) {
             return false;
@@ -157,6 +190,10 @@ public class Solucion implements Serializable, Cloneable {
         return true;
     }
 
+    /**
+     * Devuelve una cadena de caracteres con la información de la solución
+     * @return Cadena de caracteres con la información de la solución
+     */
     @Override
     public String toString() {
         return "Solucion{" +
