@@ -1,9 +1,11 @@
-package edu.upc.prop.clusterxx;
+package src.test.java.edu.upc.prop.clusterxx;
+
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.After;
 import static org.junit.Assert.*;
+import src.main.java.edu.upc.prop.clusterxx.*;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -13,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Test para Lista Productos (un test por método)
+ * Test para Lista Productos (un test por metodo)
  */
 public class ListaProductosTest {
     private ListaProductos listaProductos;

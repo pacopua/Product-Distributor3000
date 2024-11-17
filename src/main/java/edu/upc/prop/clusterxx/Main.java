@@ -14,7 +14,7 @@ public class Main {
 
 
 
-    Solucion s = new Solucion(3, 3);
+    Solucion s = new Solucion(9, 9);
     MatrizAdyacencia m = new MatrizAdyacencia(4);
     double [][] matrix = {
             { 0, 1, 1, 1 },
@@ -25,8 +25,8 @@ public class Main {
     MatrizAdyacencia.matriz = matrix;
     //Solucion adecuada = new Solucion();
     //for(int i = 0; i < 10; ++i) {
-      AlgoritmoVoraz a = new AlgoritmoVoraz();
-      Solucion x = a.ejecutar(s);
+      AlgoritmoRapido a = new AlgoritmoRapido();
+      Solucion x = a.ejecutar(s, 30);
       System.out.println("solución final: ");
       x.imprimir_distribucion();
       System.out.println("calidad: " + x.getCalidad());
