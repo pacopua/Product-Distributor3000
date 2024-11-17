@@ -3,9 +3,13 @@
 //package src.main.java.edu.upc.prop.clusterxx;   <- marcad src como root para no poner el path entero -Marcel
 package edu.upc.prop.clusterxx;
 
-public class Algoritmo {
+//Renombrado a controlador de algoritmos pq sin los cálculos de sinergias es lo que es chicos guapos.
+public class ControladorAlgoritmos {
 
     //Solucion calcular_solucion(Solucion s);
+
+    // FIXME: Creo que los cálculos de sinergia deberían estar en matriz de adyacencia y de paso tienen algunas redundancias
+
     /**
      * Calcula la suma total de las sinergias en la solución dada usando la funcion "calcular_sinergias"
      * @param s la distribución cuyas sinergias queremos calcular

@@ -4,7 +4,7 @@ package edu.upc.prop.clusterxx;
 import java.io.Serializable;
 
 public class MatrizAdyacencia implements Serializable {
-    public static double[][] matriz;
+    private static double[][] matriz;  // por qué era public?
     private static int numProductos;
 
     /**
@@ -23,7 +23,7 @@ public class MatrizAdyacencia implements Serializable {
      * @param nueva_sinergia Nueva sinergia entre los productos
      * @return true si se ha podido modificar la sinergia, false en caso contrario
      */
-    public boolean modificar_singergias(int p1, int p2, double nueva_sinergia) {
+    public boolean modificar_sinergias(int p1, int p2, double nueva_sinergia) { // ponia singergias 😭
         if (0 <= p1 && p1 < numProductos && 0 <= p2 && p2 < numProductos) {
             matriz[p1][p2] = nueva_sinergia;
             matriz[p2][p1] = nueva_sinergia;
@@ -62,4 +62,5 @@ public class MatrizAdyacencia implements Serializable {
     public int getNumProductos() {
         return numProductos;
     }
+
 }

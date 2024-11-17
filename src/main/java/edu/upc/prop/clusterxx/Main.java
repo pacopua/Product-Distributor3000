@@ -23,7 +23,16 @@ public class Main {
             { 1, 1, 0, 1 },
             { 1, 1, 1, 0 }
     };
-    MatrizAdyacencia.matriz = matrix;
+    //MatrizAdyacencia.matriz = matrix;   <- no entiendo esto, entonces para qué está "m"?
+
+    /* TODO: creo que estaría bien que biel implemente una función que copie una matriz de doubles a una instancia
+        de matriz de adyacencia, así no habría que modificar cada sinergia una por una*/
+    for(int i = 0; i < matrix.length; i++) {
+      for(int j = 0; j < matrix[i].length; j++) {
+        m.modificar_sinergias(i, j, matrix[i][j]);
+      }
+    }
+
     //Solucion adecuada = new Solucion();
     //for(int i = 0; i < 10; ++i) {
       AlgoritmoRapido a = new AlgoritmoRapido();

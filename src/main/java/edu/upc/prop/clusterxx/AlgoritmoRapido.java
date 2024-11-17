@@ -5,7 +5,8 @@ package edu.upc.prop.clusterxx;
 
 import java.util.Random;
 
-public class AlgoritmoRapido extends Algoritmo {
+// no haría falta el extends si los cálculos de sinergias estuviesen en matriz de adyacencias
+public class AlgoritmoRapido extends ControladorAlgoritmos {
     private int contador = 0;
     private final int MAX_ITERATIONS = Integer.MAX_VALUE;
     private final int MAX_ATTEMPTS = 10;

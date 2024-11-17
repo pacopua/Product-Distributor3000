@@ -15,14 +15,14 @@ import com.google.gson.reflect.TypeToken;
 /**
  * Lista que contiene referencias a todos los productos
  */
-public class ListaProductos implements Serializable {
+public class ControladorProductos implements Serializable {
     private ArrayList<Producto> productos;
     private final Gson gson;
 
     /**
      * Constructora, el estado inicial es una lista vacía.
      */
-    public ListaProductos() {
+    public ControladorProductos() {
         productos = new ArrayList<>();
         gson = new GsonBuilder()
                 .setPrettyPrinting()

@@ -3,7 +3,8 @@
 //package src.main.java.edu.upc.prop.clusterxx;   <- marcad src como root para no poner el path entero
 package edu.upc.prop.clusterxx;
 
-public class AlgoritmoVoraz extends Algoritmo {
+// no haría falta el extends si los cálculos de sinergias estuviesen en matriz de adyacencias
+public class AlgoritmoVoraz extends ControladorAlgoritmos {
 
     public int contador = 0;
     public double best_value = Double.NEGATIVE_INFINITY;

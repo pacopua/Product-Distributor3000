@@ -10,22 +10,21 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
 /**
  * Test para Lista Productos (un test por metodo)
  */
-public class ListaProductosTest {
-    private ListaProductos listaProductos;
+public class ControladorProductosTest {
+    private ControladorProductos listaProductos;
     private static final String TEST_JSON_FILE = "test_products.json";
     private static final String TEST_CSV_FILE = "test_products.csv";
     private static final String TEST_TXT_FILE = "test_products.txt";
 
     @Before
     public void setUp() {
-        listaProductos = new ListaProductos();
+        listaProductos = new ControladorProductos();
         listaProductos.addProducto(new Producto( "Test Product", 9.99));
     }
 
@@ -61,7 +60,7 @@ public class ListaProductosTest {
     public void testExportarEImportarJSON() throws IOException {
         listaProductos.exportarAJSON(TEST_JSON_FILE);
 
-        ListaProductos nuevaLista = new ListaProductos();
+        ControladorProductos nuevaLista = new ControladorProductos();
         nuevaLista.ImportarLista(TEST_JSON_FILE);
 
         assertEquals(listaProductos.getCantidadProductos(), nuevaLista.getCantidadProductos());
@@ -76,7 +75,7 @@ public class ListaProductosTest {
             writer.write("1,Test CSV Product,29.99\n");
         }
 
-        ListaProductos nuevaLista = new ListaProductos();
+        ControladorProductos nuevaLista = new ControladorProductos();
         nuevaLista.ImportarLista(TEST_CSV_FILE);
 
         List<Producto> productos = nuevaLista.getListaProductos();
@@ -91,7 +90,7 @@ public class ListaProductosTest {
             writer.write("1|Test TXT Product|39.99\n");
         }
 
-        ListaProductos nuevaLista = new ListaProductos();
+        ControladorProductos nuevaLista = new ControladorProductos();
         nuevaLista.ImportarLista(TEST_TXT_FILE);
 
         List<Producto> productos = nuevaLista.getListaProductos();
