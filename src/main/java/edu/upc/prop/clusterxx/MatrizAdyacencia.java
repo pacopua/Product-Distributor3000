@@ -2,7 +2,6 @@
 package edu.upc.prop.clusterxx;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class MatrizAdyacencia implements Serializable {
     private double[][] matriz;
