@@ -37,6 +37,7 @@ public class MatrizAdyacencia implements Serializable {
      * @param p1             Producto 1
      * @param p2             Producto 2
      * @param nueva_sinergia Nueva sinergia entre los productos
+     * @return true si se ha podido modificar la sinergia, false en caso contrario
      */
     public void modificar_sinergias(int p1, int p2, double nueva_sinergia) {
         if (0 <= p1 && p1 < numProductos && 0 <= p2 && p2 < numProductos) {
