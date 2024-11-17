@@ -2,43 +2,47 @@
 package edu.upc.prop.clusterxx;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class MatrizAdyacencia implements Serializable {
-    private static double[][] matriz;  // por qué era public?
-    private static int numProductos;
+    private ArrayList<ArrayList<Double>> matriz;
+    private int numProductos;
 
     /**
      * Constructor de la clase MatrizAdyacencia
      * @param n Número de productos
      */
     public MatrizAdyacencia(int n) {
-        matriz = new double[n][n];
+        matriz = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            matriz.add(new ArrayList<>());
+            for (int j = 0; j < n; j++) {
+                matriz.get(i).add(-1.0);
+            }
+        }
         numProductos = n;
     }
 
     /**
      * Constructor de la clase MatrizAdyacencia
-     * @param matrix Matriz de adyacencia
+     * @param matriz Matriz de adyacencia
      */
-    public MatrizAdyacencia(double[][] matrix) {
-        matriz = matrix;
-        numProductos = matrix.length;
+    public MatrizAdyacencia(double[][] matriz) {
+        // TODO: Implementar
     }
 
     /**
      * Modifica la sinergia entre dos productos
-     * @param p1 Producto 1
-     * @param p2 Producto 2
+     *
+     * @param p1             Producto 1
+     * @param p2             Producto 2
      * @param nueva_sinergia Nueva sinergia entre los productos
-     * @return true si se ha podido modificar la sinergia, false en caso contrario
      */
-    public boolean modificar_sinergias(int p1, int p2, double nueva_sinergia) { // ponia singergias 😭
+    public void modificar_sinergias(int p1, int p2, double nueva_sinergia) {
         if (0 <= p1 && p1 < numProductos && 0 <= p2 && p2 < numProductos) {
-            matriz[p1][p2] = nueva_sinergia;
-            matriz[p2][p1] = nueva_sinergia;
-            return true;
+            matriz.get(p1).set(p2, nueva_sinergia);
+            matriz.get(p2).set(p1, nueva_sinergia);
         }
-        return false;
     }
 
     /**
@@ -47,12 +51,14 @@ public class MatrizAdyacencia implements Serializable {
      * @param p2 Producto 2
      * @return Sinergia entre los productos, -1 si son el mismo producto
      */
-    public static double getSinergia(int p1, int p2) {
-        if (0 <= p1 && p1 < numProductos && 0 <= p2 && p2 < numProductos) {
-            return matriz[p1][p2];
+    public double getSinergia(int p1, int p2) {
+        if (p1 != p2
+                && 0 <= p1
+                && p1 < numProductos
+                && 0 <= p2
+                && p2 < numProductos) {
+            return matriz.get(p1).get(p2);
         }
-        else if (p1 == -1 || p2 == -1) return 0;
-        else if(p1 == p2) return -1;
         return -1;
     }
 
@@ -60,16 +66,17 @@ public class MatrizAdyacencia implements Serializable {
      * Obtiene la matriz de adyacencia
      * @return Matriz de adyacencia
      */
-    public static double[][] getMatriz() {
+    public ArrayList<ArrayList<Double>> getMatriz() {
         return matriz;
     }
 
     /**
      * Establece la matriz de adyacencia
-     * @param matrix Matriz de adyacencia
+     * @param matriz Matriz de adyacencia
      */
-    public static void setMatriz(double[][] matrix) {
-        matriz = matrix;
+    public void setMatriz(ArrayList<ArrayList<Double>> matriz) {
+        this.matriz = matriz;
+        numProductos = matriz.size();
     }
 
     /**
@@ -79,5 +86,4 @@ public class MatrizAdyacencia implements Serializable {
     public int getNumProductos() {
         return numProductos;
     }
-
 }

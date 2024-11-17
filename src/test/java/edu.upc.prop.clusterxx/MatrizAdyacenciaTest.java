@@ -3,12 +3,16 @@ package edu.upc.prop.clusterxx;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.*;
+
 import java.util.Arrays;
 
 public class MatrizAdyacenciaTest {
     private MatrizAdyacencia mat;
-    // en vdd la matriz es estática ns por qué estamos creando instancias tod0 el rato
 
+    /**
+     * Inicializa la matriz de adyacencia
+     */
     @Before
     public void initMatriz() {
         mat = new MatrizAdyacencia(3);
@@ -17,11 +21,28 @@ public class MatrizAdyacenciaTest {
         mat.modificar_sinergias(1, 2, 3.0);
     }
 
+    /**
+     * Tests de la función de modificar sinergias
+     */
     @Test
     public void sinergiasCorrectas() {
-        assert mat.getSinergia(0, 1) == 1.0;
-        assert mat.getSinergia(1, 0) == 1.0;
-        assert mat.getSinergia(2, 0) == 2.0;
-        assert Arrays.deepEquals(mat.getMatriz(), new double[][]{{0.0, 1.0, 2.0}, {1.0, 0.0, 3.0}, {2.0, 3.0, 0.0}});
+        // Casos normales
+        assertEquals(1.0, mat.getSinergia(0, 1), 0.0);
+        assertEquals(1.0, mat.getSinergia(1, 0), 0.0);
+        assertEquals(2.0, mat.getSinergia(0, 2), 0.0);
+        assertEquals(2.0, mat.getSinergia(2, 0), 0.0);
+        assertEquals(3.0, mat.getSinergia(1, 2), 0.0);
+        assertEquals(3.0, mat.getSinergia(2, 1), 0.0);
+
+        // Mismo producto
+        assertEquals(-1, mat.getSinergia(0, 0), 0.0);
+        assertEquals(-1, mat.getSinergia(1, 1), 0.0);
+        assertEquals(-1, mat.getSinergia(2, 2), 0.0);
+
+        // Limites
+        assertEquals(-1, mat.getSinergia(-1, 0), 0.0);
+        assertEquals(-1, mat.getSinergia(0, -1), 0.0);
+        assertEquals(-1, mat.getSinergia(3, 0), 0.0);
+        assertEquals(-1, mat.getSinergia(0,3), 0.0);
     }
 }
