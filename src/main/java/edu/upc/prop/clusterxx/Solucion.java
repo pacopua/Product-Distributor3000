@@ -81,7 +81,8 @@ public class Solucion implements Serializable, Cloneable {
      */
     public boolean intercambiar_productos(int fila_p1, int columna_p1, int fila_p2, int columna_p2) {
         if (0 <= fila_p1 && fila_p1 < filas && 0 <= columna_p1 && columna_p1 < columnas &&
-            0 <= fila_p2 && fila_p2 < filas && 0 <= columna_p2 && columna_p2 < columnas) {
+            0 <= fila_p2 && fila_p2 < filas && 0 <= columna_p2 && columna_p2 < columnas &&
+            distribucion[fila_p1][columna_p1] != distribucion[fila_p2][columna_p2]) {
             int aux = distribucion[fila_p1][columna_p1];
             distribucion[fila_p1][columna_p1] = distribucion[fila_p2][columna_p2];
             distribucion[fila_p2][columna_p2] = aux;
@@ -165,29 +166,16 @@ public class Solucion implements Serializable, Cloneable {
      */
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof Solucion) {
-            return equals((Solucion) obj);
+        if (obj instanceof Solucion sol) {
+            if (this.filas != sol.filas
+                    || this.columnas != sol.columnas
+                    || this.calidad != sol.calidad
+                    || this.numPasos != sol.numPasos) {
+                return false;
+            }
+            return Arrays.deepEquals(this.distribucion, sol.getDistribucion());
         }
         return super.equals(obj);
-    }
-
-    /**
-     * Compara dos soluciones
-     * @param sol Solución a comparar
-     * @return true si las soluciones son iguales, false en caso contrario
-     */
-    public boolean equals(Solucion sol) {
-        if (this.filas != sol.filas || this.columnas != sol.columnas) {
-            return false;
-        }
-        for (int i = 0; i < filas; i++) {
-            for (int j = 0; j < columnas; j++) {
-                if (this.distribucion[i][j] != sol.distribucion[i][j]) {
-                    return false;
-                }
-            }
-        }
-        return true;
     }
 
     /**
