@@ -2,9 +2,10 @@
 package edu.upc.prop.clusterxx;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class MatrizAdyacencia implements Serializable {
-    private double[][] matriz;
+    private ArrayList<ArrayList<Double>> matriz;
     private int numProductos;
 
     /**
@@ -12,7 +13,13 @@ public class MatrizAdyacencia implements Serializable {
      * @param n Número de productos
      */
     public MatrizAdyacencia(int n) {
-        matriz = new double[n][n];
+        matriz = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            matriz.add(new ArrayList<>());
+            for (int j = 0; j < n; j++) {
+                matriz.get(i).add(-1.0);
+            }
+        }
         numProductos = n;
     }
 
@@ -21,8 +28,7 @@ public class MatrizAdyacencia implements Serializable {
      * @param matriz Matriz de adyacencia
      */
     public MatrizAdyacencia(double[][] matriz) {
-        this.matriz = matriz;
-        numProductos = matriz.length;
+        // TODO: Implementar
     }
 
     /**
@@ -34,8 +40,8 @@ public class MatrizAdyacencia implements Serializable {
      */
     public void modificar_sinergias(int p1, int p2, double nueva_sinergia) {
         if (0 <= p1 && p1 < numProductos && 0 <= p2 && p2 < numProductos) {
-            matriz[p1][p2] = nueva_sinergia;
-            matriz[p2][p1] = nueva_sinergia;
+            matriz.get(p1).set(p2, nueva_sinergia);
+            matriz.get(p2).set(p1, nueva_sinergia);
         }
     }
 
@@ -51,7 +57,7 @@ public class MatrizAdyacencia implements Serializable {
                 && p1 < numProductos
                 && 0 <= p2
                 && p2 < numProductos) {
-            return matriz[p1][p2];
+            return matriz.get(p1).get(p2);
         }
         return -1;
     }
@@ -60,7 +66,7 @@ public class MatrizAdyacencia implements Serializable {
      * Obtiene la matriz de adyacencia
      * @return Matriz de adyacencia
      */
-    public double[][] getMatriz() {
+    public ArrayList<ArrayList<Double>> getMatriz() {
         return matriz;
     }
 
@@ -68,9 +74,9 @@ public class MatrizAdyacencia implements Serializable {
      * Establece la matriz de adyacencia
      * @param matriz Matriz de adyacencia
      */
-    public void setMatriz(double[][] matriz) {
+    public void setMatriz(ArrayList<ArrayList<Double>> matriz) {
         this.matriz = matriz;
-        numProductos = matriz.length;
+        numProductos = matriz.size();
     }
 
     /**
