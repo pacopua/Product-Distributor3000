@@ -135,6 +135,28 @@ public class Solucion implements Serializable, Cloneable {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Solucion) {
+            return equals((Solucion) obj);
+        }
+        return super.equals(obj);
+    }
+
+    public boolean equals(Solucion sol) {
+        if (this.filas != sol.filas || this.columnas != sol.columnas) {
+            return false;
+        }
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
+                if (this.distribucion[i][j] != sol.distribucion[i][j]) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    @Override
     public String toString() {
         return "Solucion{" +
                 "distribucion=" + Arrays.toString(distribucion) +
