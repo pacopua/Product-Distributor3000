@@ -163,7 +163,9 @@ public class ListaProductos implements Serializable, Cloneable {
     @Override
     public ListaProductos clone() {
         try {
-            return (ListaProductos) super.clone();
+            ListaProductos copia = (ListaProductos) super.clone();
+            copia.productos = new ArrayList<>(productos);
+            return copia;
         }
         catch (CloneNotSupportedException e) {
             System.err.println("Error al clonar el objeto: " + e.getMessage());

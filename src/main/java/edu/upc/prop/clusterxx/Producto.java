@@ -3,7 +3,7 @@ package edu.upc.prop.clusterxx;
 
 import java.io.Serializable;
 
-public class Producto implements Serializable {
+public class Producto implements Serializable, Cloneable {
     private String nombre;
     private double precio;
 
@@ -35,5 +35,17 @@ public class Producto implements Serializable {
                 ", nombre='" + nombre + '\'' +
                 ", precio=" + precio +
                 '}';
+    }
+
+    @Override
+    public Producto clone() {
+        try {
+            Producto clone = (Producto) super.clone();
+            clone.setNombre(nombre);
+            clone.setPrecio(precio);
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }
