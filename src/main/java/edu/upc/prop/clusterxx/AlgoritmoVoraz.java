@@ -41,6 +41,7 @@ public class AlgoritmoVoraz extends ControladorAlgoritmos {
         s.imprimir_distribucion();
         Solucion resultado = recursive_calcular(s, 0, 0);
         calcular_todas(resultado);
+        resultado.setCompletado(true);
         return resultado;
     }
     /**

@@ -7,10 +7,6 @@ import java.util.Random;
 
 // no haría falta el extends si los cálculos de sinergias estuviesen en matriz de adyacencias
 public class AlgoritmoRapido extends ControladorAlgoritmos {
-    private int contador = 0;
-    private final int MAX_ITERATIONS = Integer.MAX_VALUE;
-    private final int MAX_ATTEMPTS = 10;
-
     public AlgoritmoRapido(MatrizAdyacencia m) {
         super(m);
     }
@@ -23,7 +19,7 @@ public class AlgoritmoRapido extends ControladorAlgoritmos {
      */
     //@Override
     public Solucion ejecutar(Solucion s, int intentos) {
-        System.out.println("ejecutando_algoritmo_hill_climbing...");
+        //System.out.println("ejecutando_algoritmo_hill_climbing...");
         Random random = new Random();
         Solucion solucion_a_probar;
         Solucion best_solution = s;
@@ -54,7 +50,7 @@ public class AlgoritmoRapido extends ControladorAlgoritmos {
             }
 
             s.setCalidad(calcular_todas(s));
-            System.out.println("Calidad inicial: " + s.getCalidad());
+            //System.out.println("Calidad inicial: " + s.getCalidad());
 
             solucion_a_probar = hillClimbing(s);
             if(solucion_a_probar.getCalidad() >= best_solution.getCalidad()) {
@@ -63,6 +59,8 @@ public class AlgoritmoRapido extends ControladorAlgoritmos {
                     best_solution = solucion_a_probar;
             }
         }
+        //System.out.println("mejor calidad: " + best_solution.getCalidad());
+        best_solution.setCompletado(true);
         return best_solution;
     }
 
@@ -74,7 +72,7 @@ public class AlgoritmoRapido extends ControladorAlgoritmos {
     private Solucion hillClimbing(Solucion currentSolution) {
         Solucion bestSolution = copiar_solucion(currentSolution);
         int iterations = 0;
-        int attemptsWithoutImprovement = 0;
+        //int attemptsWithoutImprovement = 0;
         boolean improved = true;
 
         while (improved) {//iterations < MAX_ITERATIONS && attemptsWithoutImprovement < MAX_ATTEMPTS) {
@@ -106,18 +104,20 @@ public class AlgoritmoRapido extends ControladorAlgoritmos {
                 }
             }
             currentSolution = bestSolution;
-
+            /*
             if(!improved) {
                 ++attemptsWithoutImprovement;
             }
 
-            System.out.println("Iteración " + iterations +
-                    ", Calidad actual: " + bestSolution.getCalidad() +
-                    ", Intentos sin mejora: " + attemptsWithoutImprovement);
+             */
+
+            //System.out.println("Iteración " + iterations +
+                    //", Calidad actual: " + bestSolution.getCalidad() +
+                    //", Intentos sin mejora: " + attemptsWithoutImprovement);
         }
 
-        System.out.println("Hill Climbing terminado después de " + iterations + " iteraciones");
-        System.out.println("Calidad final: " + bestSolution.getCalidad());
+        //System.out.println("Hill Climbing terminado después de " + iterations + " iteraciones");
+        //System.out.println("Calidad final: " + bestSolution.getCalidad());
 
         return bestSolution;
     }
