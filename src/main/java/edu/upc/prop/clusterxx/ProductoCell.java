@@ -1,14 +1,15 @@
 package edu.upc.prop.clusterxx;
 
 import javafx.geometry.HPos;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.util.converter.DefaultStringConverter;
 import javafx.util.converter.DoubleStringConverter;
-
-import java.util.ArrayList;
 
 import static edu.upc.prop.clusterxx.ProductoController.doubleFilter;
 import static edu.upc.prop.clusterxx.ProductoController.nonEmptyFilter;
@@ -21,10 +22,6 @@ public class ProductoCell extends ListCell<Producto> {
     private int id;
     public ProductoCell() {
         super();
-
-        setOnMouseClicked(event -> {
-            //do something
-        });
 
         pane = new GridPane();
         pane.prefWidthProperty().bind(this.widthProperty().subtract(14));
@@ -54,19 +51,40 @@ public class ProductoCell extends ListCell<Producto> {
         nombre = new TextField();
         nombre.setTextFormatter(
                 new TextFormatter<>(new DefaultStringConverter(), "Nuevo Producto", nonEmptyFilter));
+        nombre.textProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    boolean existe = false;
+                    for (Producto prod : Sistema.getListaProductos().getListaProductos()) {
+                        if (id != Sistema.getListaProductos().getListaProductos().indexOf(prod) && prod.getNombre().equals(newValue)) {
+                            existe = true;
+                            break;
+                        }
+                    }
+                    if (existe) {
+                        nombre.textProperty().setValue(oldValue);
+                        ProductoController.ventanaErrorProd();
+                        return;
+                    }
+                    Sistema.getListaProductos().getProducto(id).get().setNombre(newValue);
+                    Sistema.actualizarDatos();
+                }
+        );
         pane.add(nombre, 0, 0);
 
         precio = new TextField();
         precio.setTextFormatter(
                 new TextFormatter<>(new DoubleStringConverter(), 0., doubleFilter));
+        precio.textProperty().addListener(
+                (observable, oldValue, newValue) -> Sistema.getListaProductos().getProducto(id).get().setPrecio(Double.parseDouble(newValue))
+        );
         pane.add(precio, 2, 0);
 
-        actionBtn = new Button("my action");
+        actionBtn = new Button("Eliminar");
         actionBtn.setOnAction(event -> {
             Sistema.getListaProductos().eliminarProducto(id);
+            Sistema.getMatrizAdyacencia().eliminarProducto(id);
             Sistema.actualizarDatos();
         });
-        actionBtn.setText("Eliminar");
         pane.add(actionBtn, 3, 0);
     }
     @Override
@@ -77,9 +95,7 @@ public class ProductoCell extends ListCell<Producto> {
         if (producto != null) {
             id = Sistema.getListaProductos().getListaProductos().indexOf(producto);
             nombre.setText(producto.getNombre());
-            nombre.textProperty().addListener((observable, oldValue, newValue) -> producto.setNombre(newValue));
             precio.setText(Double.toString(producto.getPrecio()));
-            precio.textProperty().addListener((observable, oldValue, newValue) -> producto.setPrecio(Double.parseDouble(newValue)));
             setGraphic(pane);
         } else {
             setGraphic(null);

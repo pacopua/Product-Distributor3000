@@ -1,12 +1,15 @@
 package edu.upc.prop.clusterxx;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.stage.Stage;
 import javafx.util.converter.DefaultStringConverter;
 import javafx.util.converter.DoubleStringConverter;
 
+import java.util.Optional;
 import java.util.function.UnaryOperator;
 
 public class ProductoController {
@@ -35,12 +38,34 @@ public class ProductoController {
         precio.setTextFormatter(
                 new TextFormatter<>(new DoubleStringConverter(), 0., doubleFilter));
     }
+    static void ventanaErrorProd() {
+        Alert alerta = new Alert(
+                Alert.AlertType.ERROR,
+                "Ya existe un producto con este nombre."
+        );
+        alerta.setTitle("Producto ya existe");
+        alerta.show();
+    }
     @FXML
     protected void onAnadirProducto() {
         Producto producto = new Producto(
                 (String) nombre.getTextFormatter().getValue(),
                 (double) precio.getTextFormatter().getValue()
         );
+
+        boolean existe = false;
+        for (Producto prod : Sistema.getListaProductos().getListaProductos()) {
+            if (prod.getNombre().equals(producto.getNombre())) {
+                existe = true;
+                break;
+            }
+        }
+
+        if (existe) {
+            ventanaErrorProd();
+            return;
+        }
+
         Sistema.getListaProductos().addProducto(producto);
 
         MatrizAdyacencia matrizNueva = new MatrizAdyacencia(Sistema.getListaProductos().getCantidadProductos());
@@ -48,6 +73,8 @@ public class ProductoController {
             for (int j = 0; j < Sistema.getMatrizAdyacencia().getNumProductos(); j++)
                 matrizNueva.modificar_sinergias(i, j, Sistema.getMatrizAdyacencia().getSinergia(i, j));
         Sistema.setMatrizAdyacencia(matrizNueva);
+
+        Sistema.actualizarDatos();
 
         ((Stage) nombre.getScene().getWindow()).close();
     }
