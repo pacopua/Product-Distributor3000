@@ -40,7 +40,7 @@ public class AlgoritmoVorazTest {
     }
 
     @Test
-    public void testAlgoritmoRapido9x9() {
+    public void testAlgoritmoVoraz9x9() {
         ma9x9 = new MatrizAdyacencia(
                 new double[][] {
                         {  0,29,82,46,68,52,72,42,51},
@@ -60,6 +60,7 @@ public class AlgoritmoVorazTest {
         s = new Solucion(l, 3, 3);
 
         s = av.ejecutar(s);
+
         assertTrue(s.getCalidad() >= 246);
     }
 }

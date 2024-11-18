@@ -90,13 +90,16 @@ public class AlgoritmoRapido extends ControladorAlgoritmos {
                             Solucion neighbor = copiar_solucion(currentSolution);
                             neighbor.intercambiar_productos(i, j, y, x);
                             neighbor.setCalidad(calcular_todas(neighbor));
+                            neighbor.setNumPasos(neighbor.getNumPasos()+1);
 
-                            if(neighbor.getCalidad() > bestSolution.getCalidad()) {
-                                bestSolution = neighbor;
-                                //currentSolution = neighbor;
-                                improved = true;
-                                //attemptsWithoutImprovement = 0;
-                                //System.out.println("Mejora encontrada! Nueva calidad: " + neighbor.getCalidad());
+                            if(neighbor.getCalidad() >= bestSolution.getCalidad()) {
+                                if(neighbor.getCalidad() > bestSolution.getCalidad()
+                                        || neighbor.getNumPasos() < bestSolution.getNumPasos()) {
+                                    bestSolution = neighbor;
+                                    improved = true;
+                                    //attemptsWithoutImprovement = 0;
+                                    //System.out.println("Mejora encontrada! Nueva calidad: " + neighbor.getCalidad());
+                                }
                             }
                         }
                     }
