@@ -33,6 +33,7 @@ public class Driver {
             io.write("5. Salir\n");
             io.write("Opcion: ");
             int opcion = io.readint();
+            io.writeln();
             switch (opcion) {
                 case 1:
                     sistemaSolucion();
@@ -74,6 +75,7 @@ public class Driver {
                 io.write("5. Volver\n");
                 io.write("Opcion: ");
                 int opcion = io.readint();
+                io.writeln();
                 int num_productos = Sistema.getListaProductos().getListaProductos().size();
                 Solucion s;
                 switch (opcion) {
@@ -111,7 +113,6 @@ public class Driver {
         io.writeln();
         io.write("Introduce el numero de columnas de la solución: ");
         int columnas = io.readint();
-        // TODO: Crear solucion
         Sistema.nuevaSolucion(filas, columnas);
         Solucion s = Sistema.getSolucion();
         AlgoritmoRapido ar = new AlgoritmoRapido(Sistema.getMatrizAdyacencia());
@@ -131,7 +132,6 @@ public class Driver {
         io.writeln();
         io.write("Introduce el numero de columnas de la solución: ");
         int columnas = io.readint();
-        // TODO: Crear solucion
         Sistema.nuevaSolucion(filas, columnas);
         Solucion s = Sistema.getSolucion();
         AlgoritmoVoraz av = new AlgoritmoVoraz(Sistema.getMatrizAdyacencia());
@@ -205,8 +205,9 @@ public class Driver {
         int i = 0;
         for (Producto p : Sistema.getListaProductos().getListaProductos()) {
             System.out.printf("ID %d - \t%s - %f€\n", i, p.getNombre(), p.getPrecio());
+            i++;
         }
-        io.write(Sistema.getListaProductos().toString());
+        io.writeln();
     }
 
     /**
@@ -226,8 +227,9 @@ public class Driver {
                 io.write("7. Consultar un producto\n");
                 io.write("8. Volver\n");
                 io.write("Opcion: ");
-                int num_productos = Sistema.getListaProductos().getCantidadProductos();
                 int opcion = io.readint();
+                io.writeln();
+                int num_productos = Sistema.getListaProductos().getCantidadProductos();
                 switch (opcion) {
                     case 1:
                         importarListaProductos();
@@ -337,8 +339,7 @@ public class Driver {
      * @throws Exception si hay un error al leer la entrada o al escribir en consola
      */
     private static void importarListaProductos() throws Exception {
-        io.write("Introduce la ruta del archivo: \n");
-        io.write("Introduce 'volver' para volver al menu principal: ");
+        io.write("Introduce la ruta del archivo (Introduce 'volver' para volver al menu principal): \n");
         while (true) {
             io.readnext();
             String path = io.readline();
@@ -351,7 +352,7 @@ public class Driver {
             } else if (file.isDirectory()) {
                 io.write("El archivo es un directorio!\n");
             } else {
-                // TODO: Importar lista y sinergias
+                Sistema.importarLista(file);
                 break;
             }
         }
@@ -362,8 +363,7 @@ public class Driver {
      * @throws Exception si hay un error al leer la entrada o al escribir en consola
      */
     private static void exportarListaProductos() throws Exception {
-        io.write("Introduce la ruta del archivo donde guardar la lista de productos: \n");
-        io.write("Introduce 'volver' para volver al menu principal: ");
+        io.write("Introduce la ruta del archivo donde guardar la lista de productos (Introduce 'volver' para volver al menu principal): \n");
         while (true) {
             io.readnext();
             String path = io.readline();
@@ -371,12 +371,12 @@ public class Driver {
                 break;
             }
             File file = new File(path);
-            if (!file.exists()) {
-                io.write("Archivo no encontrado!\n");
+            if (file.exists()) {
+                io.write("Archivo ya existente!\n");
             } else if (file.isDirectory()) {
                 io.write("El archivo es un directorio!\n");
             } else {
-                // TODO: Exportar lista y sinergias
+                Sistema.exportarLista(file);
                 break;
             }
         }
@@ -387,8 +387,7 @@ public class Driver {
      * @throws Exception si hay un error al leer la entrada o al escribir en consola
      */
     private static void importarEstado() throws Exception {
-        io.write("Introduce la ruta del archivo: \n");
-        io.write("Introduce 'volver' para volver al menu principal: ");
+        io.write("Introduce la ruta del archivo (Introduce 'volver' para volver al menu principal): \n");
         while (true) {
             io.readnext();
             String path = io.readline();
@@ -412,8 +411,7 @@ public class Driver {
      * @throws Exception si hay un error al leer la entrada o al escribir en consola
      */
     private static void guardarEstado() throws Exception {
-        io.write("Introduce la ruta del archivo donde guardar el estado: \n");
-        io.write("Introduce 'volver' para volver al menu principal: ");
+        io.write("Introduce la ruta del archivo donde guardar el estado (Introduce 'volver' para volver al menu principal): \n");
         while (true) {
             io.readnext();
             String path = io.readline();
@@ -421,8 +419,8 @@ public class Driver {
                 break;
             }
             File file = new File(path);
-            if (!file.exists()) {
-                io.write("Archivo no encontrado!\n");
+            if (file.exists()) {
+                io.write("Archivo ya existente!\n");
             } else if (file.isDirectory()) {
                 io.write("El archivo es un directorio!\n");
             } else {

@@ -61,7 +61,7 @@ public class Solucion implements Serializable, Cloneable {
      * @param columnes Número de columnas
      */
     public void introducir_numero_columnas_i_filas(int files, int columnes) throws IllegalArgumentException {
-        if (productos.getCantidadProductos() > files * columnes) {
+        if (files != 0 && columnas != 0 && productos.getCantidadProductos() > files * columnes) {
             throw new IllegalArgumentException("No hay suficientes productos para llenar la matriz");
         }
         this.distribucion = new int[files][columnes];
