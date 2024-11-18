@@ -6,10 +6,11 @@ import static org.junit.Assert.*;
 
 public class SolucionTest {
     private Solucion sol;
+    private ListaProductos productos ;
 
     @Before
     public void setUp() {
-        ListaProductos productos = new ListaProductos();
+        productos = new ListaProductos();
         productos.addProducto(new Producto("Producto 1", 1));
         productos.addProducto(new Producto("Producto 2", 2));
         productos.addProducto(new Producto("Producto 3", 3));
@@ -41,28 +42,28 @@ public class SolucionTest {
         // Caso en que los productos son iguales
         assertFalse(sol.intercambiar_productos(0, 0, 0, 0));
 
-        int[][] distribucion = sol.getIDsDistribucion();
+        Producto[][] distribucion = sol.getDistribucionProductos();
         // Nada deberia cambiar
-        assertEquals(1, distribucion[0][0]);
-        assertEquals(2, distribucion[0][1]);
-        assertEquals(3, distribucion[0][2]);
-        assertEquals(4, distribucion[1][0]);
-        assertEquals(5, distribucion[1][1]);
-        assertEquals(6, distribucion[1][2]);
-        assertEquals(7, distribucion[2][0]);
-        assertEquals(8, distribucion[2][1]);
-        assertEquals(9, distribucion[2][2]);
+        assertEquals(productos.getProducto(0), distribucion[0][0]);
+        assertEquals(productos.getProducto(1), distribucion[0][1]);
+        assertEquals(productos.getProducto(2), distribucion[0][2]);
+        assertEquals(productos.getProducto(3), distribucion[1][0]);
+        assertEquals(productos.getProducto(4), distribucion[1][1]);
+        assertEquals(productos.getProducto(5), distribucion[1][2]);
+        assertEquals(productos.getProducto(6), distribucion[2][0]);
+        assertEquals(productos.getProducto(7), distribucion[2][1]);
+        assertEquals(productos.getProducto(8), distribucion[2][2]);
 
         // Casos simples
         assertTrue(sol.intercambiar_productos(0, 0, 0, 1));
-        assertEquals(2, sol.getIDsDistribucion()[0][0]);
-        assertEquals(1, sol.getIDsDistribucion()[0][1]);
+        assertEquals(productos.getProducto(1), distribucion[0][0]);
+        assertEquals(productos.getProducto(0), distribucion[0][1]);
         assertTrue(sol.intercambiar_productos(0, 0, 0, 1));
-        assertEquals(1, sol.getIDsDistribucion()[0][0]);
-        assertEquals(2, sol.getIDsDistribucion()[0][1]);
+        assertEquals(productos.getProducto(0), distribucion[0][0]);
+        assertEquals(productos.getProducto(1), distribucion[0][1]);
         assertTrue(sol.intercambiar_productos(0, 0, 2, 2));
-        assertEquals(9, sol.getIDsDistribucion()[0][0]);
-        assertEquals(1, sol.getIDsDistribucion()[2][2]);
+        assertEquals(productos.getProducto(8), distribucion[0][0]);
+        assertEquals(productos.getProducto(0), distribucion[2][2]);
     }
 
     @Test

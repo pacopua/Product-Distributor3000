@@ -5,6 +5,7 @@ import org.junit.*;
 import static org.junit.Assert.*;
 
 public class AlgoritmoRapidoTest {
+    private ListaProductos l;
     private Solucion s;
     private MatrizAdyacencia ma4x4;
     private MatrizAdyacencia ma9x9;
@@ -18,7 +19,6 @@ public class AlgoritmoRapidoTest {
     // TODO: faltan productos de prueba para la solución
     @Before
     public void initSolucion() {
-        s = new Solucion(4, 4);
     }
 
     @Test
@@ -31,6 +31,9 @@ public class AlgoritmoRapidoTest {
                         { 20, 25, 30,   0 }
                 }
         );
+        l = new ListaProductos();
+        for (int i = 0; i < 4; i++) l.addProducto(new Producto(Integer.toString(i), 0.));
+        s = new Solucion(l, 2, 2);
 
         ar = new AlgoritmoRapido(ma4x4);
         s = ar.ejecutar(s, 30);
@@ -52,6 +55,10 @@ public class AlgoritmoRapidoTest {
                         { 51,23,41,62,21,55,23,33, 0}
                 }
         );
+        l = new ListaProductos();
+        for (int i = 0; i < 9; i++) l.addProducto(new Producto(Integer.toString(i), 0.));
+        s = new Solucion(l, 3, 3);
+
         ar = new AlgoritmoRapido(ma9x9);
         s = ar.ejecutar(s, 30);
         assertTrue(s.getCalidad() >= 246);

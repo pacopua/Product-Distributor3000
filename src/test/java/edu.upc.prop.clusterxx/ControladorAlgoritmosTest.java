@@ -33,7 +33,9 @@ public class ControladorAlgoritmosTest {
     @Test
     public void testCalcularSinergias() {
         // solución 2*2
-        Solucion solucion = new Solucion(2, 2);
+        ListaProductos l = new ListaProductos();
+        for (int i = 0; i < 4; i++) l.addProducto(new Producto(Integer.toString(i), 0.));
+        Solucion solucion = new Solucion(l, 2, 2);
         int[][] distribucion = {
                 {0, 1},
                 {2, 3}
@@ -46,7 +48,9 @@ public class ControladorAlgoritmosTest {
 
     @Test
     public void testCalcularTodas() {
-        Solucion solucion = new Solucion(2, 2);
+        ListaProductos l = new ListaProductos();
+        for (int i = 0; i < 4; i++) l.addProducto(new Producto(Integer.toString(i), 0.));
+        Solucion solucion = new Solucion(l, 2, 2);
         int[][] distribucion = {
                 {0, 1},
                 {2, 3}

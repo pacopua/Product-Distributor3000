@@ -16,8 +16,6 @@ public class Main {
     System.out.println("Hello world!");
 
 
-
-    Solucion s = new Solucion(9, 9);
     MatrizAdyacencia m = new MatrizAdyacencia(4);
     double [][] matrix = {
             { 0, 1, 1, 1 },
@@ -29,11 +27,14 @@ public class Main {
 
     /* TODO: creo que estaría bien que biel implemente una función que copie una matriz de doubles a una instancia
         de matriz de adyacencia, así no habría que modificar cada sinergia una por una*/
+    ListaProductos listaProductos = new ListaProductos();
     for(int i = 0; i < matrix.length; i++) {
+      listaProductos.addProducto(new Producto(Integer.toString(i), 0.));
       for(int j = 0; j < matrix[i].length; j++) {
         m.modificar_sinergias(i, j, matrix[i][j]);
       }
     }
+    Solucion s = new Solucion(listaProductos, 9, 9);
 
     //Solucion adecuada = new Solucion();
     //for(int i = 0; i < 10; ++i) {

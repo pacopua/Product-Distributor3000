@@ -9,6 +9,7 @@ import java.util.Arrays;
 import static org.junit.Assert.assertTrue;
 
 public class AlgoritmoVorazTest {
+    private ListaProductos l;
     private Solucion s;
     private MatrizAdyacencia ma4x4;
     private MatrizAdyacencia ma9x9;
@@ -17,7 +18,7 @@ public class AlgoritmoVorazTest {
     // TODO: faltan productos de prueba para la solución
     @Before
     public void initSolucion() {
-        s = new Solucion(4, 4);
+
     }
 
     @Test
@@ -31,6 +32,9 @@ public class AlgoritmoVorazTest {
                         { 20, 25, 30,   0 }
                 }
         );
+        l = new ListaProductos();
+        for (int i = 0; i < 4; i++) l.addProducto(new Producto(Integer.toString(i), 0.));
+        s = new Solucion(l, 2, 2);
 
         s = av.ejecutar(s);
         assertTrue(s.getCalidad() >= 80);
@@ -52,6 +56,10 @@ public class AlgoritmoVorazTest {
                         { 51,23,41,62,21,55,23,33, 0}
                 }
         );
+        l = new ListaProductos();
+        for (int i = 0; i < 9; i++) l.addProducto(new Producto(Integer.toString(i), 0.));
+        s = new Solucion(l, 3, 3);
+
         s = av.ejecutar(s);
         assertTrue(s.getCalidad() >= 246);
     }

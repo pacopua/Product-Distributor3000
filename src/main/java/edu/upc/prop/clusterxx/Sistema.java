@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class Sistema {
     private static ListaProductos listaProductos = new ListaProductos();
     private static MatrizAdyacencia matrizAdyacencia = new MatrizAdyacencia(0);
-    private static Solucion solucion = new Solucion();
+    private static Solucion solucion = new Solucion(listaProductos);
     public static ObservableList<Producto> observableProducts = FXCollections.observableArrayList();
     public static ObservableList<Pair<Producto, Producto>> observableProductPairs = FXCollections.observableArrayList();
     public static ListaProductos getListaProductos() {
@@ -85,7 +85,7 @@ public class Sistema {
     }
 
     public static void nuevaSolucion(int filas, int columnas) {
-        solucion = new Solucion(filas, columnas);
+        solucion = new Solucion(listaProductos, filas, columnas);
         // TODO: como comprobamos si es compatible? que hacemos si no lo es?
     }
 
