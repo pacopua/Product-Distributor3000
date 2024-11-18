@@ -21,9 +21,13 @@ public class PropController {
     @FXML
     private ListView relacionesView;
     @FXML
+    private TableView solucionView;
+    @FXML
     private Label calidad;
     @FXML
     private Label pasos;
+    @FXML
+    private Button intercambiar;
 
     ButtonType si = new ButtonType("Sí", ButtonBar.ButtonData.OK_DONE);
     ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
@@ -52,7 +56,7 @@ public class PropController {
         relacionesView.setItems(Sistema.observableProductPairs);
     }
 
-    protected boolean confirmarImportar() {
+    private boolean ventanaConfirmar() {
         // pedimos confirmación
         Alert alerta = new Alert(
                 Alert.AlertType.WARNING,
@@ -64,99 +68,112 @@ public class PropController {
         Optional<ButtonType> eleccion = alerta.showAndWait();
         return eleccion.get() == si;
     }
-    @FXML
-    protected void onImportarEstado() throws IOException, ClassNotFoundException {
-        if (!confirmarImportar()) return;
+    private void ventanaErrorExportar() {
+        Alert alerta = new Alert(
+                Alert.AlertType.ERROR,
+                "No se han podido exportar los datos.\n" +
+                        "Los datos son incorrectos o no se tiene acceso de lectura."
+        );
+        alerta.setTitle("Error de exportación");
+        alerta.showAndWait();
+    }
+    private void ventanaErrorArchivo() {
+        Alert alerta = new Alert(
+                Alert.AlertType.ERROR,
+                "No se han podido importar los datos.\n" +
+                        "El archivo está corrupto o no se tiene acceso de lectura."
+        );
+        alerta.setTitle("Archivo incorrecto");
+        alerta.showAndWait();
+    }
+    private void ventanaErrorInternoArchivo() {
+        Alert alerta = new Alert(
+                Alert.AlertType.ERROR,
+                "No se han podido importar los datos.\n" +
+                        "El sistema ha encontrado un error irrecuperable."
+        );
+        alerta.setTitle("Error interno al importar");
+        alerta.showAndWait();
+    }
+    private File abrirFileChooser(boolean in, String archivo, FileChooser.ExtensionFilter filtro) {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Escoja el archivo de origen");
-        fileChooser.setInitialFileName("data.state");
-        fileChooser.getExtensionFilters().add(stateFilter);
-        fileChooser.setSelectedExtensionFilter(stateFilter);
-        File in = fileChooser.showOpenDialog(pane.getScene().getWindow());
-        Sistema.importarEstado(in);
+        if (in) fileChooser.setTitle("Escoja el archivo de origen");
+        else fileChooser.setTitle("Escoja el archivo de destino");
+        fileChooser.setInitialFileName(archivo);
+        fileChooser.getExtensionFilters().add(filtro);
+        fileChooser.setSelectedExtensionFilter(filtro);
+        if (in) return fileChooser.showOpenDialog(pane.getScene().getWindow());
+        else return fileChooser.showSaveDialog(pane.getScene().getWindow());
+
     }
     @FXML
-    protected void onExportarEstado() throws IOException {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Escoja el archivo de destino");
-        fileChooser.setInitialFileName("data.state");
-        fileChooser.getExtensionFilters().add(stateFilter);
-        fileChooser.setSelectedExtensionFilter(stateFilter);
-        File out = fileChooser.showSaveDialog(pane.getScene().getWindow());
-        Sistema.exportarEstado(out);
+    protected void onImportarEstado() {
+        if (!ventanaConfirmar()) return;
+        File in = abrirFileChooser(true,"data.state", stateFilter);
+        if (in == null) return;
+        try {
+            Sistema.importarEstado(in);
+        } catch (IOException e) {
+            ventanaErrorArchivo();
+        } catch (ClassNotFoundException e) {
+            ventanaErrorInternoArchivo();
+        }
+    }
+    @FXML
+    protected void onExportarEstado() {
+        File out = abrirFileChooser(false,"data.state", stateFilter);
+        if (out == null) return;
+        try {
+            Sistema.exportarEstado(out);
+        } catch (IOException e) {
+            ventanaErrorExportar();
+        }
     }
     @FXML
     protected void onImportarLista() {
-        if (!confirmarImportar()) return;
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Escoja el archivo de origen");
-        fileChooser.setInitialFileName("products.list");
-        fileChooser.getExtensionFilters().add(listFilter);
-        fileChooser.setSelectedExtensionFilter(listFilter);
-        File in = fileChooser.showOpenDialog(pane.getScene().getWindow());
+        if (!ventanaConfirmar()) return;
+        File in = abrirFileChooser(true,"products.list", listFilter);
+        if (in == null) return;
         try {
             Sistema.importarLista(in);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            ventanaErrorArchivo();
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            ventanaErrorInternoArchivo();
         }
     }
     @FXML
     protected void onExportarLista() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Escoja el archivo de destino");
-        fileChooser.setInitialFileName("products.list");
-        fileChooser.getExtensionFilters().add(listFilter);
-        fileChooser.setSelectedExtensionFilter(listFilter);
-        File out = fileChooser.showSaveDialog(pane.getScene().getWindow());
+        File out = abrirFileChooser(false,"products.list", listFilter);
+        if (out == null) return;
         try {
             Sistema.exportarLista(out);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            ventanaErrorExportar();
         }
     }
     @FXML
-    protected void onImportarRelaciones() throws IOException, ClassNotFoundException {
-        if (!confirmarImportar()) return;
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Escoja el archivo de origen");
-        fileChooser.setInitialFileName("relations.matrix");
-        fileChooser.getExtensionFilters().add(relacionesFilter);
-        fileChooser.setSelectedExtensionFilter(relacionesFilter);
-        File in = fileChooser.showOpenDialog(pane.getScene().getWindow());
-        Sistema.importarMatriz(in);
+    protected void onImportarSolucion() {
+        if (!ventanaConfirmar()) return;
+        File in = abrirFileChooser(true,"result.solution", solucionFilter);
+        if (in == null) return;
+        try {
+            Sistema.importarSolucion(in);
+        } catch (IOException e) {
+            ventanaErrorArchivo();
+        } catch (ClassNotFoundException e) {
+            ventanaErrorInternoArchivo();
+        }
     }
     @FXML
-    protected void onExportarRelaciones() throws IOException {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Escoja el archivo de destino");
-        fileChooser.setInitialFileName("relations.matrix");
-        fileChooser.getExtensionFilters().add(relacionesFilter);
-        fileChooser.setSelectedExtensionFilter(relacionesFilter);
-        File out = fileChooser.showSaveDialog(pane.getScene().getWindow());
-        Sistema.exportarMatriz(out);
-    }
-    @FXML
-    protected void onImportarSolucion() throws IOException, ClassNotFoundException {
-        if (!confirmarImportar()) return;
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Escoja el archivo de origen");
-        fileChooser.setInitialFileName("result.solution");
-        fileChooser.getExtensionFilters().add(solucionFilter);
-        fileChooser.setSelectedExtensionFilter(solucionFilter);
-        File in = fileChooser.showOpenDialog(pane.getScene().getWindow());
-        Sistema.importarSolucion(in);
-    }
-    @FXML
-    protected void onExportarSolucion() throws IOException {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Escoja el archivo de destino");
-        fileChooser.setInitialFileName("result.solution");
-        fileChooser.getExtensionFilters().add(solucionFilter);
-        fileChooser.setSelectedExtensionFilter(solucionFilter);
-        File out = fileChooser.showSaveDialog(pane.getScene().getWindow());
-        Sistema.exportarSolucion(out);
+    protected void onExportarSolucion() {
+        File out = abrirFileChooser(false,"result.solution", solucionFilter);
+        if (out == null) return;
+        try {
+            Sistema.exportarSolucion(out);
+        } catch (IOException e) {
+            ventanaErrorExportar();
+        }
     }
     @FXML
     protected boolean onSalir() {
@@ -171,13 +188,9 @@ public class PropController {
         Optional<ButtonType> eleccion = alerta.showAndWait();
         // guardamos y salimos
         if (eleccion.get() == si) {
-            try {
-                onExportarEstado();
-                Sistema.salir();
-                return true;
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            onExportarEstado();
+            Sistema.salir();
+            return true;
         }
         // preguntamos si de verdad quiere salir sin guardar
         else {
@@ -198,32 +211,33 @@ public class PropController {
         return false;
     }
 
-    @FXML
-    protected void onNuevaSolucion() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(PropApp.class.getResource("nueva-solucion-view.fxml"));
+    private void abrirVentana(String nombre, String controlador) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(PropApp.class.getResource(controlador));
         Scene scene = new Scene(fxmlLoader.load());
         Stage stage = new Stage();
         stage.initModality(Modality.WINDOW_MODAL);
         stage.initOwner(pane.getScene().getWindow());
-        stage.setTitle("Nueva Solución");
+        stage.setTitle(nombre);
         stage.setScene(scene);
         stage.setResizable(false);
         stage.showAndWait();
+    }
+
+    @FXML
+    protected void onNuevaSolucion() throws IOException {
+        if (!ventanaConfirmar()) return;
+        abrirVentana("Nueva Solución", "nueva-solucion-view.fxml");
         calidad.setText(Double.toString(Sistema.getSolucion().getCalidad()));
         pasos.setText(Integer.toString(Sistema.getSolucion().getNumPasos()));
     }
 
     @FXML
     protected void onNuevoProducto() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(PropApp.class.getResource("nuevo-producto-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        Stage stage = new Stage();
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.initOwner(pane.getScene().getWindow());
-        stage.setTitle("Nuevo Producto");
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.showAndWait();
-        Sistema.actualizarDatos();
+        abrirVentana("Nueva Producto", "nuevo-producto-view.fxml");
+    }
+
+    @FXML
+    protected void onIntercambiarProductos() throws IOException {
+        abrirVentana("Intercambiar Productos", "intercambiar-productos-view.fxml");
     }
 }

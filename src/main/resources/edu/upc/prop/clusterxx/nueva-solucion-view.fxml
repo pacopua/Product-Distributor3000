@@ -9,7 +9,7 @@
         <columnConstraints>
             <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="16.0" minWidth="16.0" prefWidth="16.0" />
             <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" />
-            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" />
+            <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="16.0" minWidth="16.0" prefWidth="16.0" />
             <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" />
             <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="16.0" minWidth="16.0" prefWidth="16.0" />
         </columnConstraints>

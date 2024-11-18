@@ -30,10 +30,10 @@ public class Sistema {
         FileInputStream fileIn = new FileInputStream(f);
         ObjectInputStream objectIn = new ObjectInputStream(fileIn);
         Estado estado = (Estado) objectIn.readObject();
-        solucion = estado.getSolucion();
         listaProductos = estado.getListaProductos();
         matrizAdyacencia = estado.getMatrizAdyacencia();
         solucion = estado.getSolucion();
+        actualizarDatos();
     }
     public static void exportarEstado(File f) throws IOException {
         Estado estado = new Estado(solucion, listaProductos, matrizAdyacencia);
@@ -44,28 +44,16 @@ public class Sistema {
     public static void importarLista(File f) throws IOException, ClassNotFoundException {
         FileInputStream fileIn = new FileInputStream(f);
         ObjectInputStream objectIn = new ObjectInputStream(fileIn);
-        System.out.println(listaProductos);
-        listaProductos = (ListaProductos) objectIn.readObject();
-        System.out.println(listaProductos);
-        // TODO: expandir matriz para que quepan todos los productos? encogerla si hay menos?
+        Estado estado = (Estado) objectIn.readObject();
+        listaProductos = estado.getListaProductos();
+        matrizAdyacencia = estado.getMatrizAdyacencia();
         actualizarDatos();
     }
     public static void exportarLista(File f) throws IOException {
+        Estado estado = new Estado(new Solucion(listaProductos, 0, 0), listaProductos, matrizAdyacencia);
         FileOutputStream fileOut = new FileOutputStream(f);
         ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
-        objectOut.writeObject(listaProductos);
-    }
-    public static void importarMatriz(File f) throws IOException, ClassNotFoundException {
-        FileInputStream fileIn = new FileInputStream(f);
-        ObjectInputStream objectIn = new ObjectInputStream(fileIn);
-        matrizAdyacencia = (MatrizAdyacencia) objectIn.readObject();
-        // TODO: expandir matriz para que quepan todos los productos? encogerla si hay menos?
-        actualizarDatos();
-    }
-    public static void exportarMatriz(File f) throws IOException {
-        FileOutputStream fileOut = new FileOutputStream(f);
-        ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
-        objectOut.writeObject(matrizAdyacencia);
+        objectOut.writeObject(estado);
     }
     public static void importarSolucion(File f) throws IOException, ClassNotFoundException {
         FileInputStream fileIn = new FileInputStream(f);
