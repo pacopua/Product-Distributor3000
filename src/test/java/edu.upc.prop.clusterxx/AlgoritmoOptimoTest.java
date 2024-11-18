@@ -4,16 +4,14 @@ package edu.upc.prop.clusterxx;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
-
 import static org.junit.Assert.assertTrue;
 
-public class AlgoritmoVorazTest {
+public class AlgoritmoOptimoTest {
     private ListaProductos l;
     private Solucion s;
     private MatrizAdyacencia ma4x4;
     private MatrizAdyacencia ma9x9;
-    private AlgoritmoVoraz av;
+    private AlgoritmoOptimo av;
 
     // TODO: faltan productos de prueba para la solución
     @Before
@@ -34,7 +32,7 @@ public class AlgoritmoVorazTest {
         l = new ListaProductos();
         for (int i = 0; i < 4; i++) l.addProducto(new Producto(Integer.toString(i), 0.));
         s = new Solucion(l, 2, 2);
-        av = new AlgoritmoVoraz(ma4x4);
+        av = new AlgoritmoOptimo(ma4x4);
         s = av.ejecutar(s);
         assertTrue(s.getCalidad() >= 80);
     }
@@ -56,7 +54,7 @@ public class AlgoritmoVorazTest {
         );
         l = new ListaProductos();
         for (int i = 0; i < 9; i++) l.addProducto(new Producto(Integer.toString(i), 0.));
-        av = new AlgoritmoVoraz(ma9x9);
+        av = new AlgoritmoOptimo(ma9x9);
         s = new Solucion(l, 3, 3);
 
         s = av.ejecutar(s);

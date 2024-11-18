@@ -6,7 +6,7 @@ package edu.upc.prop.clusterxx;
 import java.util.Random;
 
 // no haría falta el extends si los cálculos de sinergias estuviesen en matriz de adyacencias
-public class AlgoritmoRapido extends ControladorAlgoritmos {
+public class AlgoritmoRapido extends Algoritmo {
     public AlgoritmoRapido(MatrizAdyacencia m) {
         super(m);
     }

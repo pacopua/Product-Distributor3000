@@ -23,7 +23,7 @@ public class SolucionController {
                 AlgoritmoRapido algo = new AlgoritmoRapido(Sistema.getMatrizAdyacencia());
                 s = algo.ejecutar(s, 1);
             } else if (optima.isSelected()) {
-                AlgoritmoVoraz algo = new AlgoritmoVoraz(Sistema.getMatrizAdyacencia());
+                AlgoritmoOptimo algo = new AlgoritmoOptimo(Sistema.getMatrizAdyacencia());
                 s = algo.ejecutar(s);
             }
             Sistema.setSolucion(s);

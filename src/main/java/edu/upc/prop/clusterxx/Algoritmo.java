@@ -4,10 +4,10 @@
 package edu.upc.prop.clusterxx;
 
 //Renombrado a controlador de algoritmos pq sin los cálculos de sinergias es lo que es chicos guapos.
-public class ControladorAlgoritmos {
+public class Algoritmo {
     protected MatrizAdyacencia matrizAdyacencia;
     
-    public ControladorAlgoritmos(MatrizAdyacencia m) {
+    public Algoritmo(MatrizAdyacencia m) {
         matrizAdyacencia = m;
     }
     

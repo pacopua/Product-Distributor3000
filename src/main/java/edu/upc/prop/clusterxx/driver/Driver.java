@@ -134,7 +134,7 @@ public class Driver {
         int columnas = io.readint();
         Sistema.nuevaSolucion(filas, columnas);
         Solucion s = Sistema.getSolucion();
-        AlgoritmoVoraz av = new AlgoritmoVoraz(Sistema.getMatrizAdyacencia());
+        AlgoritmoOptimo av = new AlgoritmoOptimo(Sistema.getMatrizAdyacencia());
         av.ejecutar(s);
         io.writeln("Algoritmo voraz ejecutado con exito!");
         io.writeln("Ha tardado " + s.getNumPasos() + " pasos en ejecutarse");

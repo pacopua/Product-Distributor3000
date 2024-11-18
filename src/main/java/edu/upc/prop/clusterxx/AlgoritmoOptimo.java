@@ -4,12 +4,12 @@
 package edu.upc.prop.clusterxx;
 
 // no haría falta el extends si los cálculos de sinergias estuviesen en matriz de adyacencias
-public class AlgoritmoVoraz extends ControladorAlgoritmos {
+public class AlgoritmoOptimo extends Algoritmo {
 
     //public int contador = 0;
     //public double best_value = Double.NEGATIVE_INFINITY;
 
-    public AlgoritmoVoraz(MatrizAdyacencia m) {
+    public AlgoritmoOptimo(MatrizAdyacencia m) {
         super(m);
     }
 

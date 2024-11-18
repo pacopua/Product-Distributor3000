@@ -5,15 +5,15 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-public class ControladorAlgoritmosTest {
+public class AlgoritmoTest {
 
-    private ControladorAlgoritmos algoritmo;
+    private Algoritmo algoritmo;
     private MatrizAdyacencia matrizAdyacencia;
 
     @Before
     public void setUp() {
         inicializarMatrizDePrueba();
-        algoritmo = new ControladorAlgoritmos(matrizAdyacencia);
+        algoritmo = new Algoritmo(matrizAdyacencia);
     }
 
     private void inicializarMatrizDePrueba() {
