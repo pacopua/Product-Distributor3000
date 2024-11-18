@@ -41,10 +41,14 @@ public class AlgoritmoRapido extends ControladorAlgoritmos {
                 int aux_i = random.nextInt(0, s.getDistribucion().length - 1);
                 int aux_j = random.nextInt(0, s.getDistribucion()[0].length - 1);
                 while (s.getDistribucion()[aux_i][aux_j] < i && s.getDistribucion()[aux_i][aux_j] != -1) {
-                    aux_i = random.nextInt(0, s.getDistribucion().length - 1);
-                    aux_j = random.nextInt(0, s.getDistribucion()[0].length - 1);
-                    //++aux_j;
-                    //if(aux_i >= matrizAdyacencia.getMatriz().length)
+                    //aux_i = random.nextInt(0, s.getDistribucion().length - 1);
+                    //aux_j = random.nextInt(0, s.getDistribucion()[0].length - 1);
+                    ++aux_j;
+                    if(aux_j >= s.getDistribucion()[0].length) {
+                        aux_j = 0;
+                        ++aux_i;
+                        if(aux_i == s.getDistribucion().length) aux_i = 0;
+                    }
                 }
                 s.getDistribucion()[aux_i][aux_j] = i;
             }

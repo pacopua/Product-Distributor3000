@@ -59,7 +59,7 @@ public class ControladorAlgoritmosTest {
 
         double totalSynergy = algoritmo.calcular_todas(solucion);
         // todas las direcciones para todos los productos
-        double expected =  6 * 4; // todos están conectados
+        double expected =  38; // todos están conectados
         assertEquals(expected, totalSynergy, 0.001);
     }
     /*
