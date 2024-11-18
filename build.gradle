@@ -6,19 +6,15 @@ plugins {
     id 'org.beryx.jlink' version '2.25.0'
 }
 
-group 'edu.upc.prop'
-version '1.0-SNAPSHOT'
-
-repositories {
-    mavenCentral()
-}
-
-ext {
-    junitVersion = '5.9.1'
-}
+group = 'edu.upc.prop.clusterxx'
+version = '1.0-SNAPSHOT'
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
+}
+
+ext {
+    javaMainClass = 'edu.upc.prop.clusterxx.Main'
 }
 
 application {
@@ -26,9 +22,22 @@ application {
     mainClass = 'edu.upc.prop.clusterxx.PropApp'
 }
 
-javafx {
-    version = '17.0.2'
-    modules = ['javafx.controls', 'javafx.fxml']
+jar {
+    manifest {
+        attributes 'Main-Class': javaMainClass
+    }
+}
+
+// Apply a specific Java toolchain to ease working on different environments.
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(22)
+    }
+}
+
+
+repositories {
+    mavenCentral()
 }
 
 dependencies {
@@ -36,8 +45,9 @@ dependencies {
     testImplementation('junit:junit:4.13.1')
 }
 
-test {
-    useJUnitPlatform()
+javafx {
+    version = '17.0.2'
+    modules = ['javafx.controls', 'javafx.fxml']
 }
 
 jlink {
