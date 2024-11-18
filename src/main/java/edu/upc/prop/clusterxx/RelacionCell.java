@@ -21,10 +21,6 @@ public class RelacionCell extends ListCell<Pair<Producto, Producto>> {
     public RelacionCell() {
         super();
 
-        setOnMouseClicked(event -> {
-            //do something
-        });
-
         pane = new GridPane();
         pane.prefWidthProperty().bind(this.widthProperty().subtract(14));
 

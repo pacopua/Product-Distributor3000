@@ -2,14 +2,12 @@ package edu.upc.prop.clusterxx;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.stage.Stage;
 import javafx.util.converter.DefaultStringConverter;
 import javafx.util.converter.DoubleStringConverter;
 
-import java.util.Optional;
 import java.util.function.UnaryOperator;
 
 public class ProductoController {
@@ -73,8 +71,6 @@ public class ProductoController {
             for (int j = 0; j < Sistema.getMatrizAdyacencia().getNumProductos(); j++)
                 matrizNueva.modificar_sinergias(i, j, Sistema.getMatrizAdyacencia().getSinergia(i, j));
         Sistema.setMatrizAdyacencia(matrizNueva);
-
-        Sistema.actualizarDatos();
 
         ((Stage) nombre.getScene().getWindow()).close();
     }

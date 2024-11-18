@@ -28,12 +28,12 @@
         <Label text="Columnas" GridPane.columnIndex="3" GridPane.rowIndex="1" />
          <Spinner fx:id="filas" editable="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
             <valueFactory>
-                <SpinnerValueFactory.IntegerSpinnerValueFactory max="10" min="1" />
+                <SpinnerValueFactory.IntegerSpinnerValueFactory max="2147483647" min="1" />
             </valueFactory>
         </Spinner>
          <Spinner fx:id="columnas" editable="true" GridPane.columnIndex="3" GridPane.rowIndex="2">
              <valueFactory>
-                 <SpinnerValueFactory.IntegerSpinnerValueFactory max="999999" min="1" />
+                 <SpinnerValueFactory.IntegerSpinnerValueFactory max="2147483647" min="1" />
              </valueFactory>
          </Spinner>
          <Separator minHeight="32.0" prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="3" />

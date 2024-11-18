@@ -66,7 +66,7 @@ public class ProductoCell extends ListCell<Producto> {
                         return;
                     }
                     Sistema.getListaProductos().getProducto(id).get().setNombre(newValue);
-                    Sistema.actualizarDatos();
+                    PropController.actualizarDatos();
                 }
         );
         pane.add(nombre, 0, 0);
@@ -83,7 +83,7 @@ public class ProductoCell extends ListCell<Producto> {
         actionBtn.setOnAction(event -> {
             Sistema.getListaProductos().eliminarProducto(id);
             Sistema.getMatrizAdyacencia().eliminarProducto(id);
-            Sistema.actualizarDatos();
+            PropController.actualizarDatos();
         });
         pane.add(actionBtn, 3, 0);
     }
