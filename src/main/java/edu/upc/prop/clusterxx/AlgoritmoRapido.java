@@ -71,13 +71,13 @@ public class AlgoritmoRapido extends ControladorAlgoritmos {
      */
     private Solucion hillClimbing(Solucion currentSolution) {
         Solucion bestSolution = copiar_solucion(currentSolution);
-        int iterations = 0;
+        //int iterations = 0;
         //int attemptsWithoutImprovement = 0;
         boolean improved = true;
 
         while (improved) {//iterations < MAX_ITERATIONS && attemptsWithoutImprovement < MAX_ATTEMPTS) {
             improved = false;
-            ++iterations;
+            //++iterations;
             //Solucion base_solution = copiar_solucion(currentSolution);
             for(int i = 0; i < currentSolution.getDistribucion().length; ++i) {
                 for(int j = 0; j < currentSolution.getDistribucion()[0].length; ++j) {
