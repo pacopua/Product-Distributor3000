@@ -182,12 +182,28 @@ public class Solucion implements Serializable, Cloneable {
         this.numPasos = numPasos;
     }
 
+    /**
+     * Devuelve si la solución está completada
+     * @return true si la solución está completada, false en caso contrario
+     */
     public boolean estaCompletado() {
         return completado;
     }
 
+    /**
+     * Establece si la solución está completada
+     * @param completado true si la solución está completada, false en caso contrario
+     */
     public void setCompletado(boolean completado) {
         this.completado = completado;
+    }
+
+    /**
+     * Devuelve la lista de productos
+     * @return Lista de productos
+     */
+    public ListaProductos getListaProductos() {
+        return productos;
     }
 
     /**
