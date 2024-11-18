@@ -1,4 +1,3 @@
-//package src.main.java.edu.upc.prop.clusterxx;   <- marcad src como root para no poner el path entero -Marcel
 package edu.upc.prop.clusterxx;
 
 import java.io.Serializable;
@@ -93,6 +92,25 @@ public class Solucion implements Serializable, Cloneable {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Busca la posicion de un producto en la solución
+     * @param id ID del producto
+     * @return Vector de tamaño 2 con la fila del producto en la posición 0 y la columna del producto en la posición 1
+     */
+    public int[] buscar_producto(int id) {
+        int[] pos = new int[2];
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
+                if (distribucion[i][j] == id) {
+                    pos[0] = i;
+                    pos[1] = j;
+                    return pos;
+                }
+            }
+        }
+        return new int[] {-1, -1};
     }
 
     /**
