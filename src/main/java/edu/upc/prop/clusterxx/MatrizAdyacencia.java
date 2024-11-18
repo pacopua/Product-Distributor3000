@@ -31,9 +31,7 @@ public class MatrizAdyacencia implements Serializable {
     public void anadirProducto() {
         double[][] nueva_matriz = new double[numProductos + 1][numProductos + 1];
         for (int i = 0; i < numProductos; i++) {
-            for (int j = 0; j < numProductos; j++) {
-                nueva_matriz[i][j] = matriz[i][j];
-            }
+            System.arraycopy(matriz[i], 0, nueva_matriz[i], 0, numProductos);
         }
         matriz = nueva_matriz;
         numProductos++;
@@ -61,6 +59,7 @@ public class MatrizAdyacencia implements Serializable {
                 }
             }
             matriz = nueva_matriz;
+            numProductos--;
             return true;
         }
         return false;

@@ -44,28 +44,34 @@ public class SolucionTest {
 
         Producto[][] distribucion = sol.getDistribucionProductos();
         // Nada deberia cambiar
-        assertEquals(productos.getProducto(0), distribucion[0][0]);
-        assertEquals(productos.getProducto(1), distribucion[0][1]);
-        assertEquals(productos.getProducto(2), distribucion[0][2]);
-        assertEquals(productos.getProducto(3), distribucion[1][0]);
-        assertEquals(productos.getProducto(4), distribucion[1][1]);
-        assertEquals(productos.getProducto(5), distribucion[1][2]);
-        assertEquals(productos.getProducto(6), distribucion[2][0]);
-        assertEquals(productos.getProducto(7), distribucion[2][1]);
-        assertEquals(productos.getProducto(8), distribucion[2][2]);
+        assertEquals(productos.getProducto(1).orElse(null), distribucion[0][0]);
+        assertEquals(productos.getProducto(2).orElse(null), distribucion[0][1]);
+        assertEquals(productos.getProducto(3).orElse(null), distribucion[0][2]);
+        assertEquals(productos.getProducto(4).orElse(null), distribucion[1][0]);
+        assertEquals(productos.getProducto(5).orElse(null), distribucion[1][1]);
+        assertEquals(productos.getProducto(6).orElse(null), distribucion[1][2]);
+        assertEquals(productos.getProducto(7).orElse(null), distribucion[2][0]);
+        assertEquals(productos.getProducto(8).orElse(null), distribucion[2][1]);
+        assertEquals(productos.getProducto(9).orElse(null), distribucion[2][2]);
 
         // Casos simples
         assertTrue(sol.intercambiar_productos(0, 0, 0, 1));
-        assertEquals(productos.getProducto(1), distribucion[0][0]);
-        assertEquals(productos.getProducto(0), distribucion[0][1]);
+        distribucion = sol.getDistribucionProductos();
+        assertEquals(productos.getProducto(2).orElse(null), distribucion[0][0]);
+        assertEquals(productos.getProducto(1).orElse(null), distribucion[0][1]);
         assertTrue(sol.intercambiar_productos(0, 0, 0, 1));
-        assertEquals(productos.getProducto(0), distribucion[0][0]);
-        assertEquals(productos.getProducto(1), distribucion[0][1]);
+        distribucion = sol.getDistribucionProductos();
+        assertEquals(productos.getProducto(1).orElse(null), distribucion[0][0]);
+        assertEquals(productos.getProducto(2).orElse(null), distribucion[0][1]);
         assertTrue(sol.intercambiar_productos(0, 0, 2, 2));
-        assertEquals(productos.getProducto(8), distribucion[0][0]);
-        assertEquals(productos.getProducto(0), distribucion[2][2]);
+        distribucion = sol.getDistribucionProductos();
+        assertEquals(productos.getProducto(9).orElse(null), distribucion[0][0]);
+        assertEquals(productos.getProducto(1).orElse(null), distribucion[2][2]);
     }
 
+    /**
+     * Test de la funcion equals
+     */
     @Test
     public void testEquals() throws CloneNotSupportedException {
         Solucion aux = sol.clone();
@@ -80,5 +86,16 @@ public class SolucionTest {
         aux.setCalidad(sol.getCalidad());
         aux.setNumPasos(1);
         assertNotEquals(sol, aux);
+    }
+
+    /**
+     * Test de la funcion clone
+     */
+    @Test
+    public void testClone() throws CloneNotSupportedException {
+        Solucion aux = sol.clone();
+        assertEquals(sol, aux);
+        assertNotSame(sol, aux);
+        assertNotSame(sol.getDistribucionProductos(), aux.getDistribucionProductos());
     }
 }
