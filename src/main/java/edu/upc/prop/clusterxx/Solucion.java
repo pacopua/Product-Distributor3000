@@ -216,11 +216,13 @@ public class Solucion implements Serializable, Cloneable {
      */
     @Override
     protected Solucion clone() throws CloneNotSupportedException {
-        Solucion solucion = (Solucion) super.clone();
-        // implement clone function
-        solucion.introducir_numero_columnas_i_filas(filas, columnas);
+        Solucion solucion = new Solucion(productos);
+        solucion.distribucion = new int[this.filas][this.columnas];
+        solucion.filas = this.filas;
+        solucion.columnas = this.columnas;
         solucion.setCalidad(calidad);
         solucion.setNumPasos(numPasos);
+        solucion.setCompletado(completado);
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
                 solucion.distribucion[i][j] = distribucion[i][j];

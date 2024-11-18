@@ -42,31 +42,31 @@ public class SolucionTest {
         // Caso en que los productos son iguales
         assertFalse(sol.intercambiar_productos(0, 0, 0, 0));
 
-        Producto[][] distribucion = sol.getDistribucionProductos();
+        int[][] distribucion = sol.getDistribucion();
         // Nada deberia cambiar
-        assertEquals(productos.getProducto(1).orElse(null), distribucion[0][0]);
-        assertEquals(productos.getProducto(2).orElse(null), distribucion[0][1]);
-        assertEquals(productos.getProducto(3).orElse(null), distribucion[0][2]);
-        assertEquals(productos.getProducto(4).orElse(null), distribucion[1][0]);
-        assertEquals(productos.getProducto(5).orElse(null), distribucion[1][1]);
-        assertEquals(productos.getProducto(6).orElse(null), distribucion[1][2]);
-        assertEquals(productos.getProducto(7).orElse(null), distribucion[2][0]);
-        assertEquals(productos.getProducto(8).orElse(null), distribucion[2][1]);
-        assertEquals(productos.getProducto(9).orElse(null), distribucion[2][2]);
+        assertEquals(1, distribucion[0][0]);
+        assertEquals(2, distribucion[0][1]);
+        assertEquals(3, distribucion[0][2]);
+        assertEquals(4, distribucion[1][0]);
+        assertEquals(5, distribucion[1][1]);
+        assertEquals(6, distribucion[1][2]);
+        assertEquals(7, distribucion[2][0]);
+        assertEquals(8, distribucion[2][1]);
+        assertEquals(9, distribucion[2][2]);
 
         // Casos simples
         assertTrue(sol.intercambiar_productos(0, 0, 0, 1));
-        distribucion = sol.getDistribucionProductos();
-        assertEquals(productos.getProducto(2).orElse(null), distribucion[0][0]);
-        assertEquals(productos.getProducto(1).orElse(null), distribucion[0][1]);
+        distribucion = sol.getDistribucion();
+        assertEquals(2, distribucion[0][0]);
+        assertEquals(1, distribucion[0][1]);
         assertTrue(sol.intercambiar_productos(0, 0, 0, 1));
-        distribucion = sol.getDistribucionProductos();
-        assertEquals(productos.getProducto(1).orElse(null), distribucion[0][0]);
-        assertEquals(productos.getProducto(2).orElse(null), distribucion[0][1]);
+        distribucion = sol.getDistribucion();
+        assertEquals(1, distribucion[0][0]);
+        assertEquals(2, distribucion[0][1]);
         assertTrue(sol.intercambiar_productos(0, 0, 2, 2));
-        distribucion = sol.getDistribucionProductos();
-        assertEquals(productos.getProducto(9).orElse(null), distribucion[0][0]);
-        assertEquals(productos.getProducto(1).orElse(null), distribucion[2][2]);
+        distribucion = sol.getDistribucion();
+        assertEquals(9, distribucion[0][0]);
+        assertEquals(1, distribucion[2][2]);
     }
 
     /**
