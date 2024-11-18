@@ -45,9 +45,9 @@ public class ControladorAlgoritmos {
         if(i < s.getDistribucion().length - 1) {
             suma += matrizAdyacencia.getSinergia(s.getDistribucion()[i][j], s.getDistribucion()[i+1][j]);
             if(j == 0) {
-                if (i % 2 != 0)
+                if (i % 2 != 0) //impar
                     suma += matrizAdyacencia.getSinergia(s.getDistribucion()[i][j], s.getDistribucion()[i + 1][j]);
-                else if (i != 0)
+                else if (i != 0) //par y dif a 0
                     suma += matrizAdyacencia.getSinergia(s.getDistribucion()[i][j], s.getDistribucion()[i - 1][j]);
             }
             if(j == s.getDistribucion()[0].length - 1) {
@@ -60,9 +60,13 @@ public class ControladorAlgoritmos {
         if(i == 0 && j == 0) {
             suma += matrizAdyacencia.getSinergia(s.getDistribucion()[i][j], s.getDistribucion()[s.getDistribucion().length-1][s.getDistribucion()[0].length-1]);
         }
+        else if(i == s.getDistribucion().length-1 && j == 0) {
+            if(i%2 == 0) //par
+                suma += matrizAdyacencia.getSinergia(s.getDistribucion()[i][j], s.getDistribucion()[i - 1][j]);
+        }
         else if(i == s.getDistribucion().length-1 && j == s.getDistribucion()[0].length-1) {
             suma += matrizAdyacencia.getSinergia(s.getDistribucion()[i][j], s.getDistribucion()[0][0]);
-            if (i % 2 == 0)
+            if (i % 2 != 0)
                 suma += matrizAdyacencia.getSinergia(s.getDistribucion()[i][j], s.getDistribucion()[i - 1][j]);
         }
         if(j < s.getDistribucion()[0].length - 1) {
