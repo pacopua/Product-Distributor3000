@@ -37,9 +37,7 @@ public class AlgoritmoRapidoTest {
 
         ar = new AlgoritmoRapido(ma4x4);
         s = ar.ejecutar(s, 30);
-        System.out.println("Empece");
         assertTrue(s.getCalidad() >= 80);
-        System.out.println("Acabe");
     }
 
     @Test
