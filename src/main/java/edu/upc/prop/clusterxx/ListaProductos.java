@@ -1,16 +1,19 @@
 //package src.main.java.edu.upc.prop.clusterxx;   <- marcad src como root para no poner el path entero -Marcel
 package edu.upc.prop.clusterxx;
 
+/*
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
+*/
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.lang.reflect.Type;
-import com.google.gson.reflect.TypeToken;
+
+//import java.lang.reflect.Type;
+//import com.google.gson.reflect.TypeToken;
 
 /**
  * Controlador de los productos, contiene una lista de todos los productos.
