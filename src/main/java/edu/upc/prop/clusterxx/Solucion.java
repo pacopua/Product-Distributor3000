@@ -10,6 +10,7 @@ public class Solucion implements Serializable, Cloneable {
     private int numPasos;
     private int filas;
     private int columnas;
+    private boolean completado;
 
     /**
      * Constructor de la clase Solucion
@@ -18,6 +19,7 @@ public class Solucion implements Serializable, Cloneable {
         this.calidad = 0;
         this.numPasos = 0;
         this.productos = productos.clone();
+        completado = false;
     }
 
     /**
@@ -30,6 +32,7 @@ public class Solucion implements Serializable, Cloneable {
         this.numPasos = 0;
         this.productos = productos.clone();
         this.introducir_numero_columnas_i_filas(files, columnes);
+        completado = false;
     }
 
     /**
@@ -49,6 +52,7 @@ public class Solucion implements Serializable, Cloneable {
                 distribucion[i][j] = matriz[i][j];
             }
         }
+        completado = false;
     }
 
     /**
@@ -56,7 +60,10 @@ public class Solucion implements Serializable, Cloneable {
      * @param files Número de filas
      * @param columnes Número de columnas
      */
-    public void introducir_numero_columnas_i_filas(int files, int columnes) {
+    public void introducir_numero_columnas_i_filas(int files, int columnes) throws IllegalArgumentException {
+        if (productos.getCantidadProductos() > files * columnes) {
+            throw new IllegalArgumentException("No hay suficientes productos para llenar la matriz");
+        }
         this.distribucion = new int[files][columnes];
         this.filas = files;
         this.columnas = columnes;
@@ -173,6 +180,14 @@ public class Solucion implements Serializable, Cloneable {
      */
     public void setNumPasos(int numPasos) {
         this.numPasos = numPasos;
+    }
+
+    public boolean estaCompletado() {
+        return completado;
+    }
+
+    public void setCompletado(boolean completado) {
+        this.completado = completado;
     }
 
     /**

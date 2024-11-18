@@ -191,7 +191,9 @@ public class ListaProductos implements Serializable, Cloneable {
 
     @Override
     public String toString() {
-        return "el principio se aleja\uD83D\uDC32";
+        return "ListaProductos{" +
+                "productos=" + productos +
+                '}';
     }
 }
 
