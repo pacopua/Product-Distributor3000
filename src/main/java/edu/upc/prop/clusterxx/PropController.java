@@ -1,15 +1,21 @@
 package edu.upc.prop.clusterxx;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -21,13 +27,20 @@ public class PropController {
     @FXML
     private ListView relacionesView;
     @FXML
-    private TableView solucionView;
+    private TableView<Producto[]> solucionView;
     @FXML
     private Label calidad;
     @FXML
     private Label pasos;
     @FXML
     private Button intercambiar;
+    @FXML
+    HBox calidadBox;
+    @FXML
+    HBox pasosBox;
+    private static ObservableList<Producto> observableProducts = FXCollections.observableArrayList();
+    private static ObservableList<Pair<Producto, Producto>> observableProductPairs = FXCollections.observableArrayList();
+    private static ObservableList<Producto[]> observableSolutionProducts = FXCollections.observableArrayList();
 
     ButtonType si = new ButtonType("Sí", ButtonBar.ButtonData.OK_DONE);
     ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
@@ -51,9 +64,10 @@ public class PropController {
     @FXML
     private void initialize() {
         productosView.setCellFactory(producto -> new ProductoCell());
-        productosView.setItems(Sistema.observableProducts);
+        productosView.setItems(observableProducts);
         relacionesView.setCellFactory(productPair -> new RelacionCell());
-        relacionesView.setItems(Sistema.observableProductPairs);
+        relacionesView.setItems(observableProductPairs);
+        solucionView.setItems(observableSolutionProducts);
     }
 
     private boolean ventanaConfirmar() {
@@ -113,6 +127,8 @@ public class PropController {
         if (in == null) return;
         try {
             Sistema.importarEstado(in);
+            actualizarDatos();
+            actualizarSolucion();
         } catch (IOException e) {
             ventanaErrorArchivo();
         } catch (ClassNotFoundException e) {
@@ -136,6 +152,7 @@ public class PropController {
         if (in == null) return;
         try {
             Sistema.importarLista(in);
+            actualizarDatos();
         } catch (IOException e) {
             ventanaErrorArchivo();
         } catch (ClassNotFoundException e) {
@@ -152,6 +169,7 @@ public class PropController {
             ventanaErrorExportar();
         }
     }
+    /*
     @FXML
     protected void onImportarSolucion() {
         if (!ventanaConfirmar()) return;
@@ -159,12 +177,14 @@ public class PropController {
         if (in == null) return;
         try {
             Sistema.importarSolucion(in);
+            actualizarSolucion();
         } catch (IOException e) {
             ventanaErrorArchivo();
         } catch (ClassNotFoundException e) {
             ventanaErrorInternoArchivo();
         }
     }
+
     @FXML
     protected void onExportarSolucion() {
         File out = abrirFileChooser(false,"result.solution", solucionFilter);
@@ -175,6 +195,7 @@ public class PropController {
             ventanaErrorExportar();
         }
     }
+    */
     @FXML
     protected boolean onSalir() {
         // preguntamos si quiere guardar antes de salir
@@ -227,17 +248,59 @@ public class PropController {
     protected void onNuevaSolucion() throws IOException {
         if (!ventanaConfirmar()) return;
         abrirVentana("Nueva Solución", "nueva-solucion-view.fxml");
-        calidad.setText(Double.toString(Sistema.getSolucion().getCalidad()));
-        pasos.setText(Integer.toString(Sistema.getSolucion().getNumPasos()));
+        actualizarSolucion();
+    }
+
+    public static void actualizarDatos() {
+        observableProducts.setAll(Sistema.getListaProductos().getListaProductos());
+        ArrayList<Pair<Producto, Producto>> productPairs = new ArrayList<>();
+        for (Producto p1 : Sistema.getListaProductos().getListaProductos())
+            for (Producto p2 : Sistema.getListaProductos().getListaProductos())
+                if(Sistema.getListaProductos().getListaProductos().indexOf(p1) < Sistema.getListaProductos().getListaProductos().indexOf(p2)) productPairs.add(new Pair(p1, p2));
+        observableProductPairs.setAll(productPairs);
+    }
+
+    private void actualizarSolucion() {
+        calidadBox.setDisable(true);
+        pasosBox.setDisable(true);
+        intercambiar.setDisable(true);
+        solucionView.getColumns().clear();
+
+        if (Sistema.getSolucion().estaCompletado()) {
+            calidadBox.setDisable(false);
+            pasosBox.setDisable(false);
+            intercambiar.setDisable(false);
+            calidad.setText(Double.toString(Sistema.getSolucion().getCalidad()));
+            pasos.setText(Integer.toString(Sistema.getSolucion().getNumPasos()));
+
+            for (int i = 0; i < Sistema.getSolucion().getDistribucion()[0].length; i++) {
+                TableColumn<Producto[], String> col = new TableColumn<>(Integer.toString(i + 1));
+                int index = i;
+                col.setCellValueFactory(param -> {
+                            Producto prod = param.getValue()[index];
+                            if (prod == null) return new SimpleStringProperty("");
+                            else return new SimpleStringProperty(prod.getNombre());
+                        }
+                );
+                solucionView.getColumns().add(col);
+            }
+
+            observableSolutionProducts = FXCollections.observableArrayList();
+            for (int i = 0; i < Sistema.getSolucion().getDistribucion().length; i++)
+                observableSolutionProducts.add(Sistema.getSolucion().getDistribucionProductos()[i]);
+            solucionView.setItems(observableSolutionProducts);
+        }
     }
 
     @FXML
     protected void onNuevoProducto() throws IOException {
         abrirVentana("Nueva Producto", "nuevo-producto-view.fxml");
+        actualizarDatos();
     }
 
     @FXML
     protected void onIntercambiarProductos() throws IOException {
         abrirVentana("Intercambiar Productos", "intercambiar-productos-view.fxml");
+        actualizarSolucion();
     }
 }

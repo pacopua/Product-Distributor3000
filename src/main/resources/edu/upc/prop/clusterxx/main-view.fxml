@@ -28,7 +28,7 @@
                   <Button mnemonicParsing="false" onAction="#onNuevoProducto" text="Nuevo Producto" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                   <Button mnemonicParsing="false" onAction="#onImportarLista" text="Importar Productos" GridPane.columnIndex="2" GridPane.rowIndex="5" />
                   <Button mnemonicParsing="false" onAction="#onExportarLista" text="Exportar Productos" GridPane.columnIndex="3" GridPane.rowIndex="5" />
-                  <ListView fx:id="productosView" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1" GridPane.rowSpan="3" />
+                  <ListView fx:id="productosView" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.rowSpan="3" GridPane.vgrow="ALWAYS" />
                </children>
             </GridPane>
          </content>
@@ -79,16 +79,16 @@
                </rowConstraints>
                <children>
                   <Button mnemonicParsing="false" onAction="#onNuevaSolucion" text="Nueva Solución" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                  <Button mnemonicParsing="false" onAction="#onImportarSolucion" text="Importar Solución" GridPane.columnIndex="2" GridPane.rowIndex="7" />
-                  <Button mnemonicParsing="false" onAction="#onExportarSolucion" text="Exportar Solución" GridPane.columnIndex="3" GridPane.rowIndex="7" />
-                  <TableView fx:id="solucionView" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="3" GridPane.rowSpan="3" />
-                  <HBox alignment="CENTER" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <!--Button mnemonicParsing="false" onAction="#onImportarSolucion" text="Importar Solución" GridPane.columnIndex="2" GridPane.rowIndex="7" /-->
+                  <!--Button mnemonicParsing="false" onAction="#onExportarSolucion" text="Exportar Solución" GridPane.columnIndex="3" GridPane.rowIndex="7" /-->
+                  <TableView fx:id="solucionView" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.rowSpan="3" GridPane.vgrow="ALWAYS" />
+                  <HBox fx:id="calidadBox" alignment="CENTER" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
                         <Label text="Calidad: " />
                         <Label fx:id="calidad" text="0.0" />
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" disable="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                  <HBox fx:id="pasosBox" alignment="CENTER" disable="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
                      <children>
                         <Label text="Pasos: " />
                         <Label fx:id="pasos" text="0" />

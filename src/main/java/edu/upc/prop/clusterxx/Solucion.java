@@ -75,7 +75,8 @@ public class Solucion implements Serializable, Cloneable {
     public void imprimir_distribucion() {
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
-                System.out.print(productos.getProducto(distribucion[i][j]) + " ");
+                if (distribucion[i][j] != -1) System.out.print(productos.getProducto(distribucion[i][j]) + " ");
+                else System.out.print("NULL ");
             }
             System.out.println();
         }
@@ -136,7 +137,9 @@ public class Solucion implements Serializable, Cloneable {
         Producto[][] distribucionProductos = new Producto[filas][columnas];
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
-                distribucionProductos[i][j] = productos.getProducto(distribucion[i][j]).orElse(null);
+                Producto prod = null;
+                if (distribucion[i][j] != -1) prod = productos.getProducto(distribucion[i][j]).orElse(null);
+                distribucionProductos[i][j] = prod;
             }
         }
         return distribucionProductos;
