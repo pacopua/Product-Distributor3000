@@ -86,6 +86,7 @@ public class MatrizAdyacencia implements Serializable {
      * @return Sinergia entre los productos, -1 si son el mismo producto
      */
     public double getSinergia(int p1, int p2) {
+        if(p1 == -1 || p2 == -1) return 0;
         if (p1 != p2
                 && 0 <= p1
                 && p1 < numProductos

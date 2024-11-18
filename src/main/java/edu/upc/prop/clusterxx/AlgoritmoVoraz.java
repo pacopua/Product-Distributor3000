@@ -6,8 +6,8 @@ package edu.upc.prop.clusterxx;
 // no haría falta el extends si los cálculos de sinergias estuviesen en matriz de adyacencias
 public class AlgoritmoVoraz extends ControladorAlgoritmos {
 
-    public int contador = 0;
-    public double best_value = Double.NEGATIVE_INFINITY;
+    //public int contador = 0;
+    //public double best_value = Double.NEGATIVE_INFINITY;
 
     public AlgoritmoVoraz(MatrizAdyacencia m) {
         super(m);
@@ -33,11 +33,11 @@ public class AlgoritmoVoraz extends ControladorAlgoritmos {
             for (int j = 0; j < s.getDistribucion()[0].length; ++j) {
                 if(x < matrizAdyacencia.getMatriz().length) {
                     s.getDistribucion()[i][j] = x;
-                    s.setCalidad(s.getCalidad() + calcular_sinergias(s, i, j));
                     ++x;
                 }
             }
         }
+        s.setCalidad(calcular_todas(s));
         s.imprimir_distribucion();
         Solucion resultado = recursive_calcular(s, 0, 0);
         calcular_todas(resultado);
@@ -52,8 +52,8 @@ public class AlgoritmoVoraz extends ControladorAlgoritmos {
      */
     public Solucion recursive_calcular(Solucion s, int y, int x) {
         s.setNumPasos(s.getNumPasos() + 1);
-        ++contador;
-        System.out.println("Contador = " + contador);
+        //++contador;
+        //System.out.println("Contador = " + contador);
         Solucion best_solution = s;
         if(y >= s.getDistribucion().length-1 && x >= s.getDistribucion()[0].length-1) return best_solution;
         else if(x == s.getDistribucion()[0].length-1) {
@@ -71,9 +71,9 @@ public class AlgoritmoVoraz extends ControladorAlgoritmos {
                 aux.intercambiar_productos(i, j, y, x);
                 aux.setCalidad(calcular_todas(aux));
                 //System.out.println("la calidad es:" + aux.getCalidad());
-                System.out.println("alternativa calidad es: " + calcular_todas(aux));
-                System.out.println("numero de pasos: " + aux.getNumPasos());
-                System.out.println("x: " + x + " y: " + y);
+                //System.out.println("alternativa calidad es: " + calcular_todas(aux));
+                //System.out.println("numero de pasos: " + aux.getNumPasos());
+                //System.out.println("x: " + x + " y: " + y);
                 aux = recursive_calcular(aux, y, x+1);
                 if (aux.getCalidad() > best_solution.getCalidad()) best_solution = aux;
                 else if(aux.getCalidad() == best_solution.getCalidad()) {

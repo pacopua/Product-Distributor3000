@@ -23,7 +23,6 @@ public class AlgoritmoVorazTest {
 
     @Test
     public void testAlgoritmoVoraz4x4() {
-        av = new AlgoritmoVoraz(ma4x4);
         ma4x4 = new MatrizAdyacencia(
                 new double[][] {
                         { 0, 10,  15,  20 },
@@ -35,14 +34,13 @@ public class AlgoritmoVorazTest {
         l = new ListaProductos();
         for (int i = 0; i < 4; i++) l.addProducto(new Producto(Integer.toString(i), 0.));
         s = new Solucion(l, 2, 2);
-
+        av = new AlgoritmoVoraz(ma4x4);
         s = av.ejecutar(s);
         assertTrue(s.getCalidad() >= 80);
     }
 
     @Test
     public void testAlgoritmoRapido9x9() {
-        av = new AlgoritmoVoraz(ma9x9);
         ma9x9 = new MatrizAdyacencia(
                 new double[][] {
                         {  0,29,82,46,68,52,72,42,51},
@@ -58,6 +56,7 @@ public class AlgoritmoVorazTest {
         );
         l = new ListaProductos();
         for (int i = 0; i < 9; i++) l.addProducto(new Producto(Integer.toString(i), 0.));
+        av = new AlgoritmoVoraz(ma9x9);
         s = new Solucion(l, 3, 3);
 
         s = av.ejecutar(s);
