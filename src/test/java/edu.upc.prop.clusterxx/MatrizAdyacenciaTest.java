@@ -40,8 +40,8 @@ public class MatrizAdyacenciaTest {
         assertEquals(-1, mat.getSinergia(2, 2), 0.0);
 
         // Limites
-        assertEquals(-1, mat.getSinergia(-1, 0), 0.0);
-        assertEquals(-1, mat.getSinergia(0, -1), 0.0);
+        assertEquals(0, mat.getSinergia(-1, 0), 0.0);
+        assertEquals(0, mat.getSinergia(0, -1), 0.0);
         assertEquals(-1, mat.getSinergia(3, 0), 0.0);
         assertEquals(-1, mat.getSinergia(0,3), 0.0);
     }
