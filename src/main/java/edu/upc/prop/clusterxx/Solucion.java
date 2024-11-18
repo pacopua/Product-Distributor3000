@@ -27,7 +27,7 @@ public class Solucion implements Serializable, Cloneable {
      * @param files Número de filas de la solución
      * @param columnes Número de columnas de la solución
      */
-    public Solucion(ListaProductos productos, int files, int columnes) {
+    public Solucion(ListaProductos productos, int files, int columnes) throws IllegalArgumentException {
         this.calidad = 0;
         this.numPasos = 0;
         this.productos = productos.clone();
@@ -39,7 +39,7 @@ public class Solucion implements Serializable, Cloneable {
      * Constructor de la clase Solucion
      * @param matriz Matriz de enteros con la distribución de la solución
      */
-    public Solucion(ListaProductos productos, int[][] matriz) {
+    public Solucion(ListaProductos productos, int[][] matriz) throws IllegalArgumentException {
         if (matriz.length == 0) {
             throw new IllegalArgumentException("La matriz no puede estar vacía");
         }
