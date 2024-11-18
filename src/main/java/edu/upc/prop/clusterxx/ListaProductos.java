@@ -18,9 +18,9 @@ import com.google.gson.reflect.TypeToken;
  */
 public class ListaProductos implements Serializable, Cloneable {
     private ArrayList<Producto> productos;
-    private static final Gson gson = new GsonBuilder()
+    /*private static final Gson gson = new GsonBuilder()
             .setPrettyPrinting()
-            .create();
+            .create();*/
 
     /**
      * Constructora, el estado inicial es una lista vacía.
@@ -37,10 +37,11 @@ public class ListaProductos implements Serializable, Cloneable {
         productos.add(producto);
     }
 
-    /**
+    /*
      * Determina el tipo de archivo y carga los datos.
      * @param nombreArchivo el nombre del archivo.
      */
+    /* Gestión de archivos para más adelante
     public void ImportarLista(String nombreArchivo) {
         try {
             String extension = nombreArchivo.substring(nombreArchivo.lastIndexOf(".") + 1).toLowerCase();
@@ -75,7 +76,7 @@ public class ListaProductos implements Serializable, Cloneable {
      * @param delimitador delimitador.
      * @return lista de productos cargada desde el archivo.
      * @throws IOException en caso de error al leer el archivo.
-     */
+     *
     private List<Producto> cargarDesdeArchivoDelimitado(String nombreArchivo, String delimitador) throws IOException {
         List<Producto> nuevosProductos = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(nombreArchivo))) {
@@ -98,7 +99,7 @@ public class ListaProductos implements Serializable, Cloneable {
      * @param nombreArchivo nombre del archivo.
      * @return lista de productos cargada desde el JSON.
      * @throws IOException en caso de error al leer el archivo.
-     */
+     *
     private List<Producto> cargarDesdeJSON(String nombreArchivo) throws IOException {
         try (Reader reader = new FileReader(nombreArchivo)) {
             Gson gson = new Gson();
@@ -112,7 +113,7 @@ public class ListaProductos implements Serializable, Cloneable {
      * Exports the product list to a JSON file
      * @param nombreArchivo the path and name of the file to create
      * @throws IOException if there's an error writing the file
-     */
+     *
     public void exportarAJSON(String nombreArchivo) throws IOException {
         try (FileWriter writer = new FileWriter(nombreArchivo)) {
             gson.toJson(productos, writer);
@@ -122,7 +123,7 @@ public class ListaProductos implements Serializable, Cloneable {
     /**
      * Converts the product list to a JSON string
      * @return JSON string representation of the product list
-     */
+     *
     public String toJSON() {
         return gson.toJson(productos);
     }
@@ -131,7 +132,7 @@ public class ListaProductos implements Serializable, Cloneable {
      * Exports the product list to a JSON file with error handling
      * @param nombreArchivo the path and name of the file to create
      * @return true if export was successful, false otherwise
-     */
+     *
     public boolean exportarAJSONConManejodeErrores(String nombreArchivo) {
         try {
             exportarAJSON(nombreArchivo);
@@ -141,7 +142,7 @@ public class ListaProductos implements Serializable, Cloneable {
             return false;
         }
     }
-
+    */
     /**
      * Devuelve el tamaño de la lista
      * @return cantidad de productos.
