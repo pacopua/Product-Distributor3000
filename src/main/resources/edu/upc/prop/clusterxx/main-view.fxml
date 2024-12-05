@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<TabPane fx:id="pane" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.upc.prop.clusterxx.PropController">
+<TabPane fx:id="pane" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.upc.prop.clusterxx.PropController">
    <tabs>
       <Tab text="Productos">
          <content>
@@ -25,9 +25,9 @@
                   <RowConstraints maxHeight="16.0" minHeight="16.0" prefHeight="16.0" valignment="CENTER" vgrow="NEVER" />
                </rowConstraints>
                <children>
-                  <Button mnemonicParsing="false" onAction="#onNuevoProducto" text="Nuevo Producto" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                  <Button mnemonicParsing="false" onAction="#onImportarLista" text="Importar Productos" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-                  <Button mnemonicParsing="false" onAction="#onExportarLista" text="Exportar Productos" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+                  <Button onAction="#onNuevoProducto" text="_Nuevo Producto" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <Button onAction="#onImportarLista" text="_Importar Productos" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                  <Button onAction="#onExportarLista" text="_Exportar Productos" GridPane.columnIndex="3" GridPane.rowIndex="5" />
                   <ListView fx:id="productosView" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.rowSpan="3" GridPane.vgrow="ALWAYS" />
                </children>
             </GridPane>
@@ -78,9 +78,9 @@
                   <RowConstraints maxHeight="16.0" minHeight="16.0" prefHeight="16.0" valignment="CENTER" vgrow="NEVER" />
                </rowConstraints>
                <children>
-                  <Button mnemonicParsing="false" onAction="#onNuevaSolucion" text="Nueva Solución" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                  <!--Button mnemonicParsing="false" onAction="#onImportarSolucion" text="Importar Solución" GridPane.columnIndex="2" GridPane.rowIndex="7" /-->
-                  <!--Button mnemonicParsing="false" onAction="#onExportarSolucion" text="Exportar Solución" GridPane.columnIndex="3" GridPane.rowIndex="7" /-->
+                  <Button onAction="#onNuevaSolucion" text="_Nueva Solución" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                  <!--Button onAction="#onImportarSolucion" text="_Importar Solución" GridPane.columnIndex="2" GridPane.rowIndex="7" /-->
+                  <!--Button onAction="#onExportarSolucion" text="_Exportar Solución" GridPane.columnIndex="3" GridPane.rowIndex="7" /-->
                   <TableView fx:id="solucionView" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.rowSpan="3" GridPane.vgrow="ALWAYS" />
                   <HBox fx:id="calidadBox" alignment="CENTER" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
@@ -94,7 +94,7 @@
                         <Label fx:id="pasos" text="0" />
                      </children>
                   </HBox>
-                  <Button fx:id="intercambiar" disable="true" mnemonicParsing="false" onAction="#onIntercambiarProductos" text="Intercambiar Productos" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <Button fx:id="intercambiar" disable="true" onAction="#onIntercambiarProductos" text="_Intercambiar Productos" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                </children>
             </GridPane>
          </content>
@@ -120,9 +120,9 @@
                   <RowConstraints maxHeight="16.0" minHeight="16.0" prefHeight="16.0" valignment="CENTER" vgrow="NEVER" />
                </rowConstraints>
                <children>
-                  <Button mnemonicParsing="false" onAction="#onImportarEstado" text="Importar Estado" GridPane.columnIndex="2" GridPane.rowIndex="6" />
-                  <Button mnemonicParsing="false" onAction="#onExportarEstado" text="Exportar Estado" GridPane.columnIndex="3" GridPane.rowIndex="6" />
-                  <Button mnemonicParsing="false" onAction="#onSalir" text="Guardar y Salir" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                  <Button onAction="#onImportarEstado" text="_Importar Estado" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                  <Button onAction="#onExportarEstado" text="_Exportar Estado" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+                  <Button onAction="#onSalir" text="_Guardar y Salir" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                   <ScrollPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="2" GridPane.rowSpan="3">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />

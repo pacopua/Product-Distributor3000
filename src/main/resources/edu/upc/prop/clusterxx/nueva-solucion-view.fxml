@@ -44,7 +44,7 @@
             </RadioButton>
             <RadioButton fx:id="optima" mnemonicParsing="false" text="Solución Óptima" toggleGroup="$tipo_sol" GridPane.columnIndex="3" GridPane.rowIndex="4" />
          <Separator minHeight="32.0" prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="5" />
-            <Button mnemonicParsing="false" onAction="#onGenerarSolucion" text="Generar Solución" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="6" />
+            <Button onAction="#onGenerarSolucion" text="_Generar Solución" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="6" />
       <Label minWidth="32.0" GridPane.columnIndex="2" />
     </GridPane>
 </AnchorPane>

@@ -31,7 +31,7 @@
          <Label text="Producto 1" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          <Separator minHeight="32.0" prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="4" />
          <Separator minHeight="32.0" prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="9" />
-            <Button mnemonicParsing="false" onAction="#onIntercambiarProducto" text="Intercambiar" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="10" />
+            <Button onAction="#onIntercambiarProducto" text="_Intercambiar" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="10" />
       <Label text="Producto 2" GridPane.columnIndex="1" GridPane.rowIndex="5" />
       <ChoiceBox fx:id="producto1" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
       <ChoiceBox fx:id="producto2" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="5" />
