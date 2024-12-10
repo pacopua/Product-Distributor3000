@@ -1,5 +1,6 @@
 package edu.upc.prop.clusterxx;
 
+import edu.upc.prop.clusterxx.domain.*;
 import org.junit.*;
 
 import static org.junit.Assert.*;
@@ -57,7 +58,7 @@ public class AlgoritmoRapidoTest {
         );
         l = new ListaProductos();
         for (int i = 0; i < 9; i++) l.addProducto(new Producto(Integer.toString(i), 0.));
-        s = new Solucion(l, 3, 3);
+        s = new Solucion(l, 4, 4);
 
         ar = new AlgoritmoRapido(ma9x9);
         s = ar.ejecutar(s, 30);

@@ -1,5 +1,8 @@
-package edu.upc.prop.clusterxx;
+package edu.upc.prop.clusterxx.visual;
 
+import edu.upc.prop.clusterxx.PropApp;
+import edu.upc.prop.clusterxx.data.Sistema;
+import edu.upc.prop.clusterxx.domain.Producto;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -197,7 +200,7 @@ public class PropController {
     }
     */
     @FXML
-    protected boolean onSalir() {
+    public boolean onSalir() {
         // preguntamos si quiere guardar antes de salir
         Alert alerta = new Alert(
                 Alert.AlertType.CONFIRMATION,

@@ -1,6 +1,10 @@
 package edu.upc.prop.clusterxx.driver;
 
-import edu.upc.prop.clusterxx.*;
+import edu.upc.prop.clusterxx.data.Sistema;
+import edu.upc.prop.clusterxx.domain.AlgoritmoOptimo;
+import edu.upc.prop.clusterxx.domain.AlgoritmoRapido;
+import edu.upc.prop.clusterxx.domain.Producto;
+import edu.upc.prop.clusterxx.domain.Solucion;
 
 import java.io.File;
 import java.util.Objects;

@@ -1,5 +1,7 @@
-package edu.upc.prop.clusterxx;
+package edu.upc.prop.clusterxx.visual;
 
+import edu.upc.prop.clusterxx.data.Sistema;
+import edu.upc.prop.clusterxx.domain.Producto;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -9,7 +11,7 @@ import javafx.scene.layout.Priority;
 import javafx.util.Pair;
 import javafx.util.converter.DoubleStringConverter;
 
-import static edu.upc.prop.clusterxx.ProductoController.doubleFilter;
+import static edu.upc.prop.clusterxx.visual.ProductoController.doubleFilter;
 
 public class RelacionCell extends ListCell<Pair<Producto, Producto>> {
     private Label nombre1 ;

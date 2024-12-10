@@ -1,5 +1,7 @@
-package edu.upc.prop.clusterxx;
+package edu.upc.prop.clusterxx.visual;
 
+import edu.upc.prop.clusterxx.data.Sistema;
+import edu.upc.prop.clusterxx.domain.Producto;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;

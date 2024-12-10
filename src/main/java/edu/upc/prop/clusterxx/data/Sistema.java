@@ -1,5 +1,9 @@
-package edu.upc.prop.clusterxx;
+package edu.upc.prop.clusterxx.data;
 
+import edu.upc.prop.clusterxx.domain.Estado;
+import edu.upc.prop.clusterxx.domain.ListaProductos;
+import edu.upc.prop.clusterxx.domain.MatrizAdyacencia;
+import edu.upc.prop.clusterxx.domain.Solucion;
 import javafx.application.Platform;
 
 import java.io.*;
@@ -31,6 +35,7 @@ public class Sistema {
         matrizAdyacencia = estado.getMatrizAdyacencia();
         solucion = estado.getSolucion();
     }
+
     public static void exportarEstado(File f) throws IOException {
         Estado estado = new Estado(solucion, listaProductos, matrizAdyacencia);
         FileOutputStream fileOut = new FileOutputStream(f);

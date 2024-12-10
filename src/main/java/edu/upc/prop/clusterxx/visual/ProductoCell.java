@@ -1,5 +1,7 @@
-package edu.upc.prop.clusterxx;
+package edu.upc.prop.clusterxx.visual;
 
+import edu.upc.prop.clusterxx.data.Sistema;
+import edu.upc.prop.clusterxx.domain.Producto;
 import javafx.geometry.HPos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
@@ -11,8 +13,8 @@ import javafx.scene.layout.Priority;
 import javafx.util.converter.DefaultStringConverter;
 import javafx.util.converter.DoubleStringConverter;
 
-import static edu.upc.prop.clusterxx.ProductoController.doubleFilter;
-import static edu.upc.prop.clusterxx.ProductoController.nonEmptyFilter;
+import static edu.upc.prop.clusterxx.visual.ProductoController.doubleFilter;
+import static edu.upc.prop.clusterxx.visual.ProductoController.nonEmptyFilter;
 
 public class ProductoCell extends ListCell<Producto> {
     private Button actionBtn;

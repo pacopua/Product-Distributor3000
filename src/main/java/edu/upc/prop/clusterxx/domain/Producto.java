@@ -1,5 +1,5 @@
 //package src.main.java.edu.upc.prop.clusterxx;   <- marcad src como root para no poner el path entero -Marcel
-package edu.upc.prop.clusterxx;
+package edu.upc.prop.clusterxx.domain;
 
 import java.io.Serializable;
 

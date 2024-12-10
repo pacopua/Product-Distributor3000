@@ -1,4 +1,4 @@
-package edu.upc.prop.clusterxx;
+package edu.upc.prop.clusterxx.domain;
 
 import java.io.Serializable;
 
@@ -6,7 +6,7 @@ public class Estado implements Serializable {
     private Solucion solucion;
     private ListaProductos listaProductos;
     private MatrizAdyacencia matrizAdyacencia;
-    Estado(Solucion solucion, ListaProductos listaProductos, MatrizAdyacencia matrizAdyacencia) {
+    public Estado(Solucion solucion, ListaProductos listaProductos, MatrizAdyacencia matrizAdyacencia) {
         this.solucion = solucion;
         this.listaProductos = listaProductos;
         this.matrizAdyacencia = matrizAdyacencia;

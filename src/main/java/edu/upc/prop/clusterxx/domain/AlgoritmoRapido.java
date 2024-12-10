@@ -1,7 +1,7 @@
 //Class by Adria Cebrian Ruiz
 
 //package src.main.java.edu.upc.prop.clusterxx;   <- marcad src como root para no poner el path entero -Marcel
-package edu.upc.prop.clusterxx;
+package edu.upc.prop.clusterxx.domain;
 
 import java.util.Random;
 
@@ -88,8 +88,8 @@ public class AlgoritmoRapido extends Algoritmo {
                             Solucion neighbor = copiar_solucion(currentSolution);
                             neighbor.intercambiar_productos(i, j, y, x);
                             neighbor.setCalidad(calcular_todas(neighbor));
-                            neighbor.setNumPasos(neighbor.getNumPasos()+1);
-
+                            neighbor.setNumPasos(neighbor.getNumPasos() + 1);
+                            //System.out.println(neighbor.getNumPasos());
                             if(neighbor.getCalidad() >= bestSolution.getCalidad()) {
                                 if(neighbor.getCalidad() > bestSolution.getCalidad()
                                         || neighbor.getNumPasos() < bestSolution.getNumPasos()) {

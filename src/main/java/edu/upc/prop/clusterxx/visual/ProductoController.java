@@ -1,5 +1,8 @@
-package edu.upc.prop.clusterxx;
+package edu.upc.prop.clusterxx.visual;
 
+import edu.upc.prop.clusterxx.data.Sistema;
+import edu.upc.prop.clusterxx.domain.MatrizAdyacencia;
+import edu.upc.prop.clusterxx.domain.Producto;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;

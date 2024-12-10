@@ -1,4 +1,4 @@
-package edu.upc.prop.clusterxx;
+package edu.upc.prop.clusterxx.domain;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -215,7 +215,7 @@ public class Solucion implements Serializable, Cloneable {
      * @throws CloneNotSupportedException Excepción lanzada si no se puede clonar la solución
      */
     @Override
-    protected Solucion clone() throws CloneNotSupportedException {
+    public Solucion clone() throws CloneNotSupportedException {
         Solucion solucion = new Solucion(productos);
         solucion.distribucion = new int[this.filas][this.columnas];
         solucion.filas = this.filas;

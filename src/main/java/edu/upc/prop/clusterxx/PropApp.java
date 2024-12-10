@@ -1,5 +1,6 @@
 package edu.upc.prop.clusterxx;
 
+import edu.upc.prop.clusterxx.visual.PropController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

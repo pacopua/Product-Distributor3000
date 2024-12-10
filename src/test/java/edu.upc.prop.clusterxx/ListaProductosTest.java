@@ -2,14 +2,14 @@
 package edu.upc.prop.clusterxx;
 
 
+import edu.upc.prop.clusterxx.domain.ListaProductos;
+import edu.upc.prop.clusterxx.domain.Producto;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.After;
 import static org.junit.Assert.*;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 

@@ -1,7 +1,7 @@
 //Class by Adria Cebrian Ruiz
 
 //package src.main.java.edu.upc.prop.clusterxx;   <- marcad src como root para no poner el path entero
-package edu.upc.prop.clusterxx;
+package edu.upc.prop.clusterxx.domain;
 
 // no haría falta el extends si los cálculos de sinergias estuviesen en matriz de adyacencias
 public class AlgoritmoOptimo extends Algoritmo {

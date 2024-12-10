@@ -1,5 +1,8 @@
 package edu.upc.prop.clusterxx;
 
+import edu.upc.prop.clusterxx.domain.ListaProductos;
+import edu.upc.prop.clusterxx.domain.Producto;
+import edu.upc.prop.clusterxx.domain.Solucion;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;

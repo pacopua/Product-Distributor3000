@@ -1,19 +1,15 @@
 //Class by Adria Cebrian Ruiz
 
 //package src.main.java.edu.upc.prop.clusterxx;   <- marcad src como root para no poner el path entero -Marcel
-package edu.upc.prop.clusterxx;
+package edu.upc.prop.clusterxx.domain;
 
-//Renombrado a controlador de algoritmos pq sin los cálculos de sinergias es lo que es chicos guapos.
 public class Algoritmo {
     protected MatrizAdyacencia matrizAdyacencia;
     
     public Algoritmo(MatrizAdyacencia m) {
         matrizAdyacencia = m;
     }
-    
-    //Solucion calcular_solucion(Solucion s);
 
-    // Igual se podrían calcular más eficientemente las sinergias - Marcel
 
     /**
      * Calcula la suma total de las sinergias en la solución dada usando la funcion "calcular_sinergias"
@@ -78,10 +74,6 @@ public class Algoritmo {
         return suma;
     }
 
-    //Solucion recursive_calcular(Solucion s);
-
-
-    // Para qué es esto? no se podría usar el clone? - Marcel
     /**
      * hace una hard copy de una solución
      * @param s la solución que queremos copiar

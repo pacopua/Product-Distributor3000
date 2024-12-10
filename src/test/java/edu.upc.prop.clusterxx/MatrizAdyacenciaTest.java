@@ -1,11 +1,10 @@
 package edu.upc.prop.clusterxx;
 
+import edu.upc.prop.clusterxx.domain.MatrizAdyacencia;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-
-import java.util.Arrays;
 
 public class MatrizAdyacenciaTest {
     private MatrizAdyacencia mat;

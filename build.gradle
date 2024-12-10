@@ -43,6 +43,16 @@ repositories {
 dependencies {
     implementation 'com.google.code.gson:gson:2.8.9'
     testImplementation('junit:junit:4.13.1')
+    //implementation 'org.openjfx:javafx-controls:23'
+    implementation 'org.openjfx:javafx:17'
+
+    implementation 'org.openjfx:javafx-base:17'
+    implementation 'org.openjfx:javafx-graphics:17'
+    implementation 'org.openjfx:javafx-controls:17'
+    implementation 'org.openjfx:javafx-fxml:17'
+    implementation 'org.openjfx:javafx-swing:17'
+    implementation 'org.openjfx:javafx-media:21.0.2'
+    implementation 'org.openjfx:javafx-web:17'
 }
 
 javafx {
