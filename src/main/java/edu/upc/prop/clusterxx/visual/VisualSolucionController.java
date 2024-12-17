@@ -25,17 +25,21 @@ public class VisualSolucionController {
             DomainSolucionController solucionController = new DomainSolucionController();
             int numFilas = (int)filas.getValue();
             int numColumnas = (int)columnas.getValue();
-
             Task<Void> task = new Task<>() {
                 @Override
                 protected Void call() throws Exception {
-                    if (rapida.isSelected()) {
-                        //return
-                                solucionController.calcularDistribucionRapida(numFilas, numColumnas);
-                    } else if (optima.isSelected()) {
-                        //return
-                                solucionController.calcularDistribucionOptima(numFilas, numColumnas);
-                    }
+                  try {
+                      //System.out.println("AAAAAAAAA2141");
+                      if (rapida.isSelected()) {
+                          //return
+                          solucionController.calcularDistribucionRapida(numFilas, numColumnas);
+                      } else if (optima.isSelected()) {
+                          //return
+                          solucionController.calcularDistribucionOptima(numFilas, numColumnas);
+                      }
+                  } catch (IllegalArgumentException ex) {
+                      throw new Exception("el número de filas y columnas es insuficiente para el número de productos", ex);
+                  }
                     return null;
                 }
             };

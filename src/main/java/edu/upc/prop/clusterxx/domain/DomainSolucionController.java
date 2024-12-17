@@ -8,13 +8,20 @@ public class DomainSolucionController {
     public void calcularDistribucionRapida(int filas, int columnas) {
         Solucion s = Sistema.nuevaSolucion(filas, columnas);
         AlgoritmoRapido algo = new AlgoritmoRapido(Sistema.getMatrizAdyacencia());
-
+        //lanzamos excepcion si no se puede hacer la distribucion
+        if(filas*columnas < s.getListaProductos().getCantidadProductos()) {
+            throw new IllegalArgumentException("No se puede hacer la distribución");
+        }
         Sistema.setSolucion(algo.ejecutar(s, 10));
     }
 
     public void calcularDistribucionOptima(int filas, int columnas) {
         Solucion s = Sistema.nuevaSolucion(filas, columnas);
         AlgoritmoOptimo algo = new AlgoritmoOptimo(Sistema.getMatrizAdyacencia());
+        if(filas*columnas < s.getListaProductos().getCantidadProductos()) {
+            System.out.println("AAAAAAAAA");
+            throw new IllegalArgumentException("No se puede hacer la distribución");
+        }
         Sistema.setSolucion(algo.ejecutar(s));
     }
 
