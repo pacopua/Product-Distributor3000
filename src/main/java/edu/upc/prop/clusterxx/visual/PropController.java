@@ -297,7 +297,7 @@ public class PropController {
 
     @FXML
     protected void onNuevoProducto() throws IOException {
-        abrirVentana("Nueva Producto", "nuevo-producto-view.fxml");
+        abrirVentana("Nuevo Producto", "nuevo-producto-view.fxml");
         actualizarDatos();
     }
 
