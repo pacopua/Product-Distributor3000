@@ -11,7 +11,7 @@ import javafx.scene.layout.Priority;
 import javafx.util.Pair;
 import javafx.util.converter.DoubleStringConverter;
 
-import static edu.upc.prop.clusterxx.visual.ProductoController.doubleFilter;
+import static edu.upc.prop.clusterxx.visual.VisualProductoController.doubleFilter;
 
 public class RelacionCell extends ListCell<Pair<Producto, Producto>> {
     private Label nombre1 ;

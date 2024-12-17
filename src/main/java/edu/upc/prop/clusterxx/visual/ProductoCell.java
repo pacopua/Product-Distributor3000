@@ -13,8 +13,8 @@ import javafx.scene.layout.Priority;
 import javafx.util.converter.DefaultStringConverter;
 import javafx.util.converter.DoubleStringConverter;
 
-import static edu.upc.prop.clusterxx.visual.ProductoController.doubleFilter;
-import static edu.upc.prop.clusterxx.visual.ProductoController.nonEmptyFilter;
+import static edu.upc.prop.clusterxx.visual.VisualProductoController.doubleFilter;
+import static edu.upc.prop.clusterxx.visual.VisualProductoController.nonEmptyFilter;
 
 public class ProductoCell extends ListCell<Producto> {
     private Button actionBtn;
@@ -64,7 +64,7 @@ public class ProductoCell extends ListCell<Producto> {
                     }
                     if (existe) {
                         nombre.textProperty().setValue(oldValue);
-                        ProductoController.ventanaErrorProd();
+                        VisualProductoController.ventanaErrorProd();
                         return;
                     }
                     Sistema.getListaProductos().getProducto(id).get().setNombre(newValue);

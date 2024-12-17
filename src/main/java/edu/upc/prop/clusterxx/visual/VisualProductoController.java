@@ -1,8 +1,6 @@
 package edu.upc.prop.clusterxx.visual;
 
-import edu.upc.prop.clusterxx.data.Sistema;
-import edu.upc.prop.clusterxx.domain.MatrizAdyacencia;
-import edu.upc.prop.clusterxx.domain.Producto;
+import edu.upc.prop.clusterxx.domain.DomainProductoController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
@@ -13,7 +11,7 @@ import javafx.util.converter.DoubleStringConverter;
 
 import java.util.function.UnaryOperator;
 
-public class ProductoController {
+public class VisualProductoController {
     @FXML
     TextField nombre;
     @FXML
@@ -49,6 +47,13 @@ public class ProductoController {
     }
     @FXML
     protected void onAnadirProducto() {
+        DomainProductoController controller = new DomainProductoController();
+        if (controller.anyadirProducto((String) nombre.getTextFormatter().getValue(), (double) precio.getTextFormatter().getValue())) {
+            ventanaErrorProd();
+        } else {
+            ((Stage) nombre.getScene().getWindow()).close();
+        }
+        /*
         Producto producto = new Producto(
                 (String) nombre.getTextFormatter().getValue(),
                 (double) precio.getTextFormatter().getValue()
@@ -76,5 +81,7 @@ public class ProductoController {
         Sistema.setMatrizAdyacencia(matrizNueva);
 
         ((Stage) nombre.getScene().getWindow()).close();
+
+         */
     }
 }
