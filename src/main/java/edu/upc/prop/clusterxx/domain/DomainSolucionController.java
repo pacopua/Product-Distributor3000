@@ -30,7 +30,7 @@ public class DomainSolucionController {
         for (Producto p : Sistema.getSolucion().getListaProductos().getListaProductos()) {
             if (nombreP1.equals(p.getNombre())) p1 = p;
         }
-        //Do the same for p2
+
         Producto p2 = null;
         for (Producto p : Sistema.getSolucion().getListaProductos().getListaProductos()) {
             if (nombreP2.equals(p.getNombre())) p2 = p;
