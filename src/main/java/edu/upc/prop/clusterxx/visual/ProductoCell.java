@@ -1,6 +1,6 @@
 package edu.upc.prop.clusterxx.visual;
 
-import edu.upc.prop.clusterxx.data.Sistema;
+import edu.upc.prop.clusterxx.data.GestorPesistencia;
 import edu.upc.prop.clusterxx.domain.Producto;
 import javafx.geometry.HPos;
 import javafx.scene.control.Button;
@@ -56,8 +56,8 @@ public class ProductoCell extends ListCell<Producto> {
         nombre.textProperty().addListener(
                 (observable, oldValue, newValue) -> {
                     boolean existe = false;
-                    for (Producto prod : Sistema.getListaProductos().getListaProductos()) {
-                        if (id != Sistema.getListaProductos().getListaProductos().indexOf(prod) && prod.getNombre().equals(newValue)) {
+                    for (Producto prod : GestorPesistencia.getListaProductos().getListaProductos()) {
+                        if (id != GestorPesistencia.getListaProductos().getListaProductos().indexOf(prod) && prod.getNombre().equals(newValue)) {
                             existe = true;
                             break;
                         }
@@ -67,7 +67,7 @@ public class ProductoCell extends ListCell<Producto> {
                         VisualProductoController.ventanaErrorProd();
                         return;
                     }
-                    Sistema.getListaProductos().getProducto(id).get().setNombre(newValue);
+                    GestorPesistencia.getListaProductos().getProducto(id).get().setNombre(newValue);
                     PropController.actualizarDatos();
                 }
         );
@@ -77,14 +77,14 @@ public class ProductoCell extends ListCell<Producto> {
         precio.setTextFormatter(
                 new TextFormatter<>(new DoubleStringConverter(), 0., doubleFilter));
         precio.textProperty().addListener(
-                (observable, oldValue, newValue) -> Sistema.getListaProductos().getProducto(id).get().setPrecio(Double.parseDouble(newValue))
+                (observable, oldValue, newValue) -> GestorPesistencia.getListaProductos().getProducto(id).get().setPrecio(Double.parseDouble(newValue))
         );
         pane.add(precio, 2, 0);
 
         actionBtn = new Button("Eliminar");
         actionBtn.setOnAction(event -> {
-            Sistema.getListaProductos().eliminarProducto(id);
-            Sistema.getMatrizAdyacencia().eliminarProducto(id);
+            GestorPesistencia.getListaProductos().eliminarProducto(id);
+            GestorPesistencia.getMatrizAdyacencia().eliminarProducto(id);
             PropController.actualizarDatos();
         });
         pane.add(actionBtn, 3, 0);
@@ -95,7 +95,7 @@ public class ProductoCell extends ListCell<Producto> {
 
         setEditable(false);
         if (producto != null) {
-            id = Sistema.getListaProductos().getListaProductos().indexOf(producto);
+            id = GestorPesistencia.getListaProductos().getListaProductos().indexOf(producto);
             nombre.setText(producto.getNombre());
             precio.setText(Double.toString(producto.getPrecio()));
             setGraphic(pane);

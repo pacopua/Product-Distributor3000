@@ -8,7 +8,7 @@ import javafx.application.Platform;
 
 import java.io.*;
 
-public class Sistema {
+public class GestorPesistencia {
     private static ListaProductos listaProductos = new ListaProductos();
     private static MatrizAdyacencia matrizAdyacencia = new MatrizAdyacencia(0);
     private static Solucion solucion = new Solucion(listaProductos);

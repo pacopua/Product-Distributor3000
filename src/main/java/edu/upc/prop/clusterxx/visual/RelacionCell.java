@@ -1,6 +1,6 @@
 package edu.upc.prop.clusterxx.visual;
 
-import edu.upc.prop.clusterxx.data.Sistema;
+import edu.upc.prop.clusterxx.data.GestorPesistencia;
 import edu.upc.prop.clusterxx.domain.Producto;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
@@ -64,16 +64,16 @@ public class RelacionCell extends ListCell<Pair<Producto, Producto>> {
 
         setEditable(false);
         if (productos != null) {
-            id1 = Sistema.getListaProductos().getListaProductos().indexOf(productos.getKey());
-            id2 = Sistema.getListaProductos().getListaProductos().indexOf(productos.getValue());
+            id1 = GestorPesistencia.getListaProductos().getListaProductos().indexOf(productos.getKey());
+            id2 = GestorPesistencia.getListaProductos().getListaProductos().indexOf(productos.getValue());
 
             nombre1.setText(productos.getKey().getNombre());
             nombre2.setText(productos.getValue().getNombre());
-            double relacionValue = Sistema.getMatrizAdyacencia().getSinergia(id1, id2);
+            double relacionValue = GestorPesistencia.getMatrizAdyacencia().getSinergia(id1, id2);
             relacion.setText(Double.toString(relacionValue));
             relacion.textProperty().addListener(
                     (observable, oldValue, newValue) ->
-                        Sistema.getMatrizAdyacencia().modificar_sinergias(id1, id2, Double.parseDouble(newValue))
+                        GestorPesistencia.getMatrizAdyacencia().modificar_sinergias(id1, id2, Double.parseDouble(newValue))
             );
             setGraphic(pane);
         } else {

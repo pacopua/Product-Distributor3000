@@ -1,45 +1,45 @@
 package edu.upc.prop.clusterxx.domain;
 
-import edu.upc.prop.clusterxx.data.Sistema;
+import edu.upc.prop.clusterxx.data.GestorPesistencia;
 
 import java.util.List;
 
 public class DomainSolucionController {
     public void calcularDistribucionRapida(int filas, int columnas) {
-        Solucion s = Sistema.nuevaSolucion(filas, columnas);
-        AlgoritmoRapido algo = new AlgoritmoRapido(Sistema.getMatrizAdyacencia());
+        Solucion s = GestorPesistencia.nuevaSolucion(filas, columnas);
+        AlgoritmoRapido algo = new AlgoritmoRapido(GestorPesistencia.getMatrizAdyacencia());
         //lanzamos excepcion si no se puede hacer la distribucion
         if(filas*columnas < s.getListaProductos().getCantidadProductos()) {
             throw new IllegalArgumentException("No se puede hacer la distribución");
         }
-        Sistema.setSolucion(algo.ejecutar(s, 10));
+        GestorPesistencia.setSolucion(algo.ejecutar(s, 10));
     }
 
     public void calcularDistribucionOptima(int filas, int columnas) {
-        Solucion s = Sistema.nuevaSolucion(filas, columnas);
-        AlgoritmoOptimo algo = new AlgoritmoOptimo(Sistema.getMatrizAdyacencia());
+        Solucion s = GestorPesistencia.nuevaSolucion(filas, columnas);
+        AlgoritmoOptimo algo = new AlgoritmoOptimo(GestorPesistencia.getMatrizAdyacencia());
         if(filas*columnas < s.getListaProductos().getCantidadProductos()) {
             System.out.println("AAAAAAAAA");
             throw new IllegalArgumentException("No se puede hacer la distribución");
         }
-        Sistema.setSolucion(algo.ejecutar(s));
+        GestorPesistencia.setSolucion(algo.ejecutar(s));
     }
 
     public List<String> getListaNombresProductos() {
-        return Sistema.getSolucion().getListaProductos().getListaProductos().stream()
+        return GestorPesistencia.getSolucion().getListaProductos().getListaProductos().stream()
                 .map(Producto::getNombre)
                 .toList();
     }
 
     public void intercambiarProductos(String nombreP1, String nombreP2) {
-        Solucion solucion = Sistema.getSolucion();
+        Solucion solucion = GestorPesistencia.getSolucion();
         Producto p1 = null;
-        for (Producto p : Sistema.getSolucion().getListaProductos().getListaProductos()) {
+        for (Producto p : GestorPesistencia.getSolucion().getListaProductos().getListaProductos()) {
             if (nombreP1.equals(p.getNombre())) p1 = p;
         }
 
         Producto p2 = null;
-        for (Producto p : Sistema.getSolucion().getListaProductos().getListaProductos()) {
+        for (Producto p : GestorPesistencia.getSolucion().getListaProductos().getListaProductos()) {
             if (nombreP2.equals(p.getNombre())) p2 = p;
         }
 

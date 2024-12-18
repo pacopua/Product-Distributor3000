@@ -1,8 +1,11 @@
 package edu.upc.prop.clusterxx.visual;
 
 import edu.upc.prop.clusterxx.PropApp;
-import edu.upc.prop.clusterxx.data.Sistema;
+import edu.upc.prop.clusterxx.data.GestorPesistencia;
+import edu.upc.prop.clusterxx.domain.DomainEstadoController;
+import edu.upc.prop.clusterxx.domain.IOController;
 import edu.upc.prop.clusterxx.domain.Producto;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -41,6 +44,7 @@ public class PropController {
     HBox calidadBox;
     @FXML
     HBox pasosBox;
+    private static IOController ioController = new IOController();
     private static ObservableList<Producto> observableProducts = FXCollections.observableArrayList();
     private static ObservableList<Pair<Producto, Producto>> observableProductPairs = FXCollections.observableArrayList();
     private static ObservableList<Producto[]> observableSolutionProducts = FXCollections.observableArrayList();
@@ -124,53 +128,63 @@ public class PropController {
 
     }
     @FXML
-    protected void onImportarEstado() {
-        if (!ventanaConfirmar()) return;
+    protected boolean onImportarEstado() {
+        if (!ventanaConfirmar()) return false;
         File in = abrirFileChooser(true,"data.state", stateFilter);
-        if (in == null) return;
+        if (in == null) return false;
         try {
-            Sistema.importarEstado(in);
+            ioController.importarEstado(in.getAbsolutePath());
             actualizarDatos();
             actualizarSolucion();
         } catch (IOException e) {
             ventanaErrorArchivo();
+            return false;
         } catch (ClassNotFoundException e) {
             ventanaErrorInternoArchivo();
+            return false;
         }
+        return true;
     }
     @FXML
-    protected void onExportarEstado() {
+    protected boolean onExportarEstado() {
         File out = abrirFileChooser(false,"data.state", stateFilter);
-        if (out == null) return;
+        if (out == null) return false;
         try {
-            Sistema.exportarEstado(out);
+            ioController.exportarEstado(out.getAbsolutePath());
         } catch (IOException e) {
             ventanaErrorExportar();
+            return false;
         }
+        return true;
     }
     @FXML
-    protected void onImportarLista() {
-        if (!ventanaConfirmar()) return;
+    protected boolean onImportarLista() {
+        if (!ventanaConfirmar()) return false;;
         File in = abrirFileChooser(true,"products.list", listFilter);
-        if (in == null) return;
+        if (in == null) return false;;
         try {
-            Sistema.importarLista(in);
+            ioController.importarListaProductos(in.getAbsolutePath());
             actualizarDatos();
         } catch (IOException e) {
             ventanaErrorArchivo();
+            return false;
         } catch (ClassNotFoundException e) {
             ventanaErrorInternoArchivo();
+            return false;
         }
+        return true;
     }
     @FXML
-    protected void onExportarLista() {
+    protected boolean onExportarLista() {
         File out = abrirFileChooser(false,"products.list", listFilter);
-        if (out == null) return;
+        if (out == null) return false;
         try {
-            Sistema.exportarLista(out);
+            ioController.exportarListaProductos(out.getAbsolutePath());
         } catch (IOException e) {
             ventanaErrorExportar();
+            return false;
         }
+        return true;
     }
     /*
     @FXML
@@ -211,10 +225,12 @@ public class PropController {
         alerta.setTitle("Guardar y salir");
         Optional<ButtonType> eleccion = alerta.showAndWait();
         // guardamos y salimos
+        DomainEstadoController domainEstadoController = new DomainEstadoController();
         if (eleccion.get() == si) {
-            onExportarEstado();
-            Sistema.salir();
-            return true;
+            if(onExportarEstado()) {
+                domainEstadoController.salir();
+                return true;
+            }
         }
         // preguntamos si de verdad quiere salir sin guardar
         else {
@@ -228,7 +244,7 @@ public class PropController {
             eleccion = alerta.showAndWait();
             // si confirma, cerramos la aplicación
             if (eleccion.get() == si) {
-                Sistema.salir();
+                domainEstadoController.salir();
                 return true;
             }
         }
@@ -255,11 +271,11 @@ public class PropController {
     }
 
     public static void actualizarDatos() {
-        observableProducts.setAll(Sistema.getListaProductos().getListaProductos());
+        observableProducts.setAll(GestorPesistencia.getListaProductos().getListaProductos());
         ArrayList<Pair<Producto, Producto>> productPairs = new ArrayList<>();
-        for (Producto p1 : Sistema.getListaProductos().getListaProductos())
-            for (Producto p2 : Sistema.getListaProductos().getListaProductos())
-                if(Sistema.getListaProductos().getListaProductos().indexOf(p1) < Sistema.getListaProductos().getListaProductos().indexOf(p2)) productPairs.add(new Pair(p1, p2));
+        for (Producto p1 : GestorPesistencia.getListaProductos().getListaProductos())
+            for (Producto p2 : GestorPesistencia.getListaProductos().getListaProductos())
+                if(GestorPesistencia.getListaProductos().getListaProductos().indexOf(p1) < GestorPesistencia.getListaProductos().getListaProductos().indexOf(p2)) productPairs.add(new Pair(p1, p2));
         observableProductPairs.setAll(productPairs);
     }
 
@@ -269,14 +285,14 @@ public class PropController {
         intercambiar.setDisable(true);
         solucionView.getColumns().clear();
 
-        if (Sistema.getSolucion().estaCompletado()) {
+        if (GestorPesistencia.getSolucion().estaCompletado()) {
             calidadBox.setDisable(false);
             pasosBox.setDisable(false);
             intercambiar.setDisable(false);
-            calidad.setText(Double.toString(Sistema.getSolucion().getCalidad()));
-            pasos.setText(Integer.toString(Sistema.getSolucion().getNumPasos()));
+            calidad.setText(Double.toString(GestorPesistencia.getSolucion().getCalidad()));
+            pasos.setText(Integer.toString(GestorPesistencia.getSolucion().getNumPasos()));
 
-            for (int i = 0; i < Sistema.getSolucion().getDistribucion()[0].length; i++) {
+            for (int i = 0; i < GestorPesistencia.getSolucion().getDistribucion()[0].length; i++) {
                 TableColumn<Producto[], String> col = new TableColumn<>(Integer.toString(i + 1));
                 int index = i;
                 col.setCellValueFactory(param -> {
@@ -289,8 +305,8 @@ public class PropController {
             }
 
             observableSolutionProducts = FXCollections.observableArrayList();
-            for (int i = 0; i < Sistema.getSolucion().getDistribucion().length; i++)
-                observableSolutionProducts.add(Sistema.getSolucion().getDistribucionProductos()[i]);
+            for (int i = 0; i < GestorPesistencia.getSolucion().getDistribucion().length; i++)
+                observableSolutionProducts.add(GestorPesistencia.getSolucion().getDistribucionProductos()[i]);
             solucionView.setItems(observableSolutionProducts);
         }
     }

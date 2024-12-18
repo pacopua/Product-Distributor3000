@@ -1,6 +1,6 @@
 package edu.upc.prop.clusterxx.driver;
 
-import edu.upc.prop.clusterxx.data.Sistema;
+import edu.upc.prop.clusterxx.data.GestorPesistencia;
 import edu.upc.prop.clusterxx.domain.AlgoritmoOptimo;
 import edu.upc.prop.clusterxx.domain.AlgoritmoRapido;
 import edu.upc.prop.clusterxx.domain.Producto;
@@ -80,7 +80,7 @@ public class Driver {
                 io.write("Opcion: ");
                 int opcion = io.readint();
                 io.writeln();
-                int num_productos = Sistema.getListaProductos().getListaProductos().size();
+                int num_productos = GestorPesistencia.getListaProductos().getListaProductos().size();
                 Solucion s;
                 switch (opcion) {
                     case 1:
@@ -117,9 +117,9 @@ public class Driver {
         io.writeln();
         io.write("Introduce el numero de columnas de la solución: ");
         int columnas = io.readint();
-        Sistema.nuevaSolucion(filas, columnas);
-        Solucion s = Sistema.getSolucion();
-        AlgoritmoRapido ar = new AlgoritmoRapido(Sistema.getMatrizAdyacencia());
+        GestorPesistencia.nuevaSolucion(filas, columnas);
+        Solucion s = GestorPesistencia.getSolucion();
+        AlgoritmoRapido ar = new AlgoritmoRapido(GestorPesistencia.getMatrizAdyacencia());
         ar.ejecutar(s, 30);
         io.writeln("Algoritmo rapido ejecutado con exito!");
         io.writeln("Ha tardado " + s.getNumPasos() + " pasos en ejecutarse");
@@ -136,9 +136,9 @@ public class Driver {
         io.writeln();
         io.write("Introduce el numero de columnas de la solución: ");
         int columnas = io.readint();
-        Sistema.nuevaSolucion(filas, columnas);
-        Solucion s = Sistema.getSolucion();
-        AlgoritmoOptimo av = new AlgoritmoOptimo(Sistema.getMatrizAdyacencia());
+        GestorPesistencia.nuevaSolucion(filas, columnas);
+        Solucion s = GestorPesistencia.getSolucion();
+        AlgoritmoOptimo av = new AlgoritmoOptimo(GestorPesistencia.getMatrizAdyacencia());
         av.ejecutar(s);
         io.writeln("Algoritmo voraz ejecutado con exito!");
         io.writeln("Ha tardado " + s.getNumPasos() + " pasos en ejecutarse");
@@ -169,9 +169,9 @@ public class Driver {
                 io.writeln(p1 == p2 ? "Los productos no pueden ser iguales" : "Producto no valido!");
             }
         } while (bp2);
-        int[] pos1 = Sistema.getSolucion().buscar_producto(p1);
-        int[] pos2 = Sistema.getSolucion().buscar_producto(p2);
-        Sistema.getSolucion().intercambiar_productos(pos1[0], pos1[1], pos2[0], pos2[1]);
+        int[] pos1 = GestorPesistencia.getSolucion().buscar_producto(p1);
+        int[] pos2 = GestorPesistencia.getSolucion().buscar_producto(p2);
+        GestorPesistencia.getSolucion().intercambiar_productos(pos1[0], pos1[1], pos2[0], pos2[1]);
     }
 
     /**
@@ -189,7 +189,7 @@ public class Driver {
             if (id < 0 || id > num_productos) {
                 io.writeln("Producto no valido!");
             } else {
-                p = Sistema.getListaProductos().getProducto(id).orElse(null);
+                p = GestorPesistencia.getListaProductos().getProducto(id).orElse(null);
                 if (p == null) {
                     throw new Exception("Producto no encontrado!");
                 } else {
@@ -197,7 +197,7 @@ public class Driver {
                 }
             }
         }
-        int[] pos = Sistema.getSolucion().buscar_producto(id);
+        int[] pos = GestorPesistencia.getSolucion().buscar_producto(id);
         io.writeln("El producto " + "(" + id + ") se encuentra en la fila " + pos[0] + " y columna " + pos[1]);
     }
 
@@ -207,7 +207,7 @@ public class Driver {
      */
     private static void imprimirListaProductos() throws Exception {
         int i = 0;
-        for (Producto p : Sistema.getListaProductos().getListaProductos()) {
+        for (Producto p : GestorPesistencia.getListaProductos().getListaProductos()) {
             System.out.printf("ID %d - \t%s - %f€\n", i, p.getNombre(), p.getPrecio());
             i++;
         }
@@ -233,7 +233,7 @@ public class Driver {
                 io.write("Opcion: ");
                 int opcion = io.readint();
                 io.writeln();
-                int num_productos = Sistema.getListaProductos().getCantidadProductos();
+                int num_productos = GestorPesistencia.getListaProductos().getCantidadProductos();
                 switch (opcion) {
                     case 1:
                         importarListaProductos();
@@ -261,7 +261,7 @@ public class Driver {
                         imprimirListaProductos();
                         io.write("Introduce el numero del producto a consultar: ");
                         int id = io.readint();
-                        Producto producto = Sistema.getListaProductos().getProducto(id).orElse(null);
+                        Producto producto = GestorPesistencia.getListaProductos().getProducto(id).orElse(null);
                         if (producto != null) {
                             io.writeln("Nombre del producto: " + producto.getNombre());
                             io.writeln("Precio del producto: " + producto.getPrecio());
@@ -292,7 +292,7 @@ public class Driver {
         io.write("Introduce el precio del nuevo producto: ");
         double precio = io.readdouble();
         Producto p = new Producto(nombre_producto, precio);
-        Sistema.getListaProductos().addProducto(p);
+        GestorPesistencia.getListaProductos().addProducto(p);
     }
 
     /**
@@ -303,7 +303,7 @@ public class Driver {
         imprimirListaProductos();
         io.write("Introduce el numero del producto a eliminar: ");
         int num_producto = io.readint();
-        Sistema.getListaProductos().eliminarProducto(num_producto);
+        GestorPesistencia.getListaProductos().eliminarProducto(num_producto);
     }
 
     /**
@@ -335,7 +335,7 @@ public class Driver {
         }
         io.write("Introduce la nueva sinergia entre los productos: ");
         double sinergia = io.readdouble();
-        Sistema.getMatrizAdyacencia().modificar_sinergias(p1, p2, sinergia);
+        GestorPesistencia.getMatrizAdyacencia().modificar_sinergias(p1, p2, sinergia);
     }
 
     /**
@@ -356,7 +356,7 @@ public class Driver {
             } else if (file.isDirectory()) {
                 io.write("El archivo es un directorio!\n");
             } else {
-                Sistema.importarLista(file);
+                GestorPesistencia.importarLista(file);
                 break;
             }
         }
@@ -380,7 +380,7 @@ public class Driver {
             } else if (file.isDirectory()) {
                 io.write("El archivo es un directorio!\n");
             } else {
-                Sistema.exportarLista(file);
+                GestorPesistencia.exportarLista(file);
                 break;
             }
         }
@@ -404,7 +404,7 @@ public class Driver {
             } else if (file.isDirectory()) {
                 io.write("El archivo es un directorio!\n");
             } else {
-                Sistema.importarEstado(file);
+                GestorPesistencia.importarEstado(file);
                 break;
             }
         }
@@ -428,7 +428,7 @@ public class Driver {
             } else if (file.isDirectory()) {
                 io.write("El archivo es un directorio!\n");
             } else {
-                Sistema.exportarEstado(file);
+                GestorPesistencia.exportarEstado(file);
                 break;
             }
         }
