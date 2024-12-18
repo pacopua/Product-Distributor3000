@@ -3,6 +3,7 @@ package edu.upc.prop.clusterxx.visual;
 import edu.upc.prop.clusterxx.PropApp;
 import edu.upc.prop.clusterxx.data.GestorPesistencia;
 import edu.upc.prop.clusterxx.domain.DomainEstadoController;
+import edu.upc.prop.clusterxx.domain.DomainProductoController;
 import edu.upc.prop.clusterxx.domain.IOController;
 import edu.upc.prop.clusterxx.domain.Producto;
 
@@ -45,7 +46,8 @@ public class PropController {
     @FXML
     HBox pasosBox;
     private static IOController ioController = new IOController();
-    private static ObservableList<Producto> observableProducts = FXCollections.observableArrayList();
+    private static DomainProductoController domainProductoController = new DomainProductoController();
+    private static ObservableList<Integer> observableProducts = FXCollections.observableArrayList();
     private static ObservableList<Pair<Producto, Producto>> observableProductPairs = FXCollections.observableArrayList();
     private static ObservableList<Producto[]> observableSolutionProducts = FXCollections.observableArrayList();
 
@@ -270,13 +272,19 @@ public class PropController {
         actualizarSolucion();
     }
 
+    private static ArrayList<Integer>getProductosIds() {
+        return domainProductoController.getProductsIds();
+    }
+
     public static void actualizarDatos() {
-        observableProducts.setAll(GestorPesistencia.getListaProductos().getListaProductos());
+        //System.out.println("actualizando_datos...");
+        observableProducts.setAll(getProductosIds());
         ArrayList<Pair<Producto, Producto>> productPairs = new ArrayList<>();
         for (Producto p1 : GestorPesistencia.getListaProductos().getListaProductos())
             for (Producto p2 : GestorPesistencia.getListaProductos().getListaProductos())
                 if(GestorPesistencia.getListaProductos().getListaProductos().indexOf(p1) < GestorPesistencia.getListaProductos().getListaProductos().indexOf(p2)) productPairs.add(new Pair(p1, p2));
         observableProductPairs.setAll(productPairs);
+        //productosView.refresh();
     }
 
     private void actualizarSolucion() {
@@ -321,5 +329,29 @@ public class PropController {
     protected void onIntercambiarProductos() throws IOException {
         abrirVentana("Intercambiar Productos", "intercambiar-productos-view.fxml");
         actualizarSolucion();
+    }
+
+    public static boolean existeProductoConDiferenteID(int id, String nombre) {
+        return domainProductoController.existeProductoConDiferenteID(id, nombre);
+    }
+
+    public static void eliminarProducto(int id) {
+        domainProductoController.eliminarProductoPorId(id);
+    }
+
+    public static void cambiarNombreProducto(int id, String newName) {
+        domainProductoController.cambiarNombreProducto(id, newName);
+    }
+
+    public static String getNombreProducto(int id) {
+        return domainProductoController.getNombreProductoPorId(id);
+    }
+
+    public static double getPrecioProducto(int id) {
+        return domainProductoController.getPrecioProductoPorId(id);
+    }
+
+    public static void setPrecioProducto(int id, double precio) {
+        domainProductoController.setPrecioProductoPorId(id, precio);
     }
 }

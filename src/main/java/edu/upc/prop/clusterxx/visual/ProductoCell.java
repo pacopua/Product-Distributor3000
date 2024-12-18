@@ -1,6 +1,6 @@
 package edu.upc.prop.clusterxx.visual;
 
-import edu.upc.prop.clusterxx.data.GestorPesistencia;
+//import edu.upc.prop.clusterxx.data.GestorPesistencia;
 import edu.upc.prop.clusterxx.domain.Producto;
 import javafx.geometry.HPos;
 import javafx.scene.control.Button;
@@ -16,7 +16,8 @@ import javafx.util.converter.DoubleStringConverter;
 import static edu.upc.prop.clusterxx.visual.VisualProductoController.doubleFilter;
 import static edu.upc.prop.clusterxx.visual.VisualProductoController.nonEmptyFilter;
 
-public class ProductoCell extends ListCell<Producto> {
+public class ProductoCell extends ListCell<Integer> {
+    private PropController propController = new PropController();
     private Button actionBtn;
     private TextField nombre ;
     private TextField precio ;
@@ -55,19 +56,12 @@ public class ProductoCell extends ListCell<Producto> {
                 new TextFormatter<>(new DefaultStringConverter(), "Nuevo Producto", nonEmptyFilter));
         nombre.textProperty().addListener(
                 (observable, oldValue, newValue) -> {
-                    boolean existe = false;
-                    for (Producto prod : GestorPesistencia.getListaProductos().getListaProductos()) {
-                        if (id != GestorPesistencia.getListaProductos().getListaProductos().indexOf(prod) && prod.getNombre().equals(newValue)) {
-                            existe = true;
-                            break;
-                        }
-                    }
-                    if (existe) {
+                    if (propController.existeProductoConDiferenteID(id, newValue)) {
                         nombre.textProperty().setValue(oldValue);
                         VisualProductoController.ventanaErrorProd();
                         return;
                     }
-                    GestorPesistencia.getListaProductos().getProducto(id).get().setNombre(newValue);
+                    PropController.cambiarNombreProducto(id, newValue);
                     PropController.actualizarDatos();
                 }
         );
@@ -76,28 +70,39 @@ public class ProductoCell extends ListCell<Producto> {
         precio = new TextField();
         precio.setTextFormatter(
                 new TextFormatter<>(new DoubleStringConverter(), 0., doubleFilter));
+        /*
         precio.textProperty().addListener(
                 (observable, oldValue, newValue) -> GestorPesistencia.getListaProductos().getProducto(id).get().setPrecio(Double.parseDouble(newValue))
         );
+         */
+        precio.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.isEmpty()) {
+                PropController.setPrecioProducto(id, Double.parseDouble(newValue));
+            }
+        });
         pane.add(precio, 2, 0);
 
         actionBtn = new Button("Eliminar");
         actionBtn.setOnAction(event -> {
-            GestorPesistencia.getListaProductos().eliminarProducto(id);
-            GestorPesistencia.getMatrizAdyacencia().eliminarProducto(id);
+            PropController.eliminarProducto(id);
             PropController.actualizarDatos();
         });
         pane.add(actionBtn, 3, 0);
+        //System.out.println("ProductoCell");
+        //GestorPesistencia.imprimirListaProductos();
+        //System.out.println("AAAA");
+        //PropController.actualizarDatos();
     }
     @Override
-    public void updateItem(Producto producto, boolean empty) {
-        super.updateItem(producto, empty);
+    public void updateItem(Integer index, boolean empty) {
+        super.updateItem(index, empty);
+        //System.out.println("BBB");
 
         setEditable(false);
-        if (producto != null) {
-            id = GestorPesistencia.getListaProductos().getListaProductos().indexOf(producto);
-            nombre.setText(producto.getNombre());
-            precio.setText(Double.toString(producto.getPrecio()));
+        if (index != null && !empty) {
+            id = index;
+            nombre.setText(PropController.getNombreProducto(id));
+            precio.setText(Double.toString(PropController.getPrecioProducto(id)));
             setGraphic(pane);
         } else {
             setGraphic(null);

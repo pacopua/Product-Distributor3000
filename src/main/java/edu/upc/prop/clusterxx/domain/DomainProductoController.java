@@ -2,7 +2,62 @@ package edu.upc.prop.clusterxx.domain;
 
 import edu.upc.prop.clusterxx.data.GestorPesistencia;
 
+import java.util.ArrayList;
+
 public class DomainProductoController {
+
+    public boolean existeProductoConDiferenteID(int id, String nombre) {
+
+        for (Producto prod : GestorPesistencia.getListaProductos().getListaProductos()) {
+            if (id != GestorPesistencia.getListaProductos().getListaProductos().indexOf(prod) && prod.getNombre().equals(nombre)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean cambiarNombreProducto(int id, String nuevoNombre) {
+        GestorPesistencia.getListaProductos().getListaProductos().get(id).setNombre(nuevoNombre);
+        return false;
+    }
+
+    public boolean eliminarProductoPorId(int id) {
+        if (id >= 0 && id < GestorPesistencia.getListaProductos().getListaProductos().size()) {
+            GestorPesistencia.getListaProductos().eliminarProducto(id);
+            GestorPesistencia.getMatrizAdyacencia().eliminarProducto(id);
+            return true;
+        }
+        return false;
+    }
+
+    public String getNombreProductoPorId(int id) {
+        if (id >= 0 && id < GestorPesistencia.getListaProductos().getListaProductos().size()) {
+            return GestorPesistencia.getListaProductos().getListaProductos().get(id).getNombre();
+        }
+        return null;
+    }
+
+    public void setPrecioProductoPorId(int id, double precio) {
+        if (id >= 0 && id < GestorPesistencia.getListaProductos().getListaProductos().size()) {
+            GestorPesistencia.getListaProductos().getListaProductos().get(id).setPrecio(precio);
+        }
+    }
+
+    public double getPrecioProductoPorId(int id) {
+        if (id >= 0 && id < GestorPesistencia.getListaProductos().getListaProductos().size()) {
+            return GestorPesistencia.getListaProductos().getListaProductos().get(id).getPrecio();
+        }
+        return -1;
+    }
+
+    public ArrayList<Integer> getProductsIds() {
+        ArrayList<Integer> ids = new ArrayList<>();
+        for (int i = 0; i < GestorPesistencia.getListaProductos().getListaProductos().size(); i++) {
+            ids.add(i);
+        }
+        return ids;
+    }
+
     public boolean anyadirProducto(String nombre, double precio) {
         Producto producto = new Producto(nombre, precio);
 
