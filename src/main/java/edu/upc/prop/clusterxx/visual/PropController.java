@@ -1,11 +1,11 @@
 package edu.upc.prop.clusterxx.visual;
 
 import edu.upc.prop.clusterxx.PropApp;
-import edu.upc.prop.clusterxx.data.GestorPesistencia;
-import edu.upc.prop.clusterxx.domain.DomainEstadoController;
-import edu.upc.prop.clusterxx.domain.DomainProductoController;
+//import edu.upc.prop.clusterxx.data.GestorPesistencia;
 import edu.upc.prop.clusterxx.domain.IOController;
-import edu.upc.prop.clusterxx.domain.Producto;
+import edu.upc.prop.clusterxx.domain.DomainProductoController;
+import edu.upc.prop.clusterxx.domain.DomainSolucionController;
+import edu.upc.prop.clusterxx.domain.DomainEstadoController;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -34,7 +34,7 @@ public class PropController {
     @FXML
     private ListView relacionesView;
     @FXML
-    private TableView<Producto[]> solucionView;
+    private TableView<Integer[]> solucionView;
     @FXML
     private Label calidad;
     @FXML
@@ -47,9 +47,11 @@ public class PropController {
     HBox pasosBox;
     private static IOController ioController = new IOController();
     private static DomainProductoController domainProductoController = new DomainProductoController();
+    private static DomainSolucionController domainSolucionController = new DomainSolucionController();
+
     private static ObservableList<Integer> observableProducts = FXCollections.observableArrayList();
-    private static ObservableList<Pair<Producto, Producto>> observableProductPairs = FXCollections.observableArrayList();
-    private static ObservableList<Producto[]> observableSolutionProducts = FXCollections.observableArrayList();
+    private static ObservableList<Pair<Integer, Integer>> observableProductPairs = FXCollections.observableArrayList();
+    private static ObservableList<Integer[]> observableSolutionProducts = FXCollections.observableArrayList();
 
     ButtonType si = new ButtonType("Sí", ButtonBar.ButtonData.OK_DONE);
     ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
@@ -279,11 +281,14 @@ public class PropController {
     public static void actualizarDatos() {
         //System.out.println("actualizando_datos...");
         observableProducts.setAll(getProductosIds());
-        ArrayList<Pair<Producto, Producto>> productPairs = new ArrayList<>();
+        ArrayList<Pair<Integer, Integer>> productPairs = domainProductoController.lista_sinergias();
+        /*
         for (Producto p1 : GestorPesistencia.getListaProductos().getListaProductos())
             for (Producto p2 : GestorPesistencia.getListaProductos().getListaProductos())
                 if(GestorPesistencia.getListaProductos().getListaProductos().indexOf(p1) < GestorPesistencia.getListaProductos().getListaProductos().indexOf(p2)) productPairs.add(new Pair(p1, p2));
+        */
         observableProductPairs.setAll(productPairs);
+
         //productosView.refresh();
     }
 
@@ -293,28 +298,34 @@ public class PropController {
         intercambiar.setDisable(true);
         solucionView.getColumns().clear();
 
-        if (GestorPesistencia.getSolucion().estaCompletado()) {
+        if (domainSolucionController.is_complete()) {
             calidadBox.setDisable(false);
             pasosBox.setDisable(false);
             intercambiar.setDisable(false);
-            calidad.setText(Double.toString(GestorPesistencia.getSolucion().getCalidad()));
-            pasos.setText(Integer.toString(GestorPesistencia.getSolucion().getNumPasos()));
+            calidad.setText(Double.toString(domainSolucionController.getCalidadSolucion()));
+            pasos.setText(Integer.toString(domainSolucionController.getPasosSolucion()));
 
-            for (int i = 0; i < GestorPesistencia.getSolucion().getDistribucion()[0].length; i++) {
-                TableColumn<Producto[], String> col = new TableColumn<>(Integer.toString(i + 1));
+            for (int i = 0; i < domainSolucionController.getDistLenght(); i++) {
+                TableColumn<Integer[], String> col = new TableColumn<>(Integer.toString(i + 1));
                 int index = i;
                 col.setCellValueFactory(param -> {
-                            Producto prod = param.getValue()[index];
-                            if (prod == null) return new SimpleStringProperty("");
-                            else return new SimpleStringProperty(prod.getNombre());
+                            Integer prodID = param.getValue()[index];
+                            if (prodID == null) return new SimpleStringProperty("");
+                            else return new SimpleStringProperty(domainProductoController.getNombreProductoPorId(prodID));
                         }
                 );
                 solucionView.getColumns().add(col);
             }
 
             observableSolutionProducts = FXCollections.observableArrayList();
-            for (int i = 0; i < GestorPesistencia.getSolucion().getDistribucion().length; i++)
-                observableSolutionProducts.add(GestorPesistencia.getSolucion().getDistribucionProductos()[i]);
+            for (int i = 0; i < domainSolucionController.getDistHeight(); i++) {
+                Integer[] row = new Integer[domainSolucionController.getDistLenght()];
+                for (int j = 0; j < domainSolucionController.getDistLenght(); j++)
+                    row[j] = domainSolucionController.getDistValue(i, j);
+                            //GestorPesistencia.getSolucion().getDistribucion()[i][j];
+                observableSolutionProducts.add(row);
+            }
+                //observableSolutionProducts.add(GestorPesistencia.getSolucion().getDistribucionProductos()[i]);
             solucionView.setItems(observableSolutionProducts);
         }
     }
@@ -341,6 +352,14 @@ public class PropController {
 
     public static void cambiarNombreProducto(int id, String newName) {
         domainProductoController.cambiarNombreProducto(id, newName);
+    }
+
+    public static double getSinergia(int id1, int id2) {
+        return domainProductoController.getSinergias(id1, id2);
+    }
+
+    public static void setSinergias(int id1, int id2, double sinergia) {
+        domainProductoController.setSinergias(id1, id2, sinergia);
     }
 
     public static String getNombreProducto(int id) {

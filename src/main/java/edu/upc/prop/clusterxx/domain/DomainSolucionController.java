@@ -5,6 +5,31 @@ import edu.upc.prop.clusterxx.data.GestorPesistencia;
 import java.util.List;
 
 public class DomainSolucionController {
+
+    public double getCalidadSolucion() {
+        return GestorPesistencia.getSolucion().getCalidad();
+    }
+
+    public int getPasosSolucion() {
+        return GestorPesistencia.getSolucion().getNumPasos();
+    }
+
+    public int getDistLenght() {
+        return GestorPesistencia.getSolucion().getDistribucion()[0].length;
+    }
+
+    public int getDistValue(int i, int j) {
+        return GestorPesistencia.getSolucion().getDistribucion()[i][j];
+    }
+
+    public int getDistHeight() {
+        return GestorPesistencia.getSolucion().getDistribucion().length;
+    }
+
+    public boolean is_complete() {
+        return GestorPesistencia.getSolucion().estaCompletado();
+    }
+
     public void calcularDistribucionRapida(int filas, int columnas) {
         Solucion s = GestorPesistencia.nuevaSolucion(filas, columnas);
         AlgoritmoRapido algo = new AlgoritmoRapido(GestorPesistencia.getMatrizAdyacencia());
@@ -19,7 +44,7 @@ public class DomainSolucionController {
         Solucion s = GestorPesistencia.nuevaSolucion(filas, columnas);
         AlgoritmoOptimo algo = new AlgoritmoOptimo(GestorPesistencia.getMatrizAdyacencia());
         if(filas*columnas < s.getListaProductos().getCantidadProductos()) {
-            System.out.println("AAAAAAAAA");
+            //System.out.println("AAAAAAAAA");
             throw new IllegalArgumentException("No se puede hacer la distribución");
         }
         GestorPesistencia.setSolucion(algo.ejecutar(s));

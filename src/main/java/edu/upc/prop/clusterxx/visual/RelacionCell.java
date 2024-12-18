@@ -1,7 +1,7 @@
 package edu.upc.prop.clusterxx.visual;
 
-import edu.upc.prop.clusterxx.data.GestorPesistencia;
-import edu.upc.prop.clusterxx.domain.Producto;
+//import edu.upc.prop.clusterxx.data.GestorPesistencia;
+//import edu.upc.prop.clusterxx.domain.Producto;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -13,7 +13,7 @@ import javafx.util.converter.DoubleStringConverter;
 
 import static edu.upc.prop.clusterxx.visual.VisualProductoController.doubleFilter;
 
-public class RelacionCell extends ListCell<Pair<Producto, Producto>> {
+public class RelacionCell extends ListCell<Pair<Integer, Integer>> {
     private Label nombre1 ;
     private Label nombre2 ;
     private TextField relacion ;
@@ -59,21 +59,24 @@ public class RelacionCell extends ListCell<Pair<Producto, Producto>> {
         pane.add(relacion, 2, 0);
     }
     @Override
-    public void updateItem(Pair<Producto, Producto> productos, boolean empty) {
+    public void updateItem(Pair<Integer, Integer> productos, boolean empty) {
         super.updateItem(productos, empty);
 
         setEditable(false);
         if (productos != null) {
-            id1 = GestorPesistencia.getListaProductos().getListaProductos().indexOf(productos.getKey());
-            id2 = GestorPesistencia.getListaProductos().getListaProductos().indexOf(productos.getValue());
+            //id1 = GestorPesistencia.getListaProductos().getListaProductos().indexOf(productos.getKey());
+            //id2 = GestorPesistencia.getListaProductos().getListaProductos().indexOf(productos.getValue());
+            id1 = productos.getKey();
+            id2 = productos.getValue();
 
-            nombre1.setText(productos.getKey().getNombre());
-            nombre2.setText(productos.getValue().getNombre());
-            double relacionValue = GestorPesistencia.getMatrizAdyacencia().getSinergia(id1, id2);
+            nombre1.setText(PropController.getNombreProducto(id1));
+            nombre2.setText(PropController.getNombreProducto(id2));
+            double relacionValue = PropController.getSinergia(id1, id2);
             relacion.setText(Double.toString(relacionValue));
             relacion.textProperty().addListener(
                     (observable, oldValue, newValue) ->
-                        GestorPesistencia.getMatrizAdyacencia().modificar_sinergias(id1, id2, Double.parseDouble(newValue))
+                        //GestorPesistencia.getMatrizAdyacencia().modificar_sinergias(id1, id2, Double.parseDouble(newValue))
+                        PropController.setSinergias(id1, id2, Double.parseDouble(newValue))
             );
             setGraphic(pane);
         } else {

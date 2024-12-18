@@ -1,10 +1,19 @@
 package edu.upc.prop.clusterxx.domain;
 
 import edu.upc.prop.clusterxx.data.GestorPesistencia;
+import javafx.util.Pair;
 
 import java.util.ArrayList;
 
 public class DomainProductoController {
+
+    public double getSinergias(int id1, int id2) {
+        return GestorPesistencia.getMatrizAdyacencia().getSinergia(id1, id2);
+    }
+
+    public void setSinergias(int id1, int id2, double sinergia) {
+        GestorPesistencia.getMatrizAdyacencia().modificar_sinergias(id1, id2, sinergia);
+    }
 
     public boolean existeProductoConDiferenteID(int id, String nombre) {
 
@@ -14,6 +23,17 @@ public class DomainProductoController {
             }
         }
         return false;
+    }
+
+    //Funcion que devuelve todas las parejas de sinergias
+    public ArrayList<Pair<Integer, Integer>> lista_sinergias() {
+        ArrayList<Pair<Integer, Integer>> lista = new ArrayList<>();
+        for (int i = 0; i < GestorPesistencia.getMatrizAdyacencia().getNumProductos(); i++) {
+            for (int j = i + 1; j < GestorPesistencia.getMatrizAdyacencia().getNumProductos(); j++) {
+                lista.add(new Pair<>(i, j));
+            }
+        }
+        return lista;
     }
 
     public boolean cambiarNombreProducto(int id, String nuevoNombre) {
