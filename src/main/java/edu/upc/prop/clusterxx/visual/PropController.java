@@ -81,11 +81,11 @@ public class PropController {
         solucionView.setItems(observableSolutionProducts);
     }
 
-    private boolean ventanaConfirmar() {
+    public boolean ventanaConfirmar(String mensaje) {
         // pedimos confirmación
         Alert alerta = new Alert(
                 Alert.AlertType.WARNING,
-                "Esta acción reemplazará los datos.\n¿Desea continuar?",
+                mensaje,
                 si,
                 no
         );
@@ -133,7 +133,7 @@ public class PropController {
     }
     @FXML
     protected boolean onImportarEstado() {
-        if (!ventanaConfirmar()) return false;
+        if (!ventanaConfirmar("Esta acción reemplazará los datos.\n¿Desea continuar?")) return false;
         File in = abrirFileChooser(true,"data.state", stateFilter);
         if (in == null) return false;
         try {
@@ -163,7 +163,7 @@ public class PropController {
     }
     @FXML
     protected boolean onImportarLista() {
-        if (!ventanaConfirmar()) return false;;
+        if (!ventanaConfirmar("Esta acción reemplazará los datos.\n¿Desea continuar?")) return false;;
         File in = abrirFileChooser(true,"products.list", listFilter);
         if (in == null) return false;;
         try {
@@ -269,7 +269,8 @@ public class PropController {
 
     @FXML
     protected void onNuevaSolucion() throws IOException {
-        if (!ventanaConfirmar()) return;
+        if(domainSolucionController.is_complete())
+            if (!ventanaConfirmar("Esta acción reemplazará la solución.\n¿Desea continuar?")) return;
         abrirVentana("Nueva Solución", "nueva-solucion-view.fxml");
         actualizarSolucion();
     }

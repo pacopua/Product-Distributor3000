@@ -99,7 +99,7 @@
             </GridPane>
          </content>
       </Tab>
-      <Tab text="Sistema">
+      <Tab text="Estado">
          <content>
             <GridPane alignment="CENTER">
                <columnConstraints>
