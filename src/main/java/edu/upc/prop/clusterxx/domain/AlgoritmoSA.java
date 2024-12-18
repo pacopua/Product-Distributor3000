@@ -6,8 +6,27 @@ package edu.upc.prop.clusterxx.domain;
 import java.util.Random;
 
 public class AlgoritmoSA extends Algoritmo {
-    public AlgoritmoSA(MatrizAdyacencia m) {
+    int numPasos;
+    int stiter;
+    double k;
+    double lambda;
+    final float T0 = 1000;
+    final float coolingRate = 0.003f;
+
+    /**
+     * Constructor de la clase AlgoritmoSA
+     * @param m matriz de adyacencia
+     * @param numPasos número de pasos
+     * @param stiter número de iteraciones para bajar la temperatura
+     * @param k coeficiente lineal
+     * @param lambda coeficiente exponencial
+     */
+    public AlgoritmoSA(MatrizAdyacencia m, int numPasos,int stiter, double k, double lambda) {
         super(m);
+        this.numPasos = numPasos;
+        this.stiter = stiter;
+        this.k = k;
+        this.lambda = lambda;
     }
 
     /**
@@ -19,7 +38,6 @@ public class AlgoritmoSA extends Algoritmo {
      */
     public Solucion ejecutar(Solucion s, int intentos) {
         Solucion bestSolution = s;
-        System.out.println("ejecutando_algoritmo_simulated_annealing...");
         for (int attempt = 0; attempt < intentos; ++attempt) {
             initializeSolution(s);
             s.setCalidad(calcular_todas(s));
@@ -38,26 +56,23 @@ public class AlgoritmoSA extends Algoritmo {
      */
     private void initializeSolution(Solucion s) {
         Random random = new Random();
-        resetDistribution(s);
-        for (int i = 0; i < matrizAdyacencia.getMatriz().length; ++i) {
-            int row, col;
-            do {
-                row = random.nextInt(s.getDistribucion().length);
-                col = random.nextInt(s.getDistribucion()[0].length);
-            } while (s.getDistribucion()[row][col] != -1);
-            s.getDistribucion()[row][col] = i;
-        }
-    }
-
-    /**
-     * Reinicia la distribución de la solución
-     * @param s la solución a reiniciar
-     */
-    private void resetDistribution(Solucion s) {
         for (int i = 0; i < s.getDistribucion().length; ++i) {
             for (int j = 0; j < s.getDistribucion()[0].length; ++j) {
                 s.getDistribucion()[i][j] = -1;
             }
+        }
+        for (int i = 0; i < matrizAdyacencia.getMatriz().length; ++i) {
+            int aux_i = random.nextInt(0, s.getDistribucion().length);
+            int aux_j = random.nextInt(0, s.getDistribucion()[0].length);
+            while (s.getDistribucion()[aux_i][aux_j] < i && s.getDistribucion()[aux_i][aux_j] != -1) {
+                ++aux_j;
+                if(aux_j >= s.getDistribucion()[0].length) {
+                    aux_j = 0;
+                    ++aux_i;
+                    if(aux_i == s.getDistribucion().length) aux_i = 0;
+                }
+            }
+            s.getDistribucion()[aux_i][aux_j] = i;
         }
     }
 
@@ -80,11 +95,10 @@ public class AlgoritmoSA extends Algoritmo {
     private Solucion simulatedAnnealing(Solucion currentSolution) {
         Solucion bestSolution = copiar_solucion(currentSolution);
         Solucion current = copiar_solucion(currentSolution);
-        double temperature = 1000.0;
-        double coolingRate = 0.003;
+        double temperature = T0;
         Random random = new Random();
 
-        while (temperature > 1) {
+        while (current.getNumPasos() < numPasos) {
             Solucion neighbor = copiar_solucion(current);
             int i1 = random.nextInt(current.getDistribucion().length);
             int j1 = random.nextInt(current.getDistribucion()[0].length);
@@ -105,7 +119,7 @@ public class AlgoritmoSA extends Algoritmo {
                 bestSolution = current;
             }
 
-            temperature *= 1 - coolingRate;
+            if (current.getNumPasos() % stiter == 0) temperature *= 1 - coolingRate;
         }
 
         return bestSolution;
@@ -122,6 +136,7 @@ public class AlgoritmoSA extends Algoritmo {
         if (neighborEnergy > currentEnergy) {
             return 1.0;
         }
-        return Math.exp((neighborEnergy - currentEnergy) / temperature);
+        double F = k * Math.exp(-lambda * temperature);
+        return Math.exp((neighborEnergy - currentEnergy) / F);
     }
 }
