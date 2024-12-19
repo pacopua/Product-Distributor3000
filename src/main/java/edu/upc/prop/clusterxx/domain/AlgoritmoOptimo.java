@@ -15,7 +15,9 @@ import java.util.concurrent.Future;
 public class AlgoritmoOptimo extends Algoritmo {
     //public int contador = 0;
     //public double best_value = Double.NEGATIVE_INFINITY;
-    private Set<String> exploredSolutions = new HashSet<>();
+    //private Set<String> exploredSolutions = new HashSet<>();
+    private int dist_files = 0;
+    private int dist_columnes = 0;
 
     public AlgoritmoOptimo(MatrizAdyacencia m) {
         super(m);
@@ -30,15 +32,17 @@ public class AlgoritmoOptimo extends Algoritmo {
     //@Override
     public Solucion ejecutar(Solucion s) {
         System.out.println("ejecutando_algoritmo...");
+        dist_files = s.getDistribucion().length;
+        dist_columnes = s.getDistribucion()[0].length;
         int x = 0;
-        for(int i = 0; i < s.getDistribucion().length; ++i) {
-            for(int j = 0; j < s.getDistribucion()[0].length; ++j) {
+        for(int i = 0; i < dist_files; ++i) {
+            for(int j = 0; j < dist_columnes; ++j) {
                 s.getDistribucion()[i][j] = -1;
             }
         }
 
-        for (int i = 0; i < s.getDistribucion().length; ++i) {
-            for (int j = 0; j < s.getDistribucion()[0].length; ++j) {
+        for (int i = 0; i < dist_files; ++i) {
+            for (int j = 0; j < dist_columnes; ++j) {
                 if(x < matrizAdyacencia.getMatriz().length) {
                     s.getDistribucion()[i][j] = x;
                     ++x;
@@ -51,13 +55,13 @@ public class AlgoritmoOptimo extends Algoritmo {
         ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
         List<Future<Solucion>> futures = new ArrayList<>();
 
-        for (int i = 0; i < s.getDistribucion().length; ++i) {
-            for (int j = 0; j < s.getDistribucion()[0].length; ++j) {
+        for (int i = 0; i < dist_files; ++i) {
+            for (int j = 0; j < dist_columnes; ++j) {
                 Solucion aux = copiar_solucion(s);
                 aux.intercambiar_productos(0, 0, i, j);
                 futures.add(executor.submit(() -> {
-                    Solucion result = recursive_calcular(aux, 0, 0);
-                    System.out.println("Tarea completada por el thread: " + Thread.currentThread().getName());
+                    Solucion result = recursive_calcular(aux, 0, 1);
+                    //System.out.println("Tarea completada por el thread: " + Thread.currentThread().getName());
                     return result;
                 }));
             }

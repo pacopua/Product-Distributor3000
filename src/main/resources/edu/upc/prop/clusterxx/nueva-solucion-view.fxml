@@ -48,6 +48,6 @@
         <Separator minHeight="32.0" prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="7" />
         <Button onAction="#onGenerarSolucion" text="_Generar Solución" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="8" />
         <Label minWidth="32.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-        <Label prefHeight="43.0" prefWidth="158.0" text="Seleccione la geometría de la &#10;estantería y tipo de solución" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1" GridPane.rowSpan="2" />
+        <Label alignment="CENTER" prefHeight="43.0" prefWidth="308.0" text="Seleccione la geometría de la &#10;estantería y tipo de solución" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1" GridPane.rowSpan="2" />
     </GridPane>
 </AnchorPane>
