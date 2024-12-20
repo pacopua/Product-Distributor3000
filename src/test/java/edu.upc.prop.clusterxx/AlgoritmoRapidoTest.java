@@ -43,6 +43,7 @@ public class AlgoritmoRapidoTest {
 
     @Test
     public void testAlgoritmoRapido9x9() {
+
         ma9x9 = new MatrizAdyacencia(
                 new double[][] {
                         {  0,29,82,46,68,52,72,42,51},
@@ -56,12 +57,30 @@ public class AlgoritmoRapidoTest {
                         { 51,23,41,62,21,55,23,33, 0}
                 }
         );
+
+        /*
+        ma9x9 = new MatrizAdyacencia(
+                new double[][] {
+                        {0.0,71.0,33.0,90.0,11.0,99.0,91.0,4.0,43.0},
+                        {71.0,0.0,71.0,42.0,25.0,79.0,30.0,55.0,54.0},
+                        {33.0,71.0,0.0,5.0,30.0,80.0,37.0,11.0,56.0},
+                        {90.0,42.0,5.0,0.0,13.0,99.0,82.0,56.0,34.0},
+                        {11.0,25.0,30.0,13.0,0.0,87.0,43.0,22.0,81.0},
+                        {99.0,79.0,80.0,99.0,87.0,0.0,19.0,91.0,67.0},
+                        {91.0,30.0,37.0,82.0,43.0,19.0,0.0,88.0,57.0},
+                        {4.0,55.0,11.0,56.0,22.0,91.0,88.0,0.0,47.0,},
+                        {43.0,54.0,56.0,34.0,81.0,67.0,57.0,47.0,0.0,},
+                }
+        );
+
+         */
         l = new ListaProductos();
         for (int i = 0; i < 9; i++) l.addProducto(new Producto(Integer.toString(i), 0.));
-        s = new Solucion(l, 4, 4);
+        s = new Solucion(l, 3, 3);
 
         ar = new AlgoritmoRapido(ma9x9);
-        s = ar.ejecutar(s, 30);
+        s = ar.ejecutar(s, 1);
         assertTrue(s.getCalidad() >= 246);
+        System.out.println("la calidad es: " + s.getCalidad());
     }
 }

@@ -100,6 +100,8 @@ public class AlgoritmoOptimo extends Algoritmo {
         return resultado;
 
          */
+
+
     }
     /**
      * calcula recursivamente todas las combinaciones partiendo de la solución y los parametros elegidos
@@ -112,13 +114,13 @@ public class AlgoritmoOptimo extends Algoritmo {
 
         Solucion best_solution = s;
         if(y >= dist_files) return best_solution;
-        ++contador;
-        System.out.println("Contador = " + contador);
+        //++contador;
+        //System.out.println("Contador = " + contador);
 
         //
-        Solucion aux = copiar_solucion(s);
-        for(int i = 0; i < dist_files; ++i) {
-            for(int j = 0; j < dist_columnes; ++j) {
+        //Solucion aux = copiar_solucion(s);
+        for(int i = y; i < dist_files; ++i) {
+            for(int j = (y == i) ? x : 0; j < dist_columnes; ++j) {
                 //System.out.println("Aquitoy");
                 Solucion aux = copiar_solucion(s);
 
@@ -137,6 +139,7 @@ public class AlgoritmoOptimo extends Algoritmo {
                 //    exploredSolutions.add(SolucionEncriptada);
                 int x_enviada = (x + 1) % dist_columnes;
                 int y_enviada = x_enviada == 0 ? y + 1 : y;
+                aux.setNumPasos(aux.getNumPasos() + 1);
                 aux = recursive_calcular(aux, y_enviada, x_enviada);
                 if (aux.getCalidad() > best_solution.getCalidad()) best_solution = aux;
                 else if(aux.getCalidad() == best_solution.getCalidad()) {
