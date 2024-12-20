@@ -30,18 +30,30 @@ public class AlgoritmoSA extends Algoritmo {
     }
 
     /**
-     * Esta función ejecuta el algoritmo Simulated Annealing
+     * Esta función ejecuta el algoritmo Simulated Annealing con una semilla aleatoria
      * @param s instancia de solución que queremos ordenar
      * @param intentos numero de veces que se repite el algorismo ya que es un algoritmo estocástico
      *                 y puede caer en máximos locales aunque esté diseñado para evitarlos
      * @return una aproximación a una buena solución
      */
     public Solucion ejecutar(Solucion s, int intentos) {
+        Random r = new Random();
+        return ejecutar(s, intentos, r.nextLong());
+    }
+
+    /**
+     * Esta función ejecuta el algoritmo Simulated Annealing con una semilla determinada
+     * @param s instancia de solución que queremos ordenar
+     * @param intentos numero de veces que se repite el algorismo ya que es un algoritmo estocástico
+     *                 y puede caer en máximos locales aunque esté diseñado para evitarlos
+     * @return una aproximación a una buena solución
+     */
+    public Solucion ejecutar(Solucion s, int intentos, long seed) {
         Solucion bestSolution = s;
         for (int attempt = 0; attempt < intentos; ++attempt) {
             initializeSolution(s);
             s.setCalidad(calcular_todas(s));
-            Solucion candidateSolution = simulatedAnnealing(s);
+            Solucion candidateSolution = simulatedAnnealing(s, seed);
             if (isBetterSolution(candidateSolution, bestSolution)) {
                 bestSolution = candidateSolution;
             }
@@ -92,11 +104,11 @@ public class AlgoritmoSA extends Algoritmo {
      * @param currentSolution la solución actual
      * @return la mejor solución encontrada
      */
-    private Solucion simulatedAnnealing(Solucion currentSolution) {
+    private Solucion simulatedAnnealing(Solucion currentSolution, long seed) {
         Solucion bestSolution = copiar_solucion(currentSolution);
         Solucion current = copiar_solucion(currentSolution);
         double temperature = T0;
-        Random random = new Random();
+        Random random = new Random(seed);
 
         while (current.getNumPasos() < numPasos) {
             Solucion neighbor = copiar_solucion(current);
