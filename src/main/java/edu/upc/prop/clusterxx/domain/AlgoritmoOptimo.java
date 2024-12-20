@@ -111,17 +111,14 @@ public class AlgoritmoOptimo extends Algoritmo {
     public Solucion recursive_calcular(Solucion s, int y, int x) {
 
         Solucion best_solution = s;
-        if(y >= s.getDistribucion().length-1 && x >= s.getDistribucion()[0].length-1) return best_solution;
-        else if(x >= s.getDistribucion()[0].length-1) {
-            x = 0;
-            ++y;
-        }
-        s.setNumPasos(s.getNumPasos() + 1);
-        //++contador;
-        //System.out.println("Contador = " + contador);
+        if(y >= dist_files) return best_solution;
+        ++contador;
+        System.out.println("Contador = " + contador);
 
-        for(int i = 0; i < s.getDistribucion().length; ++i) {
-            for(int j = 0; j < s.getDistribucion()[0].length; ++j) {
+        //
+        Solucion aux = copiar_solucion(s);
+        for(int i = 0; i < dist_files; ++i) {
+            for(int j = 0; j < dist_columnes; ++j) {
                 //System.out.println("Aquitoy");
                 Solucion aux = copiar_solucion(s);
 
@@ -138,7 +135,9 @@ public class AlgoritmoOptimo extends Algoritmo {
                 //String SolucionEncriptada = aux.toString();
                 //if (!exploredSolutions.contains(SolucionEncriptada)) {
                 //    exploredSolutions.add(SolucionEncriptada);
-                aux = recursive_calcular(aux, y, x+1);
+                int x_enviada = (x + 1) % dist_columnes;
+                int y_enviada = x_enviada == 0 ? y + 1 : y;
+                aux = recursive_calcular(aux, y_enviada, x_enviada);
                 if (aux.getCalidad() > best_solution.getCalidad()) best_solution = aux;
                 else if(aux.getCalidad() == best_solution.getCalidad()) {
                     if(aux.getNumPasos() < best_solution.getNumPasos()) best_solution = aux;

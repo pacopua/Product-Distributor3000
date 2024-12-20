@@ -229,10 +229,10 @@ public class PropController {
         alerta.setTitle("Guardar y salir");
         Optional<ButtonType> eleccion = alerta.showAndWait();
         // guardamos y salimos
-        DomainEstadoController domainEstadoController = new DomainEstadoController();
+         IOController ioController = new IOController();
         if (eleccion.get() == si) {
             if(onExportarEstado()) {
-                domainEstadoController.salir();
+                ioController.salir();
                 return true;
             }
         }
@@ -248,7 +248,7 @@ public class PropController {
             eleccion = alerta.showAndWait();
             // si confirma, cerramos la aplicación
             if (eleccion.get() == si) {
-                domainEstadoController.salir();
+                ioController.salir();
                 return true;
             }
         }
