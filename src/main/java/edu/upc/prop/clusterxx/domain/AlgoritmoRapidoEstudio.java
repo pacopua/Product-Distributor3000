@@ -155,7 +155,7 @@ public class AlgoritmoRapidoEstudio {
         double suma_calidades = 0;
         for(int i = 0; i < 100; i++) {
             double tiempoIni = System.currentTimeMillis();
-            s = ar.ejecutar(s, 100, semillas[i]);
+            s = ar.ejecutar(s, 100);//, semillas[i]);
             double tiempoFin = System.currentTimeMillis();
             suma_calidades += s.getCalidad();
             writer.append(semillas[i] + ", " + s.getCalidad() + ", " + (tiempoFin-tiempoIni) + "\n");
