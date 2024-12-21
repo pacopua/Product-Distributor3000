@@ -6,6 +6,11 @@ import java.io.File;
 import java.io.IOException;
 
 public class IOController {
+    public void salir() {
+        GestorPesistencia gestorPesistencia = new GestorPesistencia();
+        gestorPesistencia.salir();
+    }
+
     public void importarEstado(String ruta_archivo) throws IOException, ClassNotFoundException {
         GestorPesistencia.importarEstado(new File(ruta_archivo));
     }

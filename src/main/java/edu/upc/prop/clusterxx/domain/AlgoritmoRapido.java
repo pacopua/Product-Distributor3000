@@ -4,9 +4,16 @@
 package edu.upc.prop.clusterxx.domain;
 
 import java.util.Random;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
-// no haría falta el extends si los cálculos de sinergias estuviesen en matriz de adyacencias
 public class AlgoritmoRapido extends Algoritmo {
+    private int dist_files = 0;
+    private int dist_columnes = 0;
+
     public AlgoritmoRapido(MatrizAdyacencia m) {
         super(m);
     }
@@ -18,50 +25,78 @@ public class AlgoritmoRapido extends Algoritmo {
      * @return una aproximación a una buena solución
      */
     //@Override
-    public Solucion ejecutar(Solucion s, int intentos) {
-        //System.out.println("ejecutando_algoritmo_hill_climbing...");
-        Random random = new Random();
-        Solucion solucion_a_probar;
-        Solucion best_solution = s;
-        for (int indice_intentos = 0; indice_intentos < intentos; ++indice_intentos) {
+    public Solucion ejecutar(Solucion s, int intentos) { //, int semilla) {
+        dist_files = s.getDistribucion().length;
+        dist_columnes = s.getDistribucion()[0].length;
 
-            for (int i = 0; i < s.getDistribucion().length; ++i) {
-                for (int j = 0; j < s.getDistribucion()[0].length; ++j) {
-                    s.getDistribucion()[i][j] = -1;
-                }
-            }
+        ExecutorService executor = Executors.newFixedThreadPool(1);
+        List<Future<Solucion>> futures = new ArrayList<>();
+        //Random first_random = new Random(semilla);
+        for (int t = 0; t < 8; ++t) {
+            futures.add(executor.submit(() -> {
+                //Random random = new Random(first_random.nextInt());
+                Random random = new Random();
+                Solucion best_solution = copiar_solucion(s);
+                Solucion pruebas = copiar_solucion(s);
+                for (int indice_intentos = 0; indice_intentos < intentos; ++indice_intentos) {
+                    //System.out.println("Saludos");
+                    for (int i = 0; i < dist_files; ++i) {
+                        for (int j = 0; j < dist_columnes; ++j) {
+                            pruebas.getDistribucion()[i][j] = -1;
+                        }
+                    }
 
-            //int x = 0;
-            //boolean b[] = new boolean[MatrizAdyacencia.getMatriz().length];
-            for (int i = 0; i < matrizAdyacencia.getMatriz().length; ++i) {
-                int aux_i = random.nextInt(0, s.getDistribucion().length);
-                int aux_j = random.nextInt(0, s.getDistribucion()[0].length);
-                while (s.getDistribucion()[aux_i][aux_j] < i && s.getDistribucion()[aux_i][aux_j] != -1) {
-                    //aux_i = random.nextInt(0, s.getDistribucion().length - 1);
-                    //aux_j = random.nextInt(0, s.getDistribucion()[0].length - 1);
-                    ++aux_j;
-                    if(aux_j >= s.getDistribucion()[0].length) {
-                        aux_j = 0;
-                        ++aux_i;
-                        if(aux_i == s.getDistribucion().length) aux_i = 0;
+                    for (int i = 0; i < matrizAdyacencia.getMatriz().length; ++i) {
+                        int aux_i = random.nextInt(0, dist_files);
+                        int aux_j = random.nextInt(0, dist_columnes);
+                        while (pruebas.getDistribucion()[aux_i][aux_j] < i && pruebas.getDistribucion()[aux_i][aux_j] != -1) {
+                            ++aux_j;
+                            if (aux_j >= dist_columnes) {
+                                aux_j = 0;
+                                ++aux_i;
+                            }
+                            if (aux_i == dist_files) aux_i = 0;
+                        }
+                        pruebas.getDistribucion()[aux_i][aux_j] = i;
+                    }
+
+                    pruebas.setCalidad(calcular_todas(pruebas));
+                    //System.out.println("Estoy aqui");
+                    Solucion solucion_a_probar = hillClimbing(pruebas);
+                    if (solucion_a_probar.getCalidad() >= best_solution.getCalidad()) {
+                        if (solucion_a_probar.getCalidad() > best_solution.getCalidad()
+                                || solucion_a_probar.getNumPasos() < best_solution.getNumPasos())
+                            best_solution = solucion_a_probar;
                     }
                 }
-                s.getDistribucion()[aux_i][aux_j] = i;
-            }
-
-            s.setCalidad(calcular_todas(s));
-            //System.out.println("Calidad inicial: " + s.getCalidad());
-
-            solucion_a_probar = hillClimbing(s);
-            if(solucion_a_probar.getCalidad() >= best_solution.getCalidad()) {
-                if(solucion_a_probar.getCalidad() > best_solution.getCalidad()
-                        || solucion_a_probar.getNumPasos() < best_solution.getNumPasos())
-                    best_solution = solucion_a_probar;
+                //System.out.println("acabe");
+                return best_solution;
+            }));
+        }
+        Solucion best_solution = s;
+        best_solution.setCalidad(-1);
+        for (Future<Solucion> future : futures) {
+            try {
+                Solucion result = future.get();
+                if (result.getCalidad() > best_solution.getCalidad()) {
+                    best_solution = result;
+                } else if (result.getCalidad() == best_solution.getCalidad()) {
+                    if (result.getNumPasos() < best_solution.getNumPasos()) {
+                        best_solution = result;
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
-        //System.out.println("mejor calidad: " + best_solution.getCalidad());
+
+        executor.shutdown();
         best_solution.setCompletado(true);
+        System.out.println("He acabado");
+        best_solution.imprimir_distribucion();
         return best_solution;
+
+
     }
 
     /**
@@ -71,32 +106,27 @@ public class AlgoritmoRapido extends Algoritmo {
      */
     private Solucion hillClimbing(Solucion currentSolution) {
         Solucion bestSolution = copiar_solucion(currentSolution);
-        //int iterations = 0;
-        //int attemptsWithoutImprovement = 0;
         boolean improved = true;
 
-        while (improved) {//iterations < MAX_ITERATIONS && attemptsWithoutImprovement < MAX_ATTEMPTS) {
+        while (improved) {
+            //System.out.println("Saludos desde el thread" + Thread.currentThread().getId());
             improved = false;
-            //++iterations;
-            //Solucion base_solution = copiar_solucion(currentSolution);
-            for(int i = 0; i < currentSolution.getDistribucion().length; ++i) {
-                for(int j = 0; j < currentSolution.getDistribucion()[0].length; ++j) {
-                    for(int y = 0; y < currentSolution.getDistribucion().length; ++y) {
-                        for(int x = 0; x < currentSolution.getDistribucion()[0].length; ++x) {
-                            if(i == y && j == x) continue; //Saltar posición
 
+            for(int i = 0; i < dist_files; ++i) {
+                for(int j = 0; j < dist_columnes; ++j) {
+                    for(int y = i; y < dist_files; ++y) {
+                        for(int x = j; x < dist_columnes; ++x) {
+                            if(i == y && j == x) continue;
                             Solucion neighbor = copiar_solucion(currentSolution);
                             neighbor.intercambiar_productos(i, j, y, x);
                             neighbor.setCalidad(calcular_todas(neighbor));
                             neighbor.setNumPasos(neighbor.getNumPasos() + 1);
-                            //System.out.println(neighbor.getNumPasos());
+
                             if(neighbor.getCalidad() >= bestSolution.getCalidad()) {
                                 if(neighbor.getCalidad() > bestSolution.getCalidad()
                                         || neighbor.getNumPasos() < bestSolution.getNumPasos()) {
                                     bestSolution = neighbor;
                                     improved = true;
-                                    //attemptsWithoutImprovement = 0;
-                                    //System.out.println("Mejora encontrada! Nueva calidad: " + neighbor.getCalidad());
                                 }
                             }
                         }
@@ -104,20 +134,10 @@ public class AlgoritmoRapido extends Algoritmo {
                 }
             }
             currentSolution = bestSolution;
-            /*
-            if(!improved) {
-                ++attemptsWithoutImprovement;
-            }
-
-             */
-
-            //System.out.println("Iteración " + iterations +
-                    //", Calidad actual: " + bestSolution.getCalidad() +
-                    //", Intentos sin mejora: " + attemptsWithoutImprovement);
+            System.out.println("Calidad: " + currentSolution.getCalidad());
+            currentSolution.imprimir_distribucion();
         }
 
-        //System.out.println("Hill Climbing terminado después de " + iterations + " iteraciones");
-        //System.out.println("Calidad final: " + bestSolution.getCalidad());
 
         return bestSolution;
     }

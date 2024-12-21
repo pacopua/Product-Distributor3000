@@ -1,0 +1,26 @@
+.list-view {
+    -fx-background-color: transparent;
+}
+
+.list-cell {
+    -fx-background-color: transparent;
+}
+
+.button {
+    -fx-background-color: linear-gradient(#5e5f6c, #373a40);
+    -fx-border-color: #020000;
+    -fx-text-fill: #ffffff;
+}
+
+.label {
+    -fx-text-fill: #ffffff;
+}
+
+.tab-pane {
+    -fx-background-color: linear-gradient(to bottom right, #141E30, #243B55);
+}
+
+.text-field {
+    -fx-text-fill: #ffffff;
+    -fx-control-inner-background: #373a40;
+}

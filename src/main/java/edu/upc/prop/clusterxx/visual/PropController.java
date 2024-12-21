@@ -10,6 +10,7 @@ import edu.upc.prop.clusterxx.domain.DomainEstadoController;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -74,7 +75,7 @@ public class PropController {
 
     @FXML
     private void initialize() {
-        productosView.setCellFactory(producto -> new ProductoCell());
+        productosView.setCellFactory(producto -> new ProductoCell(this));
         productosView.setItems(observableProducts);
         relacionesView.setCellFactory(productPair -> new RelacionCell());
         relacionesView.setItems(observableProductPairs);
@@ -142,6 +143,8 @@ public class PropController {
             ioController.importarEstado(in.getAbsolutePath());
             actualizarDatos();
             actualizarSolucion();
+            ordenarProductosView();
+            ordenarRelacionesView();
         } catch (IOException e) {
             ventanaErrorArchivo();
             return false;
@@ -172,6 +175,8 @@ public class PropController {
             DomainEstadoController.actualizarHistorial();
             ioController.importarListaProductos(in.getAbsolutePath());
             actualizarDatos();
+            ordenarProductosView();
+            ordenarRelacionesView();
         } catch (IOException e) {
             ventanaErrorArchivo();
             return false;
@@ -232,10 +237,10 @@ public class PropController {
         alerta.setTitle("Guardar y salir");
         Optional<ButtonType> eleccion = alerta.showAndWait();
         // guardamos y salimos
-        DomainEstadoController domainEstadoController = new DomainEstadoController();
+         IOController ioController = new IOController();
         if (eleccion.get() == si) {
             if(onExportarEstado()) {
-                domainEstadoController.salir();
+                ioController.salir();
                 return true;
             }
         }
@@ -251,7 +256,7 @@ public class PropController {
             eleccion = alerta.showAndWait();
             // si confirma, cerramos la aplicación
             if (eleccion.get() == si) {
-                domainEstadoController.salir();
+                ioController.salir();
                 return true;
             }
         }
@@ -285,6 +290,7 @@ public class PropController {
     public static void actualizarDatos() {
         //System.out.println("actualizando_datos...");
         observableProducts.setAll(getProductosIds());
+
         ArrayList<Pair<Integer, Integer>> productPairs = domainProductoController.lista_sinergias();
         /*
         for (Producto p1 : GestorPesistencia.getListaProductos().getListaProductos())
@@ -338,8 +344,41 @@ public class PropController {
     protected void onNuevoProducto() throws IOException {
         abrirVentana("Nuevo Producto", "nuevo-producto-view.fxml");
         actualizarDatos();
+        //ArrayList<String> s = new ArrayList<String>();
+        //int espacio = observableProducts.size();
+        //for(int i = 0; i < espacio; i++) {
+            //lo añadimos  ala lista s
+            //s.add(domainProductoController.getNombreProductoPorId(observableProducts.get(i)));
+        //}
+        //SortedList<String> sortedData = new SortedList<String>();
+        ordenarProductosView();
+        ordenarRelacionesView();
     }
 
+    private void ordenarRelacionesView() {
+        SortedList<Pair<Integer, Integer>> sortedData = new SortedList<>(observableProductPairs);
+        sortedData.setComparator((p1, p2) -> {
+            String name1First = domainProductoController.getNombreProductoPorId(p1.getKey()) + domainProductoController.getNombreProductoPorId(p1.getValue());
+            String name2First = domainProductoController.getNombreProductoPorId(p2.getKey()) + domainProductoController.getNombreProductoPorId(p2.getValue());
+            int comparacion = name1First.compareToIgnoreCase(name2First);
+            if(comparacion == 0) {
+                String name1Second = domainProductoController.getNombreProductoPorId(p1.getValue()) + domainProductoController.getNombreProductoPorId(p1.getKey());
+                String name2Second = domainProductoController.getNombreProductoPorId(p2.getValue()) + domainProductoController.getNombreProductoPorId(p2.getKey());
+                comparacion = name1Second.compareToIgnoreCase(name2Second);
+            }
+            return comparacion;
+        });
+        relacionesView.setItems(sortedData);
+    }
+    public void ordenarProductosView() {
+        SortedList<Integer> sortedData = new SortedList<>(observableProducts);
+        sortedData.setComparator((id1, id2) -> {
+            String name1 = domainProductoController.getNombreProductoPorId(id1);
+            String name2 = domainProductoController.getNombreProductoPorId(id2);
+            return name1.compareToIgnoreCase(name2);
+        });
+        productosView.setItems(sortedData);
+    }
     @FXML
     protected void onIntercambiarProductos() throws IOException {
         abrirVentana("Intercambiar Productos", "intercambiar-productos-view.fxml");
