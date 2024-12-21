@@ -13,6 +13,15 @@ import java.util.concurrent.Future;
 public class AlgoritmoRapido extends Algoritmo {
     private int dist_files = 0;
     private int dist_columnes = 0;
+    private volatile boolean stopRequested = false;
+
+    public void stopExecution() {
+        stopRequested = true;
+    }
+
+    public boolean isStopRequested() {
+        return stopRequested;
+    }
 
     public AlgoritmoRapido(MatrizAdyacencia m) {
         super(m);
@@ -39,7 +48,7 @@ public class AlgoritmoRapido extends Algoritmo {
                 Solucion best_solution = copiar_solucion(s);
                 Solucion pruebas = copiar_solucion(s);
                 for (int indice_intentos = 0; indice_intentos < intentos; ++indice_intentos) {
-                    //System.out.println("Saludos");
+                    if(stopRequested) return pruebas;
                     for (int i = 0; i < dist_files; ++i) {
                         for (int j = 0; j < dist_columnes; ++j) {
                             pruebas.getDistribucion()[i][j] = -1;
@@ -91,9 +100,14 @@ public class AlgoritmoRapido extends Algoritmo {
         }
 
         executor.shutdown();
-        best_solution.setCompletado(true);
-        System.out.println("He acabado");
-        best_solution.imprimir_distribucion();
+        //best_solution.setCompletado(true);
+        //System.out.println("He acabado");
+        //best_solution.imprimir_distribucion();
+
+        if(!stopRequested)best_solution.setCompletado(true);
+        else {
+            System.out.println("Algoritmo detenido");
+        }
         return best_solution;
 
 
@@ -109,6 +123,7 @@ public class AlgoritmoRapido extends Algoritmo {
         boolean improved = true;
 
         while (improved) {
+            if(stopRequested) return currentSolution;
             //System.out.println("Saludos desde el thread" + Thread.currentThread().getId());
             improved = false;
 
@@ -116,6 +131,7 @@ public class AlgoritmoRapido extends Algoritmo {
                 for(int j = 0; j < dist_columnes; ++j) {
                     for(int y = i; y < dist_files; ++y) {
                         for(int x = j; x < dist_columnes; ++x) {
+                            if(stopRequested) return currentSolution;
                             if(i == y && j == x) continue;
                             Solucion neighbor = copiar_solucion(currentSolution);
                             neighbor.intercambiar_productos(i, j, y, x);

@@ -14,10 +14,16 @@ import java.util.concurrent.Future;
 public class AlgoritmoOptimo extends Algoritmo {
     private int dist_files = 0;
     private int dist_columnes = 0;
+    private volatile boolean stopRequested = false;
 
     public AlgoritmoOptimo(MatrizAdyacencia m) {
         super(m);
     }
+
+    public void stopExecution() {
+        stopRequested = true;
+    }
+
 
     /**
      * configura una solución inicial para luego llamar un algoritmo recursivo que comprueba
@@ -79,7 +85,9 @@ public class AlgoritmoOptimo extends Algoritmo {
 
         executor.shutdown();
         calcular_todas(best_solution);
-        best_solution.setCompletado(true);
+
+        if(!stopRequested)best_solution.setCompletado(true);
+        else System.out.println("Algoritmo detenido");
         return best_solution;
     }
     /**
@@ -90,12 +98,14 @@ public class AlgoritmoOptimo extends Algoritmo {
      * @return la mejor combinacion partiendo de los valores seleccionados
      */
     public Solucion recursive_calcular(Solucion s, int y, int x) {
-
+        if (stopRequested) {
+            return s; // Return the current solution if stopping is requested
+        }
         Solucion best_solution = s;
         if(y >= dist_files) return best_solution;
         for(int i = y; i < dist_files; ++i) {
             for(int j = (y == i) ? x : 0; j < dist_columnes; ++j) {
-
+                if (stopRequested) return best_solution;
                 Solucion aux = copiar_solucion(s);
 
                 aux.intercambiar_productos(i, j, y, x);
