@@ -1,5 +1,7 @@
 package edu.upc.prop.clusterxx.visual;
 
+import edu.upc.prop.clusterxx.data.GestorPesistencia;
+import edu.upc.prop.clusterxx.domain.DomainEstadoController;
 import edu.upc.prop.clusterxx.domain.DomainProductoController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
