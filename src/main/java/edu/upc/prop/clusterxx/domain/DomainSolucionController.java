@@ -37,7 +37,7 @@ public class DomainSolucionController {
         if(filas*columnas < s.getListaProductos().getCantidadProductos()) {
             throw new IllegalArgumentException("No se puede hacer la distribución");
         }
-        GestorPesistencia.setSolucion(algo.ejecutar(s, 10));
+        GestorPesistencia.setSolucion(algo.ejecutar(s, 1));
     }
 
     public void calcularDistribucionOptima(int filas, int columnas) {

@@ -75,7 +75,7 @@ public class PropController {
 
     @FXML
     private void initialize() {
-        productosView.setCellFactory(producto -> new ProductoCell());
+        productosView.setCellFactory(producto -> new ProductoCell(this));
         productosView.setItems(observableProducts);
         relacionesView.setCellFactory(productPair -> new RelacionCell());
         relacionesView.setItems(observableProductPairs);
@@ -367,7 +367,7 @@ public class PropController {
         });
         relacionesView.setItems(sortedData);
     }
-    private void ordenarProductosView() {
+    public void ordenarProductosView() {
         SortedList<Integer> sortedData = new SortedList<>(observableProducts);
         sortedData.setComparator((id1, id2) -> {
             String name1 = domainProductoController.getNombreProductoPorId(id1);

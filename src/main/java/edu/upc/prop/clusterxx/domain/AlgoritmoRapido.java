@@ -25,29 +25,31 @@ public class AlgoritmoRapido extends Algoritmo {
      * @return una aproximación a una buena solución
      */
     //@Override
-    public Solucion ejecutar(Solucion s, int intentos, int semilla) {
+    public Solucion ejecutar(Solucion s, int intentos) { //, int semilla) {
         dist_files = s.getDistribucion().length;
         dist_columnes = s.getDistribucion()[0].length;
 
-        ExecutorService executor = Executors.newFixedThreadPool(8);
+        ExecutorService executor = Executors.newFixedThreadPool(1);
         List<Future<Solucion>> futures = new ArrayList<>();
-        Random first_random = new Random(semilla);
+        //Random first_random = new Random(semilla);
         for (int t = 0; t < 8; ++t) {
             futures.add(executor.submit(() -> {
-                Random random = new Random(first_random.nextInt());
+                //Random random = new Random(first_random.nextInt());
+                Random random = new Random();
                 Solucion best_solution = copiar_solucion(s);
+                Solucion pruebas = copiar_solucion(s);
                 for (int indice_intentos = 0; indice_intentos < intentos; ++indice_intentos) {
-
+                    //System.out.println("Saludos");
                     for (int i = 0; i < dist_files; ++i) {
                         for (int j = 0; j < dist_columnes; ++j) {
-                            s.getDistribucion()[i][j] = -1;
+                            pruebas.getDistribucion()[i][j] = -1;
                         }
                     }
 
                     for (int i = 0; i < matrizAdyacencia.getMatriz().length; ++i) {
                         int aux_i = random.nextInt(0, dist_files);
                         int aux_j = random.nextInt(0, dist_columnes);
-                        while (s.getDistribucion()[aux_i][aux_j] < i && s.getDistribucion()[aux_i][aux_j] != -1) {
+                        while (pruebas.getDistribucion()[aux_i][aux_j] < i && pruebas.getDistribucion()[aux_i][aux_j] != -1) {
                             ++aux_j;
                             if (aux_j >= dist_columnes) {
                                 aux_j = 0;
@@ -55,22 +57,24 @@ public class AlgoritmoRapido extends Algoritmo {
                             }
                             if (aux_i == dist_files) aux_i = 0;
                         }
-                        s.getDistribucion()[aux_i][aux_j] = i;
+                        pruebas.getDistribucion()[aux_i][aux_j] = i;
                     }
 
-                    s.setCalidad(calcular_todas(s));
-
-                    Solucion solucion_a_probar = hillClimbing(s);
+                    pruebas.setCalidad(calcular_todas(pruebas));
+                    //System.out.println("Estoy aqui");
+                    Solucion solucion_a_probar = hillClimbing(pruebas);
                     if (solucion_a_probar.getCalidad() >= best_solution.getCalidad()) {
                         if (solucion_a_probar.getCalidad() > best_solution.getCalidad()
                                 || solucion_a_probar.getNumPasos() < best_solution.getNumPasos())
                             best_solution = solucion_a_probar;
                     }
                 }
+                //System.out.println("acabe");
                 return best_solution;
             }));
         }
         Solucion best_solution = s;
+        best_solution.setCalidad(-1);
         for (Future<Solucion> future : futures) {
             try {
                 Solucion result = future.get();
@@ -88,6 +92,8 @@ public class AlgoritmoRapido extends Algoritmo {
 
         executor.shutdown();
         best_solution.setCompletado(true);
+        System.out.println("He acabado");
+        best_solution.imprimir_distribucion();
         return best_solution;
 
 
@@ -103,6 +109,7 @@ public class AlgoritmoRapido extends Algoritmo {
         boolean improved = true;
 
         while (improved) {
+            //System.out.println("Saludos desde el thread" + Thread.currentThread().getId());
             improved = false;
 
             for(int i = 0; i < dist_files; ++i) {
@@ -127,6 +134,8 @@ public class AlgoritmoRapido extends Algoritmo {
                 }
             }
             currentSolution = bestSolution;
+            System.out.println("Calidad: " + currentSolution.getCalidad());
+            currentSolution.imprimir_distribucion();
         }
 
 

@@ -17,17 +17,18 @@ import static edu.upc.prop.clusterxx.visual.VisualProductoController.doubleFilte
 import static edu.upc.prop.clusterxx.visual.VisualProductoController.nonEmptyFilter;
 
 public class ProductoCell extends ListCell<Integer> {
-    private PropController propController = new PropController();
+    private PropController propController;
     private Button actionBtn;
     private TextField nombre ;
     private TextField precio ;
     private GridPane pane ;
     private int id;
-    public ProductoCell() {
+    public ProductoCell(PropController p) {
         super();
-
+        propController = p;
         pane = new GridPane();
         pane.prefWidthProperty().bind(this.widthProperty().subtract(14));
+        //pane.setStyle("-fx-background-color: green;");
 
         ColumnConstraints col0 = new ColumnConstraints();
         col0.setMaxWidth(Double.MAX_VALUE);
@@ -59,6 +60,7 @@ public class ProductoCell extends ListCell<Integer> {
                     if (propController.existeProductoConDiferenteID(id, newValue)) {
                         nombre.textProperty().setValue(oldValue);
                         VisualProductoController.ventanaErrorProd();
+                        PropController.actualizarDatos();
                         return;
                     }
                     PropController.cambiarNombreProducto(id, newValue);
@@ -87,6 +89,8 @@ public class ProductoCell extends ListCell<Integer> {
             if(propController.ventanaConfirmar("Esta acción eliminará el producto.\n¿Seguro que desea continuar?")) {
             PropController.eliminarProducto(id);
             PropController.actualizarDatos();
+
+            propController.ordenarProductosView();
             }
         });
         pane.add(actionBtn, 3, 0);
