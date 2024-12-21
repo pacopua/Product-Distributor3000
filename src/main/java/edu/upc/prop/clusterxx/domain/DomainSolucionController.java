@@ -58,36 +58,17 @@ public class DomainSolucionController {
 
     public void intercambiarProductos(String nombreP1, String nombreP2) {
         Solucion solucion = GestorPesistencia.getSolucion();
-        Producto p1 = null;
-        for (Producto p : GestorPesistencia.getSolucion().getListaProductos().getListaProductos()) {
-            if (nombreP1.equals(p.getNombre())) p1 = p;
+
+        int p1 = -1, p2 = -1;
+        List<Producto> lp = solucion.getListaProductos().getListaProductos();
+        for (int i = 0; i < lp.size(); ++i) {
+            String _nombre = lp.get(i).getNombre();
+            if (_nombre.equals(nombreP1)) p1 = i;
+            if (_nombre.equals(nombreP2)) p2 = i;
         }
 
-        Producto p2 = null;
-        for (Producto p : GestorPesistencia.getSolucion().getListaProductos().getListaProductos()) {
-            if (nombreP2.equals(p.getNombre())) p2 = p;
-        }
-
-        Producto[][] distribucionProductos = solucion.getDistribucionProductos();
-        int[][] distribucion = solucion.getDistribucion();
-        int x1 = 0, y1 = 0, x2 = 0, y2 = 0;
-
-        for (int i = 0; i < distribucionProductos.length; i++) {
-            for (int j = 0; j < distribucionProductos[0].length; j++) {
-                if (p1 == distribucionProductos[i][j]) {
-                    x1 = i;
-                    y1 = j;
-                }
-                if (p2 == distribucionProductos[i][j]) {
-                    x2 = i;
-                    y2 = j;
-                }
-            }
-        }
-
-        distribucionProductos[x1][y1] = p2;
-        distribucionProductos[x2][y2] = p1;
-        distribucion[x1][y1] = solucion.getListaProductos().getListaProductos().indexOf(p2);
-        distribucion[x2][y2] = solucion.getListaProductos().getListaProductos().indexOf(p1);
+        int[] pos_p1 = solucion.buscar_producto(p1);
+        int[] pos_p2 = solucion.buscar_producto(p2);
+        solucion.intercambiar_productos(pos_p1[0], pos_p1[1], pos_p2[0], pos_p2[1]);
     }
 }

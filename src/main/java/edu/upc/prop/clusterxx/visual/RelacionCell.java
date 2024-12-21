@@ -2,6 +2,7 @@ package edu.upc.prop.clusterxx.visual;
 
 //import edu.upc.prop.clusterxx.data.GestorPesistencia;
 //import edu.upc.prop.clusterxx.domain.Producto;
+import edu.upc.prop.clusterxx.PropApp;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -74,9 +75,10 @@ public class RelacionCell extends ListCell<Pair<Integer, Integer>> {
             double relacionValue = PropController.getSinergia(id1, id2);
             relacion.setText(Double.toString(relacionValue));
             relacion.textProperty().addListener(
-                    (observable, oldValue, newValue) ->
-                        //GestorPesistencia.getMatrizAdyacencia().modificar_sinergias(id1, id2, Double.parseDouble(newValue))
-                        PropController.setSinergias(id1, id2, Double.parseDouble(newValue))
+                    (observable, oldValue, newValue) -> {
+                        PropController.onGuardarEstado();
+                        PropController.setSinergias(id1, id2, Double.parseDouble(newValue));
+                    }
             );
             setGraphic(pane);
         } else {

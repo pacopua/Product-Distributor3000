@@ -79,6 +79,7 @@ public class PropController {
         relacionesView.setCellFactory(productPair -> new RelacionCell());
         relacionesView.setItems(observableProductPairs);
         solucionView.setItems(observableSolutionProducts);
+        DomainEstadoController.actualizarHistorial();
     }
 
     public boolean ventanaConfirmar(String mensaje) {
@@ -114,7 +115,7 @@ public class PropController {
     private void ventanaErrorInternoArchivo() {
         Alert alerta = new Alert(
                 Alert.AlertType.ERROR,
-                "No se han podido importar los datos.\n" +
+                "No se han podido importa1r los datos.\n" +
                         "El sistema ha encontrado un error irrecuperable."
         );
         alerta.setTitle("Error interno al importar");
@@ -137,6 +138,7 @@ public class PropController {
         File in = abrirFileChooser(true,"data.state", stateFilter);
         if (in == null) return false;
         try {
+            DomainEstadoController.actualizarHistorial();
             ioController.importarEstado(in.getAbsolutePath());
             actualizarDatos();
             actualizarSolucion();
@@ -167,6 +169,7 @@ public class PropController {
         File in = abrirFileChooser(true,"products.list", listFilter);
         if (in == null) return false;;
         try {
+            DomainEstadoController.actualizarHistorial();
             ioController.importarListaProductos(in.getAbsolutePath());
             actualizarDatos();
         } catch (IOException e) {
@@ -348,10 +351,12 @@ public class PropController {
     }
 
     public static void eliminarProducto(int id) {
+        DomainEstadoController.actualizarHistorial();
         domainProductoController.eliminarProductoPorId(id);
     }
 
     public static void cambiarNombreProducto(int id, String newName) {
+        DomainEstadoController.actualizarHistorial();
         domainProductoController.cambiarNombreProducto(id, newName);
     }
 
@@ -360,6 +365,7 @@ public class PropController {
     }
 
     public static void setSinergias(int id1, int id2, double sinergia) {
+        DomainEstadoController.actualizarHistorial();
         domainProductoController.setSinergias(id1, id2, sinergia);
     }
 
@@ -372,6 +378,17 @@ public class PropController {
     }
 
     public static void setPrecioProducto(int id, double precio) {
+        DomainEstadoController.actualizarHistorial();
         domainProductoController.setPrecioProductoPorId(id, precio);
+    }
+
+    public static void onGuardarEstado() {
+        DomainEstadoController.actualizarHistorial();
+    }
+
+    public void onDeshacer() {
+        DomainEstadoController.deshacer();
+        actualizarDatos();
+        actualizarSolucion();
     }
 }

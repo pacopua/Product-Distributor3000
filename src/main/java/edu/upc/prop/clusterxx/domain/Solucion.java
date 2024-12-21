@@ -245,6 +245,9 @@ public class Solucion implements Serializable, Cloneable {
                     || this.numPasos != sol.numPasos) {
                 return false;
             }
+            if (distribucion == null || distribucion.length == 0) {
+                return sol.distribucion == null || sol.distribucion.length == 0;
+            }
             return Arrays.deepEquals(this.distribucion, sol.getDistribucion());
         }
         return super.equals(obj);

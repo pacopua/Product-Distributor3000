@@ -2,8 +2,10 @@
 package edu.upc.prop.clusterxx.domain;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.util.Arrays;
 
-public class MatrizAdyacencia implements Serializable {
+public class MatrizAdyacencia implements Serializable, Cloneable {
     private double[][] matriz;
     private int numProductos;
 
@@ -120,5 +122,20 @@ public class MatrizAdyacencia implements Serializable {
      */
     public int getNumProductos() {
         return numProductos;
+    }
+
+    @Override
+    public MatrizAdyacencia clone() {
+        try {
+            super.clone();
+        } catch (Exception e) {
+            return null;
+        }
+        MatrizAdyacencia ma = new MatrizAdyacencia(numProductos);
+        ma.matriz = new double[numProductos][numProductos];
+        for (int i = 0; i < numProductos; i++) {
+            System.arraycopy(matriz[i], 0, ma.matriz[i], 0, numProductos);
+        }
+        return ma;
     }
 }

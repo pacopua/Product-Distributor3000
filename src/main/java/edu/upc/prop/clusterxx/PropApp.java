@@ -1,10 +1,14 @@
 package edu.upc.prop.clusterxx;
 
+import edu.upc.prop.clusterxx.domain.DomainEstadoController;
 import edu.upc.prop.clusterxx.visual.PropController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -16,6 +20,10 @@ public class PropApp extends Application {
         Parent root = fxmlLoader.load();
         PropController controller = fxmlLoader.getController();
         Scene scene = new Scene(root);
+
+        // Función deshacer (ctrl-z)
+        scene.getAccelerators().put(new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN), controller::onDeshacer);
+
         stage.setTitle("PROP 42.1");
         stage.setMinWidth(640.);
         stage.setMinHeight(480.);
