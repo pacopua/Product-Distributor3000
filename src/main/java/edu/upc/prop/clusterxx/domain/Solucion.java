@@ -1,7 +1,11 @@
 package edu.upc.prop.clusterxx.domain;
 
+import javafx.util.Pair;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Solucion implements Serializable, Cloneable {
     private final ListaProductos productos;
@@ -119,6 +123,19 @@ public class Solucion implements Serializable, Cloneable {
             }
         }
         return new int[] {-1, -1};
+    }
+
+    /**
+     * Devuelve un ArrayList de Pair<String, Integer> con los el nombre y el ID de los productos
+     * @return ArrayList de Pair<String, Integer> con los el nombre y el ID de los productos
+     */
+    public ArrayList<Pair<String, Integer>> getProductosConId() {
+        ArrayList<Pair<String, Integer>> productosConId = new ArrayList<>();
+        List<Producto> lp = productos.getListaProductos();
+        for (int i = 0; i < lp.size(); i++) {
+            productosConId.add(new Pair<>(lp.get(i).getNombre(), i));
+        }
+        return productosConId;
     }
 
     /**
