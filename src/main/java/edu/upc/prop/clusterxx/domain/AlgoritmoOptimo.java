@@ -24,6 +24,39 @@ public class AlgoritmoOptimo extends Algoritmo {
         stopRequested = true;
     }
 
+    /**
+     * calcula la cantidad de pasos que se necesitan para llegar a la solución
+     * @return la calidad de pasos
+     */
+    public long getNumIters() {
+        int m = matrizAdyacencia.getMatriz().length;
+        int n = matrizAdyacencia.getMatriz()[0].length;
+        // return the binomial product of m and n
+        try {
+            return binomial(m + n, m);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    /**
+     * calcula el binomial de dos números
+     * @param n primer número
+     * @param k segundo número
+     * @return el binomial de los dos números
+     */
+    private long binomial(int n, int k) {
+        if (k > n - k) {
+            k = n - k;
+        }
+        long b = 1;
+        for (int i = 1, m = n; i <= k; i++, m--) {
+            b = b * m / i;
+        }
+        return b;
+    }
+
 
     /**
      * configura una solución inicial para luego llamar un algoritmo recursivo que comprueba

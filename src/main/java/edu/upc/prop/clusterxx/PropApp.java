@@ -35,7 +35,8 @@ public class PropApp extends Application {
         });
         stage.show();
     }
+
     public static void main(String[] args) {
-        launch();
+        launch(args);
     }
 }
