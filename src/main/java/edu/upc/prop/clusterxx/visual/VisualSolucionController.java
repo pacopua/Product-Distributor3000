@@ -1,14 +1,13 @@
 package edu.upc.prop.clusterxx.visual;
 
-//import edu.upc.prop.clusterxx.data.Sistema;
-//import edu.upc.prop.clusterxx.domain.Solucion;
 import edu.upc.prop.clusterxx.domain.DomainEstadoController;
 import edu.upc.prop.clusterxx.domain.DomainSolucionController;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.value.ObservableDoubleValue;
 import javafx.fxml.FXML;
 import javafx.concurrent.Task;
-import javafx.scene.control.Alert;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.Spinner;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 public class VisualSolucionController {
@@ -21,9 +20,15 @@ public class VisualSolucionController {
     @FXML
     Spinner columnas;
     @FXML
+    Button generar;
+    @FXML
+    ProgressBar barra;
+    @FXML
     protected void onGenerarSolucion() {
         try {
             DomainSolucionController solucionController = new DomainSolucionController();
+            DoubleProperty progreso = new SimpleDoubleProperty(0);
+            barra.progressProperty().bind(progreso);
             int numFilas = (int)filas.getValue();
             int numColumnas = (int)columnas.getValue();
             Task<Void> task = new Task<>() {
@@ -34,10 +39,10 @@ public class VisualSolucionController {
                       PropController.onGuardarEstado();
                       if (rapida.isSelected()) {
                           //return
-                          solucionController.calcularDistribucionRapida(numFilas, numColumnas);
+                          solucionController.calcularDistribucionRapida(numFilas, numColumnas, progreso);
                       } else if (optima.isSelected()) {
                           //return
-                          solucionController.calcularDistribucionOptima(numFilas, numColumnas);
+                          solucionController.calcularDistribucionOptima(numFilas, numColumnas, progreso);
                       }
                   } catch (IllegalArgumentException ex) {
                       throw new Exception("el número de filas y columnas es insuficiente para el número de productos", ex);
@@ -62,8 +67,10 @@ public class VisualSolucionController {
                 alerta.showAndWait();
             });
 
-            new Thread(task).start();
-
+            Thread t = new Thread(task);
+            generar.setDisable(true);
+            //generar.getScene().getWindow().setOnCloseRequest(e -> solucionController.stopExecution());
+            t.start();
         } catch (IllegalArgumentException ex) {
             Alert alerta = new Alert(
                     Alert.AlertType.ERROR,

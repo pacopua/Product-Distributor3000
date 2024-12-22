@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="226.0" prefWidth="346.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.upc.prop.clusterxx.visual.VisualSolucionController">
+<AnchorPane prefHeight="226.0" prefWidth="346.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.upc.prop.clusterxx.visual.VisualSolucionController">
 
     <GridPane alignment="CENTER" prefHeight="226.0" prefWidth="346.0">
         <columnConstraints>
@@ -22,9 +22,11 @@
             <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
             <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
             <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="24.0" minHeight="24.0" prefHeight="24.0" valignment="CENTER" vgrow="NEVER" />
+            <RowConstraints maxHeight="23.0" minHeight="16.0" prefHeight="23.0" valignment="CENTER" vgrow="NEVER" />
             <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
             <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="16.0" minHeight="16.0" prefHeight="16.0" valignment="CENTER" vgrow="NEVER" />
+         <RowConstraints maxHeight="16.0" minHeight="16.0" prefHeight="16.0" valignment="CENTER" vgrow="NEVER" />
         </rowConstraints>
         <Label text="Filas" GridPane.columnIndex="1" GridPane.rowIndex="3" />
         <Label text="Columnas" GridPane.columnIndex="3" GridPane.rowIndex="3" />
@@ -46,8 +48,9 @@
         </RadioButton>
         <RadioButton fx:id="optima" mnemonicParsing="false" text="Solución Óptima" toggleGroup="$tipo_sol" GridPane.columnIndex="3" GridPane.rowIndex="6" />
         <Separator minHeight="32.0" prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="7" />
-        <Button onAction="#onGenerarSolucion" text="_Generar Solución" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="8" />
+        <Button fx:id="generar" onAction="#onGenerarSolucion" text="_Generar Solución" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="10" />
         <Label minWidth="32.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
         <Label alignment="CENTER" prefHeight="43.0" prefWidth="308.0" text="Seleccione la geometría de la &#10;estantería y tipo de solución" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1" GridPane.rowSpan="2" />
+      <ProgressBar fx:id="barra" maxWidth="1.7976931348623157E308" progress="0.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="8" />
     </GridPane>
 </AnchorPane>

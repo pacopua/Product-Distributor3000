@@ -3,6 +3,8 @@
 //package src.main.java.edu.upc.prop.clusterxx;   <- marcad src como root para no poner el path entero
 package edu.upc.prop.clusterxx.domain;
 
+import javafx.beans.property.DoubleProperty;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -18,6 +20,10 @@ public class AlgoritmoOptimo extends Algoritmo {
 
     public AlgoritmoOptimo(MatrizAdyacencia m) {
         super(m);
+    }
+
+    public AlgoritmoOptimo(MatrizAdyacencia m, DoubleProperty progreso) {
+        super(m, progreso);
     }
 
     public void stopExecution() {
@@ -114,6 +120,7 @@ public class AlgoritmoOptimo extends Algoritmo {
                 int x_enviada = (x + 1) % dist_columnes;
                 int y_enviada = x_enviada == 0 ? y + 1 : y;
                 aux.setNumPasos(aux.getNumPasos() + 1);
+                actualizar_progreso(aux.getNumPasos());
                 aux = recursive_calcular(aux, y_enviada, x_enviada);
                 if (aux.getCalidad() > best_solution.getCalidad()) best_solution = aux;
                 else if(aux.getCalidad() == best_solution.getCalidad()) {

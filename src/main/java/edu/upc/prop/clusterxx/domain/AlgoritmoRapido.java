@@ -3,6 +3,8 @@
 //package src.main.java.edu.upc.prop.clusterxx;   <- marcad src como root para no poner el path entero -Marcel
 package edu.upc.prop.clusterxx.domain;
 
+import javafx.beans.property.DoubleProperty;
+
 import java.util.Random;
 import java.util.List;
 import java.util.ArrayList;
@@ -25,6 +27,9 @@ public class AlgoritmoRapido extends Algoritmo {
 
     public AlgoritmoRapido(MatrizAdyacencia m) {
         super(m);
+    }
+    public AlgoritmoRapido(MatrizAdyacencia m, DoubleProperty progreso) {
+        super(m, progreso);
     }
 
     /**
@@ -133,10 +138,11 @@ public class AlgoritmoRapido extends Algoritmo {
                         for(int x = j; x < dist_columnes; ++x) {
                             if(stopRequested) return currentSolution;
                             if(i == y && j == x) continue;
+                            currentSolution.setNumPasos(currentSolution.getNumPasos() + 1);
+                            actualizar_progreso(currentSolution.getNumPasos());
                             Solucion neighbor = copiar_solucion(currentSolution);
                             neighbor.intercambiar_productos(i, j, y, x);
                             neighbor.setCalidad(calcular_todas(neighbor));
-                            neighbor.setNumPasos(neighbor.getNumPasos() + 1);
 
                             if(neighbor.getCalidad() >= bestSolution.getCalidad()) {
                                 if(neighbor.getCalidad() > bestSolution.getCalidad()

@@ -3,11 +3,22 @@
 //package src.main.java.edu.upc.prop.clusterxx;   <- marcad src como root para no poner el path entero -Marcel
 package edu.upc.prop.clusterxx.domain;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.value.ObservableDoubleValue;
+
 public class Algoritmo {
     protected MatrizAdyacencia matrizAdyacencia;
-    
+    protected DoubleProperty progreso;
+
     public Algoritmo(MatrizAdyacencia m) {
         matrizAdyacencia = m;
+        this.progreso = new SimpleDoubleProperty(0);
+    }
+    
+    public Algoritmo(MatrizAdyacencia m, DoubleProperty progreso) {
+        matrizAdyacencia = m;
+        this.progreso = progreso;
     }
 
 
@@ -95,6 +106,15 @@ public class Algoritmo {
             System.err.println("Error al clonar solución para copiarla en algoritmo" + e.getMessage());
             return null;
         }
+    }
+
+    protected void actualizar_progreso(double pasos) {
+        double maxPasos = Math.max(1, pasos + maxPasosRestantes());
+        progreso.set(pasos / maxPasos);
+    }
+
+    protected double maxPasosRestantes() {
+        return 10000;
     }
 }
 
