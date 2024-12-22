@@ -51,6 +51,16 @@ public class AlgoritmoRapido extends Algoritmo {
     }
 
     /**
+     * Calcula una fita superior muy probable de la cantidad de pasos que se necesitan para llegar a la solución
+     * @return la fita de cantidad de pasos
+     */
+    public long getNumIters() {
+        int m = matrizAdyacencia.getMatriz().length;
+        int n = matrizAdyacencia.getMatriz()[0].length;
+        return (long) Math.pow(m * n, 4);
+    }
+
+    /**
      * Esta función inicializa de manera aleatoria una solución y luego llama a un algoritmo de ordenación aproximado
      * @param s instancia de solución que queremos ordenar
      * @param intentos numero de veces que se repite el algorismo (util para intentar no encontrar maximos locales)

@@ -50,30 +50,20 @@ public class AlgoritmoOptimo extends Algoritmo {
     public long getNumIters() {
         int m = matrizAdyacencia.getMatriz().length;
         int n = matrizAdyacencia.getMatriz()[0].length;
-        // return the binomial product of m and n
-        try {
-            return binomial(m + n, m);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return 0;
-        }
+        return factorial(m * n);
     }
 
     /**
-     * calcula el binomial de dos números
-     * @param n primer número
-     * @param k segundo número
-     * @return el binomial de los dos números
+     * calcula el factorial de un número
+     * @param n número del que se quiere calcular el factorial
+     * @return el factorial del número
      */
-    private long binomial(int n, int k) {
-        if (k > n - k) {
-            k = n - k;
+    private long factorial(int n) {
+        long result = 1;
+        for (int i = 1; i <= n; ++i) {
+            result *= i;
         }
-        long b = 1;
-        for (int i = 1, m = n; i <= k; i++, m--) {
-            b = b * m / i;
-        }
-        return b;
+        return result;
     }
 
 

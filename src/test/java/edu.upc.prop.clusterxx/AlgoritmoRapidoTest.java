@@ -3,6 +3,8 @@ package edu.upc.prop.clusterxx;
 import edu.upc.prop.clusterxx.domain.*;
 import org.junit.*;
 
+import java.util.Random;
+
 import static org.junit.Assert.*;
 
 public class AlgoritmoRapidoTest {
@@ -58,22 +60,6 @@ public class AlgoritmoRapidoTest {
                 }
         );
 
-        /*
-        ma9x9 = new MatrizAdyacencia(
-                new double[][] {
-                        {0.0,71.0,33.0,90.0,11.0,99.0,91.0,4.0,43.0},
-                        {71.0,0.0,71.0,42.0,25.0,79.0,30.0,55.0,54.0},
-                        {33.0,71.0,0.0,5.0,30.0,80.0,37.0,11.0,56.0},
-                        {90.0,42.0,5.0,0.0,13.0,99.0,82.0,56.0,34.0},
-                        {11.0,25.0,30.0,13.0,0.0,87.0,43.0,22.0,81.0},
-                        {99.0,79.0,80.0,99.0,87.0,0.0,19.0,91.0,67.0},
-                        {91.0,30.0,37.0,82.0,43.0,19.0,0.0,88.0,57.0},
-                        {4.0,55.0,11.0,56.0,22.0,91.0,88.0,0.0,47.0,},
-                        {43.0,54.0,56.0,34.0,81.0,67.0,57.0,47.0,0.0,},
-                }
-        );
-
-         */
         l = new ListaProductos();
         for (int i = 0; i < 9; i++) l.addProducto(new Producto(Integer.toString(i), 0.));
         s = new Solucion(l, 3, 3);
@@ -81,6 +67,33 @@ public class AlgoritmoRapidoTest {
         ar = new AlgoritmoRapido(ma9x9);
         s = ar.ejecutar(s, 1);
         assertTrue(s.getCalidad() >= 246);
+        System.out.println("la calidad es: " + s.getCalidad());
+    }
+
+
+    @Test
+    public void testAlgoritmoRapido20x20Aleatorio() {
+        double[][] matrix = new double[20][20];
+        Random r = new Random();
+        for (int i = 0; i < 20; i++) {
+            for (int j = 0; j < 20; j++) {
+                if (i == j) matrix[i][j] = 0;
+                else matrix[i][j] = r.nextDouble(0, 20);
+            }
+        }
+        MatrizAdyacencia ma20x20 = new MatrizAdyacencia(matrix);
+        l = new ListaProductos();
+        for (int i = 0; i < 20; i++) l.addProducto(new Producto(Integer.toString(i), 0.));
+        s = new Solucion(l, 10, 10);
+
+        ar = new AlgoritmoRapido(ma20x20);
+        long currentTime = System.currentTimeMillis();
+        s = ar.ejecutar(s, 1);
+        long endTime = System.currentTimeMillis();
+        long totalTime = endTime - currentTime;
+        assertTrue(totalTime < 1000);
+        System.out.println("la duración es: " + totalTime);
+        assertTrue(s.getCalidad() >= 400);
         System.out.println("la calidad es: " + s.getCalidad());
     }
 }
