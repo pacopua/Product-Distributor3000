@@ -28,7 +28,6 @@ public class IntercambioController {
         String nombreP1 = producto1.getValue();
         String nombreP2 = producto2.getValue();
         solucionController.intercambiarProductos(nombreP1, nombreP2);
-        DomainSolucionController.getInstance().actualizarCalidadSolucion();
         ((Stage) producto1.getScene().getWindow()).close();
     }
 }

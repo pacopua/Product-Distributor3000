@@ -86,13 +86,6 @@ public class DomainSolucionController {
         gp.setSolucion(algoSA.ejecutar(s, 1));
     }
 
-    public void actualizarCalidadSolucion() {
-        Solucion s = GestorPesistencia.getInstance().getSolucion();
-        AlgoritmoOptimo ao = new AlgoritmoOptimo(GestorPesistencia.getInstance().getMatrizAdyacencia());
-        double calidad = ao.calcular_todas(s);
-        s.setCalidad(calidad);
-    }
-
     public List<String> getListaNombresProductos() {
         return GestorPesistencia.getInstance().getSolucion().getListaProductos().getListaProductos().stream()
                 .map(Producto::getNombre)
