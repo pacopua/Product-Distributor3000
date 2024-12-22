@@ -124,8 +124,7 @@ public class ProductoControllerTest {
         assertEquals(29.99, productoController.getPrecioProductoPorId(4), 0);
         assertEquals("Test #5", productoController.getNombreProductoPorId(4));
         productoController.anyadirProducto("Test #6", -0.99);
-        // TODO PROBAR PRECIOS NEGATIVOS
-        //     assertEquals(5, gestorPesistencia.getListaProductos().getCantidadProductos());
+        assertEquals(5, gestorPesistencia.getListaProductos().getCantidadProductos());
     }
 
     @Test
