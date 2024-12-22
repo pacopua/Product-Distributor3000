@@ -315,23 +315,33 @@ public class PropController {
             calidad.setText(Double.toString(domainSolucionController.getCalidadSolucion()));
             pasos.setText(Integer.toString(domainSolucionController.getPasosSolucion()));
 
+            TableColumn<Integer[], String> columnaNumeros = new TableColumn<>("#");
+            columnaNumeros.setCellValueFactory(param -> new SimpleStringProperty(""));
+            columnaNumeros.setCellValueFactory(param -> new SimpleStringProperty(Integer.toString(param.getValue()[0])));
+            columnaNumeros.setSortable(false);
+            columnaNumeros.setReorderable(false);
+            solucionView.getColumns().add(columnaNumeros);
+
             for (int i = 0; i < domainSolucionController.getDistLenght(); i++) {
                 TableColumn<Integer[], String> col = new TableColumn<>(Integer.toString(i + 1));
-                int index = i;
+                int index = i + 1;
                 col.setCellValueFactory(param -> {
                             Integer prodID = param.getValue()[index];
                             if (prodID == null) return new SimpleStringProperty("");
                             else return new SimpleStringProperty(domainProductoController.getNombreProductoPorId(prodID));
                         }
                 );
+                col.setSortable(false);
+                col.setReorderable(false);
                 solucionView.getColumns().add(col);
             }
 
             observableSolutionProducts = FXCollections.observableArrayList();
             for (int i = 0; i < domainSolucionController.getDistHeight(); i++) {
-                Integer[] row = new Integer[domainSolucionController.getDistLenght()];
+                Integer[] row = new Integer[domainSolucionController.getDistLenght() + 1];
+                row[0] = i + 1;
                 for (int j = 0; j < domainSolucionController.getDistLenght(); j++)
-                    row[j] = domainSolucionController.getDistValue(i, j);
+                    row[j + 1] = domainSolucionController.getDistValue(i, j);
                             //GestorPesistencia.getSolucion().getDistribucion()[i][j];
                 observableSolutionProducts.add(row);
             }
