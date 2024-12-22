@@ -54,7 +54,8 @@ public class ProductoCell extends ListCell<Integer> {
 
         nombre = new TextField();
         nombre.setTextFormatter(
-                new TextFormatter<>(new DefaultStringConverter(), "Nuevo Producto", nonEmptyFilter));
+                new TextFormatter<>(new DefaultStringConverter(), "Nuevo Producto"));
+        /*
         nombre.textProperty().addListener(
                 (observable, oldValue, newValue) -> {
                     if (propController.existeProductoConDiferenteID(id, newValue)) {
@@ -67,21 +68,108 @@ public class ProductoCell extends ListCell<Integer> {
                     PropController.actualizarDatos();
                 }
         );
+
+         */
+        nombre.setOnAction(event -> {
+            String newValue = nombre.getText().trim();
+            if(newValue.isEmpty()) {
+                nombre.setText(PropController.getNombreProducto(id));
+                VisualProductoController.ventanaErrorProd("El nombre no puede estar vacío.", "Nombre vacío");
+            }
+            else if (propController.existeProductoConDiferenteID(id, newValue)) {
+                nombre.setText(PropController.getNombreProducto(id)); // Revert to the original value
+                VisualProductoController.ventanaErrorProd("El nombre ya existe.", "Nombre ya existe");
+            } else {
+                PropController.cambiarNombreProducto(id, newValue);
+                PropController.actualizarDatos();
+            }
+        });
+
+        nombre.focusedProperty().addListener((observable, oldFocus, newFocus) -> {
+            if (!newFocus) { // Focus lost
+                String newValue = nombre.getText().trim();
+                if(newValue.isEmpty()) {
+                    nombre.setText(PropController.getNombreProducto(id));
+                    VisualProductoController.ventanaErrorProd("El nombre no puede estar vacío.", "Nombre vacío");
+                }
+                else if (propController.existeProductoConDiferenteID(id, newValue)) {
+                    nombre.setText(PropController.getNombreProducto(id)); // Revert to the original value
+                    VisualProductoController.ventanaErrorProd("El nombre ya existe.", "Nombre ya existe");
+                } else {
+                    PropController.cambiarNombreProducto(id, newValue);
+                    PropController.actualizarDatos();
+                }
+            }
+        });
         pane.add(nombre, 0, 0);
 
         precio = new TextField();
         precio.setTextFormatter(
-                new TextFormatter<>(new DoubleStringConverter(), 0., doubleFilter));
+                new TextFormatter<>(new DoubleStringConverter(), 0.));
         /*
         precio.textProperty().addListener(
                 (observable, oldValue, newValue) -> GestorPesistencia.getListaProductos().getProducto(id).get().setPrecio(Double.parseDouble(newValue))
         );
          */
-        precio.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.isEmpty()) {
-                PropController.setPrecioProducto(id, Double.parseDouble(newValue));
+        /*
+        precio.setOnAction(event -> {
+            try {
+                double newValue = Double.parseDouble(precio.getText());
+                PropController.setPrecioProducto(id, newValue);
+            } catch (NumberFormatException e) {
+                VisualProductoController.ventanaErrorProd("Error al añadir precio", "Error precio"); // Handle invalid input
+                precio.setText(Double.toString(PropController.getPrecioProducto(id))); // Revert to the original value
             }
         });
+
+        precio.focusedProperty().addListener((observable, oldFocus, newFocus) -> {
+            if (!newFocus) { // Focus lost
+                try {
+                    double newValue = Double.parseDouble(precio.getText());
+                    PropController.setPrecioProducto(id, newValue);
+                } catch (NumberFormatException e) {
+                    VisualProductoController.ventanaErrorProd("Error al añadir precio", "Error precio"); // Handle invalid input
+                    precio.setText(Double.toString(PropController.getPrecioProducto(id))); // Revert to the original value
+                }
+            }
+        });
+
+         */
+        precio.setOnAction(event -> {
+            String newValue = precio.getText().trim(); // Allow trimming whitespace
+            if (newValue.isEmpty()) {
+                precio.setText(Double.toString(PropController.getPrecioProducto(id))); // Revert to the original value
+                VisualProductoController.ventanaErrorProd("El precio no puede estar vacío.", "Precio vacio");
+
+            } else {
+                try {
+                    double price = Double.parseDouble(newValue);
+                    PropController.setPrecioProducto(id, price);
+                } catch (NumberFormatException e) {
+                    VisualProductoController.ventanaErrorProd("Debe ingresar un valor numérico válido.", "Error precio");
+                    precio.setText(Double.toString(PropController.getPrecioProducto(id))); // Revert to the original value
+                }
+            }
+        });
+
+        precio.focusedProperty().addListener((observable, oldFocus, newFocus) -> {
+            if (!newFocus) { // Focus lost
+                String newValue = precio.getText().trim();
+                if (newValue.isEmpty()) {
+                    VisualProductoController.ventanaErrorProd("El precio no puede estar vacío.", "Precio vacio");
+                    precio.setText(Double.toString(PropController.getPrecioProducto(id))); // Revert to the original value
+                } else {
+                    try {
+                        double price = Double.parseDouble(newValue);
+                        PropController.setPrecioProducto(id, price);
+                    } catch (NumberFormatException e) {
+                        VisualProductoController.ventanaErrorProd("Debe ingresar un valor numérico válido.", "Error precio");
+                        precio.setText(Double.toString(PropController.getPrecioProducto(id))); // Revert to the original value
+                    }
+                }
+            }
+        });
+
         pane.add(precio, 2, 0);
 
         actionBtn = new Button("Eliminar");

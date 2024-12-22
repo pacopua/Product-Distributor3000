@@ -35,23 +35,61 @@ public class VisualProductoController {
     @FXML
     protected void initialize() {
         nombre.setTextFormatter(
-                new TextFormatter<>(new DefaultStringConverter(), "Nuevo Producto", nonEmptyFilter));
+                new TextFormatter<>(new DefaultStringConverter(), "Nuevo Producto"));
+        nombre.setOnAction(event -> {
+            String newValue = nombre.getText().trim();
+            if(newValue.isEmpty()) {
+                nombre.setText("Nuevo Producto");
+                VisualProductoController.ventanaErrorProd("El nombre no puede estar vacío.", "Nombre vacío");
+            }
+            else nombre.setText(newValue);
+        });
+
+        nombre.focusedProperty().addListener((observable, oldFocus, newFocus) -> {
+            if (!newFocus) { // Focus lost
+                String newValue = nombre.getText().trim();
+                if(newValue.isEmpty()) {
+                    nombre.setText("Nuevo Producto");
+                    VisualProductoController.ventanaErrorProd("El nombre no puede estar vacío.", "Nombre vacío");
+                }
+                else nombre.setText(newValue);
+            }
+        });
         precio.setTextFormatter(
-                new TextFormatter<>(new DoubleStringConverter(), 0., doubleFilter));
+                new TextFormatter<>(new DoubleStringConverter(), 0.));
+        precio.setOnAction(event -> {
+            String newValue = precio.getText().trim(); // Allow trimming whitespace
+            if (newValue.isEmpty()) {
+                precio.setText(Double.toString(0.0)); // Revert to the original value
+                VisualProductoController.ventanaErrorProd("El precio no puede estar vacío.", "Precio vacio");
+
+            }
+        });
+
+        precio.focusedProperty().addListener((observable, oldFocus, newFocus) -> {
+            if (!newFocus) { // Focus lost
+                String newValue = precio.getText().trim();
+                if (newValue.isEmpty()) {
+                    precio.setText(Double.toString(0.0)); // Revert to the original value
+                    VisualProductoController.ventanaErrorProd("El precio no puede estar vacío.", "Precio vacio");
+
+                }
+            }
+        });
     }
-    static void ventanaErrorProd() {
+    static void ventanaErrorProd(String error, String titulo) {
         Alert alerta = new Alert(
                 Alert.AlertType.ERROR,
-                "Ya existe un producto con este nombre."
+                error
         );
-        alerta.setTitle("Producto ya existe");
+        alerta.setTitle(titulo);
         alerta.show();
     }
     @FXML
     protected void onAnadirProducto() {
         DomainProductoController controller = new DomainProductoController();
         if (controller.anyadirProducto((String) nombre.getTextFormatter().getValue(), (double) precio.getTextFormatter().getValue())) {
-            ventanaErrorProd();
+            ventanaErrorProd("El producto ya existe", "Producto ya existente");
         } else {
             ((Stage) nombre.getScene().getWindow()).close();
         }
