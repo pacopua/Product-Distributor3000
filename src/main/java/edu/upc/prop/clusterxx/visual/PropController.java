@@ -83,7 +83,7 @@ public class PropController {
         DomainEstadoController.actualizarHistorial();
     }
 
-    public boolean ventanaConfirmar(String mensaje) {
+    public boolean ventanaConfirmar(String mensaje, String titulo) {
         // pedimos confirmación
         Alert alerta = new Alert(
                 Alert.AlertType.WARNING,
@@ -91,7 +91,8 @@ public class PropController {
                 si,
                 no
         );
-        alerta.setTitle("Importar datos");
+        alerta.getDialogPane().getStylesheets().add(PropApp.class.getResource("/edu/upc/prop/clusterxx/styles.css").toExternalForm());
+        alerta.setTitle(titulo);
         Optional<ButtonType> eleccion = alerta.showAndWait();
         return eleccion.get() == si;
     }
@@ -101,6 +102,7 @@ public class PropController {
                 "No se han podido exportar los datos.\n" +
                         "Los datos son incorrectos o no se tiene acceso de lectura."
         );
+        alerta.getDialogPane().getStylesheets().add(PropApp.class.getResource("/edu/upc/prop/clusterxx/styles.css").toExternalForm());
         alerta.setTitle("Error de exportación");
         alerta.showAndWait();
     }
@@ -110,6 +112,7 @@ public class PropController {
                 "No se han podido importar los datos.\n" +
                         "El archivo está corrupto o no se tiene acceso de lectura."
         );
+        alerta.getDialogPane().getStylesheets().add(PropApp.class.getResource("/edu/upc/prop/clusterxx/styles.css").toExternalForm());
         alerta.setTitle("Archivo incorrecto");
         alerta.showAndWait();
     }
@@ -119,6 +122,7 @@ public class PropController {
                 "No se han podido importa1r los datos.\n" +
                         "El sistema ha encontrado un error irrecuperable."
         );
+        alerta.getDialogPane().getStylesheets().add(PropApp.class.getResource("/edu/upc/prop/clusterxx/styles.css").toExternalForm());
         alerta.setTitle("Error interno al importar");
         alerta.showAndWait();
     }
@@ -135,7 +139,7 @@ public class PropController {
     }
     @FXML
     protected boolean onImportarEstado() {
-        if (!ventanaConfirmar("Esta acción reemplazará los datos.\n¿Desea continuar?")) return false;
+        if (!ventanaConfirmar("Esta acción reemplazará los datos.\n¿Desea continuar?", "Importar estado")) return false;
         File in = abrirFileChooser(true,"data.state", stateFilter);
         if (in == null) return false;
         try {
@@ -168,7 +172,7 @@ public class PropController {
     }
     @FXML
     protected boolean onImportarLista() {
-        if (!ventanaConfirmar("Esta acción reemplazará los datos.\n¿Desea continuar?")) return false;;
+        if (!ventanaConfirmar("Esta acción reemplazará los productos.\n¿Desea continuar?", "Importar Productos")) return false;;
         File in = abrirFileChooser(true,"products.list", listFilter);
         if (in == null) return false;;
         try {
@@ -234,9 +238,11 @@ public class PropController {
                 si,
                 no
         );
+        alerta.getDialogPane().getStylesheets().add(PropApp.class.getResource("/edu/upc/prop/clusterxx/styles.css").toExternalForm());
         alerta.setTitle("Guardar y salir");
         Optional<ButtonType> eleccion = alerta.showAndWait();
         // guardamos y salimos
+        //if(!alerta.isShowing()) return false;
          IOController ioController = new IOController();
         if (eleccion.get() == si) {
             if(onExportarEstado()) {
@@ -245,13 +251,14 @@ public class PropController {
             }
         }
         // preguntamos si de verdad quiere salir sin guardar
-        else {
+        else if (eleccion.get() == no) {
             alerta = new Alert(
                     Alert.AlertType.WARNING,
                     "¿Seguro que desea salir sin guardar?",
                     si,
                     no
             );
+            alerta.getDialogPane().getStylesheets().add(PropApp.class.getResource("/edu/upc/prop/clusterxx/styles.css").toExternalForm());
             alerta.setTitle("Salir sin guardar");
             eleccion = alerta.showAndWait();
             // si confirma, cerramos la aplicación
@@ -278,7 +285,7 @@ public class PropController {
     @FXML
     protected void onNuevaSolucion() throws IOException {
         if(domainSolucionController.is_complete())
-            if (!ventanaConfirmar("Esta acción reemplazará la solución.\n¿Desea continuar?")) return;
+            if (!ventanaConfirmar("Esta acción reemplazará la solución.\n¿Desea continuar?", "Reemplazar solución")) return;
         abrirVentana("Nueva Solución", "nueva-solucion-view.fxml");
         actualizarSolucion();
     }

@@ -86,7 +86,7 @@ public class ProductoCell extends ListCell<Integer> {
 
         actionBtn = new Button("Eliminar");
         actionBtn.setOnAction(event -> {
-            if(propController.ventanaConfirmar("Esta acción eliminará el producto.\n¿Seguro que desea continuar?")) {
+            if(propController.ventanaConfirmar("Esta acción eliminará el producto.\n¿Seguro que desea continuar?", "Eliminar Producto")) {
             PropController.eliminarProducto(id);
             PropController.actualizarDatos();
 

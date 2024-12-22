@@ -150,8 +150,8 @@ public class AlgoritmoRapido extends Algoritmo {
                 }
             }
             currentSolution = bestSolution;
-            System.out.println("Calidad: " + currentSolution.getCalidad());
-            currentSolution.imprimir_distribucion();
+            //System.out.println("Calidad: " + currentSolution.getCalidad());
+            //currentSolution.imprimir_distribucion();
         }
 
 
