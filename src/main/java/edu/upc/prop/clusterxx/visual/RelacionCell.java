@@ -95,7 +95,6 @@ public class RelacionCell extends ListCell<Pair<Integer, Integer>> {
             relacion.setText(Double.toString(relacionValue));
             relacion.textProperty().addListener(
                     (observable, oldValue, newValue) -> {
-                        PropController.onGuardarEstado();
                         PropController.setSinergias(id1, id2, Double.parseDouble(newValue));
                     }
             );

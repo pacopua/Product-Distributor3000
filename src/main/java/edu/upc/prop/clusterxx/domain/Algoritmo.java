@@ -80,21 +80,15 @@ public class Algoritmo {
      * @return una solución con los mismos valores que la solución a copiar
      */
     public Solucion copiar_solucion(Solucion s) {
-        try {
-            Solucion best_solution = s.clone();
-            for(int i = 0; i < s.getDistribucion().length; ++i) {
-                for(int j = 0; j < s.getDistribucion()[0].length; ++j) {
-                    best_solution.getDistribucion()[i][j] = s.getDistribucion()[i][j];
-                }
+        Solucion best_solution = s.clone();
+        for(int i = 0; i < s.getDistribucion().length; ++i) {
+            for(int j = 0; j < s.getDistribucion()[0].length; ++j) {
+                best_solution.getDistribucion()[i][j] = s.getDistribucion()[i][j];
             }
-            best_solution.setCalidad(s.getCalidad());
-            best_solution.setNumPasos(s.getNumPasos());
-            return best_solution;
         }
-        catch(CloneNotSupportedException e) {
-            System.err.println("Error al clonar solución para copiarla en algoritmo" + e.getMessage());
-            return null;
-        }
+        best_solution.setCalidad(s.getCalidad());
+        best_solution.setNumPasos(s.getNumPasos());
+        return best_solution;
     }
 }
 

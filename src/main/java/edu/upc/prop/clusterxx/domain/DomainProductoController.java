@@ -12,6 +12,7 @@ public class DomainProductoController {
     }
 
     public void setSinergias(int id1, int id2, double sinergia) {
+        DomainEstadoController.actualizarHistorial();
         GestorPesistencia.getMatrizAdyacencia().modificar_sinergias(id1, id2, sinergia);
     }
 
@@ -37,12 +38,14 @@ public class DomainProductoController {
     }
 
     public boolean cambiarNombreProducto(int id, String nuevoNombre) {
+        DomainEstadoController.actualizarHistorial();
         GestorPesistencia.getListaProductos().getListaProductos().get(id).setNombre(nuevoNombre);
         return false;
     }
 
     public boolean eliminarProductoPorId(int id) {
         if (id >= 0 && id < GestorPesistencia.getListaProductos().getListaProductos().size()) {
+            DomainEstadoController.actualizarHistorial();
             GestorPesistencia.getListaProductos().eliminarProducto(id);
             GestorPesistencia.getMatrizAdyacencia().eliminarProducto(id);
             return true;
@@ -59,6 +62,7 @@ public class DomainProductoController {
 
     public void setPrecioProductoPorId(int id, double precio) {
         if (id >= 0 && id < GestorPesistencia.getListaProductos().getListaProductos().size()) {
+            DomainEstadoController.actualizarHistorial();
             GestorPesistencia.getListaProductos().getListaProductos().get(id).setPrecio(precio);
         }
     }
@@ -87,6 +91,7 @@ public class DomainProductoController {
             }
         }
 
+        DomainEstadoController.actualizarHistorial();
         GestorPesistencia.getListaProductos().addProducto(producto);
 
         MatrizAdyacencia matrizNueva = new MatrizAdyacencia(GestorPesistencia.getListaProductos().getCantidadProductos());

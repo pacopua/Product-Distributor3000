@@ -6,7 +6,7 @@ import javafx.application.Platform;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.NoSuchElementException;
 
 public class GestorPesistencia {
     private static ListaProductos listaProductos = new ListaProductos();
@@ -86,14 +86,19 @@ public class GestorPesistencia {
         return new Solucion(listaProductos.clone(), filas, columnas);
     }
 
+    private static Estado getEstadoActual()  {
+        return new Estado(solucion.clone(), listaProductos.clone(), matrizAdyacencia.clone());
+    }
+
     public static void guardarEstadoEnHistorial() {
-        Estado estado;
+        Estado estado = getEstadoActual();
+        Estado last;
         try {
-            estado = new Estado(solucion.clone(), listaProductos.clone(), matrizAdyacencia.clone());
-        } catch (CloneNotSupportedException e) {
-            return;
+            last = historial.getLast();
+        } catch (NoSuchElementException e) {
+            last = null;
         }
-        if (historial.isEmpty() || !compararEstados(estado, historial.getLast())) {
+        if (last == null || !compararEstados(estado, last)) {
             historial.add(estado);
         }
     }
@@ -104,11 +109,13 @@ public class GestorPesistencia {
             do {
                 estado = historial.getLast();
                 historial.removeLast();
-            } while (compararEstados(estado, new Estado(solucion, listaProductos, matrizAdyacencia)));
+            } while (!historial.isEmpty() && compararEstados(estado, getEstadoActual()));
             listaProductos = estado.getListaProductos();
             matrizAdyacencia = estado.getMatrizAdyacencia();
             solucion = estado.getSolucion();
-            if (historial.isEmpty()) guardarEstadoEnHistorial(); // Guardamos el estado actual
+            if (historial.isEmpty()) {
+                guardarEstadoEnHistorial();
+            }
         }
     }
 
@@ -147,10 +154,6 @@ public class GestorPesistencia {
             }
         }
         return true;
-    }
-
-    public static void reiniciarHistorial() {
-        historial.clear();
     }
 
     public static void borrarUltimoEstadoHistorial() {

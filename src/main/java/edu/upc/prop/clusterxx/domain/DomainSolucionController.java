@@ -40,6 +40,7 @@ public class DomainSolucionController {
     }
 
     public void calcularDistribucionRapida(int filas, int columnas) {
+        DomainEstadoController.actualizarHistorial();
         Solucion s = GestorPesistencia.nuevaSolucion(filas, columnas);
         algoRapido = new AlgoritmoRapido(GestorPesistencia.getMatrizAdyacencia());
         //lanzamos excepcion si no se puede hacer la distribucion
@@ -50,6 +51,7 @@ public class DomainSolucionController {
     }
 
     public void calcularDistribucionOptima(int filas, int columnas) {
+        DomainEstadoController.actualizarHistorial();
         Solucion s = GestorPesistencia.nuevaSolucion(filas, columnas);
         algoOptimo = new AlgoritmoOptimo(GestorPesistencia.getMatrizAdyacencia());
         if(filas*columnas < s.getListaProductos().getCantidadProductos()) {
@@ -60,6 +62,7 @@ public class DomainSolucionController {
     }
 
     public void calcularDistribucionUltraRapida(int filas, int columnas) {
+        DomainEstadoController.actualizarHistorial();
         Solucion s = GestorPesistencia.nuevaSolucion(filas, columnas);
         algoSA = new AlgoritmoSA(GestorPesistencia.getMatrizAdyacencia(), 10000,1, 25, 0.001 );
         if(filas*columnas < s.getListaProductos().getCantidadProductos()) {
@@ -85,6 +88,7 @@ public class DomainSolucionController {
             if (_nombre.equals(nombreP2)) p2 = i;
         }
 
+        DomainEstadoController.actualizarHistorial();
         int[] pos_p1 = solucion.buscar_producto(p1);
         int[] pos_p2 = solucion.buscar_producto(p2);
         solucion.intercambiar_productos(pos_p1[0], pos_p1[1], pos_p2[0], pos_p2[1]);

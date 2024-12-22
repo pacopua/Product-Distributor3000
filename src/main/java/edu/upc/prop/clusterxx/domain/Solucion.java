@@ -212,11 +212,15 @@ public class Solucion implements Serializable, Cloneable {
     /**
      * Devuelve la copia de la solución
      * @return Copia de la solución
-     * @throws CloneNotSupportedException Excepción lanzada si no se puede clonar la solución
      */
     @Override
-    public Solucion clone() throws CloneNotSupportedException {
-        Solucion solucion = new Solucion(productos);
+    public Solucion clone() {
+        Solucion solucion;
+        try {
+            solucion = (Solucion) super.clone();
+        } catch (CloneNotSupportedException e) {
+            solucion = new Solucion(productos);
+        }
         solucion.distribucion = new int[this.filas][this.columnas];
         solucion.filas = this.filas;
         solucion.columnas = this.columnas;

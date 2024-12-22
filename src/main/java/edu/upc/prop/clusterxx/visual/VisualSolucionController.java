@@ -33,7 +33,6 @@ public class VisualSolucionController {
                 protected Void call() throws Exception {
                   try {
                       //System.out.println("AAAAAAAAA2141");
-                      PropController.onGuardarEstado();
                       if (rapida.isSelected()) {
                           //return
                           solucionController.calcularDistribucionRapida(numFilas, numColumnas);
@@ -62,7 +61,6 @@ public class VisualSolucionController {
                         Alert.AlertType.ERROR,
                         "Ocurrió un error al generar la solución."
                 );
-                DomainEstadoController.borrarUltimoEstadoHistorial();
                 alerta.setTitle("Error de generación");
                 alerta.setContentText(task.getException().getMessage());
                 alerta.showAndWait();

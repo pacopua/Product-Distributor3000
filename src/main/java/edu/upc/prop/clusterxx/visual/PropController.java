@@ -397,12 +397,10 @@ public class PropController {
     }
 
     public static void eliminarProducto(int id) {
-        DomainEstadoController.actualizarHistorial();
         domainProductoController.eliminarProductoPorId(id);
     }
 
     public static void cambiarNombreProducto(int id, String newName) {
-        DomainEstadoController.actualizarHistorial();
         domainProductoController.cambiarNombreProducto(id, newName);
     }
 
@@ -411,7 +409,6 @@ public class PropController {
     }
 
     public static void setSinergias(int id1, int id2, double sinergia) {
-        DomainEstadoController.actualizarHistorial();
         domainProductoController.setSinergias(id1, id2, sinergia);
     }
 
@@ -424,12 +421,7 @@ public class PropController {
     }
 
     public static void setPrecioProducto(int id, double precio) {
-        DomainEstadoController.actualizarHistorial();
         domainProductoController.setPrecioProductoPorId(id, precio);
-    }
-
-    public static void onGuardarEstado() {
-        DomainEstadoController.actualizarHistorial();
     }
 
     public void onDeshacer() {
