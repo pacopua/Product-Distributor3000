@@ -20,6 +20,7 @@ public class IOControllerTest {
 
     @Before
     public void setUp() {
+        limpiarProductos();
         productoController.anyadirProducto("Test #1", 9.99);
         productoController.anyadirProducto("Test #2", 19.99);
         productoController.anyadirProducto("Test #3", 29.99);
