@@ -132,8 +132,11 @@ public class Solucion implements Serializable, Cloneable {
     public ArrayList<Pair<String, Integer>> getProductosConId() {
         ArrayList<Pair<String, Integer>> productosConId = new ArrayList<>();
         List<Producto> lp = productos.getListaProductos();
-        for (int i = 0; i < lp.size(); i++) {
-            productosConId.add(new Pair<>(lp.get(i).getNombre(), i));
+        for(int i = 0; i < filas; ++i) {
+            for(int j = 0; j < columnas; ++j) {
+                if(distribucion[i][j] != -1)productosConId.add(new Pair<>(lp.get(distribucion[i][j]).getNombre(), distribucion[i][j]));
+                else productosConId.add(null);
+            }
         }
         return productosConId;
     }

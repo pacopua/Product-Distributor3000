@@ -28,6 +28,7 @@ import java.util.Arrays;
 import java.util.Optional;
 
 public class PropController {
+
     @FXML
     private TabPane pane;
     @FXML
@@ -35,7 +36,7 @@ public class PropController {
     @FXML
     private ListView relacionesView;
     @FXML
-    private TableView<Integer[]> solucionView;
+    private TableView<Pair<String, Integer>[]> solucionView;
     @FXML
     private Label calidad;
     @FXML
@@ -52,7 +53,7 @@ public class PropController {
 
     private static ObservableList<Integer> observableProducts = FXCollections.observableArrayList();
     private static ObservableList<Pair<Integer, Integer>> observableProductPairs = FXCollections.observableArrayList();
-    private static ObservableList<Integer[]> observableSolutionProducts = FXCollections.observableArrayList();
+    private static ObservableList<Pair<String, Integer>[]> observableSolutionProducts = FXCollections.observableArrayList();
 
     ButtonType si = new ButtonType("Sí", ButtonBar.ButtonData.OK_DONE);
     ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
@@ -146,9 +147,50 @@ public class PropController {
             DomainEstadoController.getInstance().actualizarHistorial();
             ioController.importarEstado(in.getAbsolutePath());
             actualizarDatos();
-            actualizarSolucion();
+            //actualizarSolucion();
+
             ordenarProductosView();
             ordenarRelacionesView();
+            // Retrieve the list of products
+
+            if(domainSolucionController.is_complete()) {
+                calidadBox.setDisable(false);
+                pasosBox.setDisable(false);
+                intercambiar.setDisable(false);
+                calidad.setText(Double.toString(domainSolucionController.getCalidadSolucion()));
+                pasos.setText(Integer.toString(domainSolucionController.getPasosSolucion()));
+            }
+            ArrayList<Pair<String, Integer>> productosConID = domainSolucionController.getProductosConID();
+            //Print the arraylist
+            // Clear the current observableSolutionProducts
+            observableSolutionProducts.clear();
+
+            // Separate the products into rows and add them to observableSolutionProducts
+            int rowLength = domainSolucionController.getDistLenght();
+            for (int i = 0; i < productosConID.size(); i += rowLength) {
+                Pair<String, Integer>[] row = new Pair[rowLength];
+                for (int j = 0; j < rowLength && (i + j) < productosConID.size(); j++) {
+                    row[j] = productosConID.get(i + j);
+                }
+                observableSolutionProducts.add(row);
+            }
+
+            solucionView.getColumns().clear();
+
+            // Add new columns
+            for (int i = 0; i < rowLength; i++) {
+                TableColumn<Pair<String, Integer>[], String> col = new TableColumn<>(Integer.toString(i + 1));
+                int index = i;
+                col.setCellValueFactory(param -> {
+                    Pair<String, Integer> prodPair = param.getValue()[index];
+                    if (prodPair == null) return new SimpleStringProperty("");
+                    else return new SimpleStringProperty(prodPair.getKey());
+                });
+                solucionView.getColumns().add(col);
+            }
+
+            solucionView.setItems(observableSolutionProducts);
+            solucionView.refresh();
         } catch (IOException e) {
             ventanaErrorArchivo();
             return false;
@@ -202,6 +244,7 @@ public class PropController {
         }
         return true;
     }
+
     /*
     @FXML
     protected void onImportarSolucion() {
@@ -309,6 +352,89 @@ public class PropController {
         //productosView.refresh();
     }
 
+    public ObservableList<Pair<String, Integer>[]> getObservableSolutionProducts() {
+        return observableSolutionProducts;
+    }
+    public static ObservableList<String> getProductsIntercambio() {
+        ObservableList<String> productNames = FXCollections.observableArrayList();
+        for (Pair<String, Integer>[] row : observableSolutionProducts) {
+            for (Pair<String, Integer> pair : row) {
+                if (pair != null && pair.getKey() != null) {
+                    productNames.add(pair.getKey());
+                }
+            }
+        }
+        return productNames;
+    }
+
+    private void actualizarSolucion() {
+        calidadBox.setDisable(true);
+        pasosBox.setDisable(true);
+        intercambiar.setDisable(true);
+        solucionView.getColumns().clear();
+
+        if (domainSolucionController.is_complete()) {
+            calidadBox.setDisable(false);
+            pasosBox.setDisable(false);
+            intercambiar.setDisable(false);
+            calidad.setText(Double.toString(domainSolucionController.getCalidadSolucion()));
+            pasos.setText(Integer.toString(domainSolucionController.getPasosSolucion()));
+
+            for (int i = 0; i < domainSolucionController.getDistLenght(); i++) {
+                TableColumn<Pair<String, Integer>[], String> col = new TableColumn<>(Integer.toString(i + 1));
+                int index = i;
+                col.setCellValueFactory(param -> {
+                    Pair<String, Integer> prodPair = param.getValue()[index];
+                    if (prodPair == null) return new SimpleStringProperty("");
+                    else return new SimpleStringProperty(prodPair.getKey());
+                });
+                solucionView.getColumns().add(col);
+            }
+
+            observableSolutionProducts = FXCollections.observableArrayList();
+            for (int i = 0; i < domainSolucionController.getDistHeight(); i++) {
+                Pair<String, Integer>[] row = new Pair[domainSolucionController.getDistLenght()];
+                for (int j = 0; j < domainSolucionController.getDistLenght(); j++) {
+                    Integer prodID = domainSolucionController.getDistValue(i, j);
+                    String prodName = prodID == null ? "" : domainProductoController.getNombreProductoPorId(prodID);
+                    row[j] = new Pair<>(prodName, prodID);
+                }
+                observableSolutionProducts.add(row);
+            }
+            solucionView.setItems(observableSolutionProducts);
+        }
+    }
+
+    public void actualizarAfterSwap(String nombreP1,String nombreP2) {
+        //change the products in the observable list
+        Pair<String, Integer> pos1 = null;
+        Pair<String, Integer> pos2 = null;
+        int row1 = -1, col1 = -1, row2 = -1, col2 = -1;
+
+        // Find the positions of the products
+        for (int i = 0; i < observableSolutionProducts.size(); i++) {
+            Pair<String, Integer>[] row = observableSolutionProducts.get(i);
+            for (int j = 0; j < row.length; j++) {
+                if (row[j] != null && row[j].getKey() != null && row[j].getKey().equals(nombreP1)) {
+                    pos1 = row[j];
+                    row1 = i;
+                    col1 = j;
+                } else if (row[j] != null && row[j].getKey() != null && row[j].getKey().equals(nombreP2)) {
+                    pos2 = row[j];
+                    row2 = i;
+                    col2 = j;
+                }
+            }
+        }
+
+        // Swap the products if both are found
+        if (pos1 != null && pos2 != null) {
+            observableSolutionProducts.get(row1)[col1] = pos2;
+            observableSolutionProducts.get(row2)[col2] = pos1;
+        }
+        //solucionView.setItems(observableSolutionProducts);
+    }
+    /*
     private void actualizarSolucion() {
         calidadBox.setDisable(true);
         pasosBox.setDisable(true);
@@ -346,6 +472,8 @@ public class PropController {
             solucionView.setItems(observableSolutionProducts);
         }
     }
+
+     */
 
     @FXML
     protected void onNuevoProducto() throws IOException {
@@ -389,7 +517,8 @@ public class PropController {
     @FXML
     protected void onIntercambiarProductos() throws IOException {
         abrirVentana("Intercambiar Productos", "intercambiar-productos-view.fxml");
-        actualizarSolucion();
+        //actualizarSolucion();
+        solucionView.refresh();
     }
 
     public static boolean existeProductoConDiferenteID(int id, String nombre) {
@@ -422,6 +551,14 @@ public class PropController {
 
     public static void setPrecioProducto(int id, double precio) {
         domainProductoController.setPrecioProductoPorId(id, precio);
+    }
+
+    public static ObservableList<Pair<String, Integer>[]> getSolutionProducts() {
+        return observableSolutionProducts;
+    }
+
+    public static void setSolutionProducts(ObservableList<Pair<String, Integer>[]> p) {
+        observableSolutionProducts = p;
     }
 
     public void onDeshacer() {

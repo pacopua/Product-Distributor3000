@@ -177,4 +177,15 @@
     -fx-text-fill: #E0FBFC;
 }
 
+.choice-box {
+    -fx-background-color: #731a64;
+    -fx-text-fill: #E0FBFC;
+}
+
+.choice-box .context-menu { -fx-background-color: #290025; }
+
+.scroll-pane {
+    -fx-background-color: #290025;
+}
+
 

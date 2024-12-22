@@ -19,8 +19,8 @@ public class IntercambioController {
 
     @FXML
     protected void initialize() {
-        producto1.setItems(FXCollections.observableArrayList(solucionController.getListaNombresProductos()));
-        producto2.setItems(FXCollections.observableArrayList(solucionController.getListaNombresProductos()));
+        producto1.setItems(FXCollections.observableArrayList(PropController.getProductsIntercambio()));
+        producto2.setItems(FXCollections.observableArrayList(PropController.getProductsIntercambio()));
     }
 
     @FXML
@@ -28,6 +28,8 @@ public class IntercambioController {
         String nombreP1 = producto1.getValue();
         String nombreP2 = producto2.getValue();
         solucionController.intercambiarProductos(nombreP1, nombreP2);
+        PropController p = new PropController();
+        p.actualizarAfterSwap(nombreP1, nombreP2);
         ((Stage) producto1.getScene().getWindow()).close();
     }
 }

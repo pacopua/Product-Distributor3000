@@ -1,7 +1,9 @@
 package edu.upc.prop.clusterxx.domain;
 
 import edu.upc.prop.clusterxx.data.GestorPesistencia;
+import javafx.util.Pair;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DomainSolucionController {
@@ -12,6 +14,11 @@ public class DomainSolucionController {
 
     private DomainSolucionController() {
     }
+
+    public ArrayList<Pair<String, Integer>> getProductosConID(){
+        return GestorPesistencia.getInstance().getSolucion().getProductosConId();
+    }
+
 
     public static DomainSolucionController getInstance() {
         if (instance == null) {
