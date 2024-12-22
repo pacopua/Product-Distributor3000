@@ -131,7 +131,7 @@ public class GestorPesistencia {
         }
     }
 
-    private boolean compararEstados(Estado e1, Estado e2) {
+    public boolean compararEstados(Estado e1, Estado e2) {
         ListaProductos lp1, lp2;
         MatrizAdyacencia ma1, ma2;
         Solucion s1, s2;

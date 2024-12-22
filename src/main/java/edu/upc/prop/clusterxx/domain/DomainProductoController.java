@@ -76,7 +76,7 @@ public class DomainProductoController {
 
     public void setPrecioProductoPorId(int id, double precio) {
         GestorPesistencia gp = GestorPesistencia.getInstance();
-        if (id >= 0 && id < gp.getListaProductos().getListaProductos().size()) {
+        if (precio >= 0 && id >= 0 && id < gp.getListaProductos().getListaProductos().size()) {
             DomainEstadoController.getInstance().actualizarHistorial();
             gp.getListaProductos().getListaProductos().get(id).setPrecio(precio);
         }
