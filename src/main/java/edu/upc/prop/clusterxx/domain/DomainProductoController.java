@@ -6,20 +6,31 @@ import javafx.util.Pair;
 import java.util.ArrayList;
 
 public class DomainProductoController {
+    private static DomainProductoController instance;
+
+    private DomainProductoController() {
+    }
+
+    public static DomainProductoController getInstance() {
+        if (instance == null) {
+            instance = new DomainProductoController();
+        }
+        return instance;
+    }
 
     public double getSinergias(int id1, int id2) {
-        return GestorPesistencia.getMatrizAdyacencia().getSinergia(id1, id2);
+        return GestorPesistencia.getInstance().getMatrizAdyacencia().getSinergia(id1, id2);
     }
 
     public void setSinergias(int id1, int id2, double sinergia) {
-        DomainEstadoController.actualizarHistorial();
-        GestorPesistencia.getMatrizAdyacencia().modificar_sinergias(id1, id2, sinergia);
+        DomainEstadoController.getInstance().actualizarHistorial();
+        GestorPesistencia.getInstance().getMatrizAdyacencia().modificar_sinergias(id1, id2, sinergia);
     }
 
     public boolean existeProductoConDiferenteID(int id, String nombre) {
-
-        for (Producto prod : GestorPesistencia.getListaProductos().getListaProductos()) {
-            if (id != GestorPesistencia.getListaProductos().getListaProductos().indexOf(prod) && prod.getNombre().equals(nombre)) {
+        GestorPesistencia gp = GestorPesistencia.getInstance();
+        for (Producto prod : gp.getListaProductos().getListaProductos()) {
+            if (id != gp.getListaProductos().getListaProductos().indexOf(prod) && prod.getNombre().equals(nombre)) {
                 return true;
             }
         }
@@ -29,8 +40,9 @@ public class DomainProductoController {
     //Funcion que devuelve todas las parejas de sinergias
     public ArrayList<Pair<Integer, Integer>> lista_sinergias() {
         ArrayList<Pair<Integer, Integer>> lista = new ArrayList<>();
-        for (int i = 0; i < GestorPesistencia.getMatrizAdyacencia().getNumProductos(); i++) {
-            for (int j = i + 1; j < GestorPesistencia.getMatrizAdyacencia().getNumProductos(); j++) {
+        GestorPesistencia gp = GestorPesistencia.getInstance();
+        for (int i = 0; i < gp.getMatrizAdyacencia().getNumProductos(); i++) {
+            for (int j = i + 1; j < gp.getMatrizAdyacencia().getNumProductos(); j++) {
                 lista.add(new Pair<>(i, j));
             }
         }
@@ -38,67 +50,72 @@ public class DomainProductoController {
     }
 
     public boolean cambiarNombreProducto(int id, String nuevoNombre) {
-        DomainEstadoController.actualizarHistorial();
-        GestorPesistencia.getListaProductos().getListaProductos().get(id).setNombre(nuevoNombre);
+        DomainEstadoController.getInstance().actualizarHistorial();
+        GestorPesistencia.getInstance().getListaProductos().getListaProductos().get(id).setNombre(nuevoNombre);
         return false;
     }
 
     public boolean eliminarProductoPorId(int id) {
-        if (id >= 0 && id < GestorPesistencia.getListaProductos().getListaProductos().size()) {
-            DomainEstadoController.actualizarHistorial();
-            GestorPesistencia.getListaProductos().eliminarProducto(id);
-            GestorPesistencia.getMatrizAdyacencia().eliminarProducto(id);
+        GestorPesistencia gp = GestorPesistencia.getInstance();
+        if (id >= 0 && id < gp.getListaProductos().getListaProductos().size()) {
+            DomainEstadoController.getInstance().actualizarHistorial();
+            gp.getListaProductos().eliminarProducto(id);
+            gp.getMatrizAdyacencia().eliminarProducto(id);
             return true;
         }
         return false;
     }
 
     public String getNombreProductoPorId(int id) {
-        if (id >= 0 && id < GestorPesistencia.getListaProductos().getListaProductos().size()) {
-            return GestorPesistencia.getListaProductos().getListaProductos().get(id).getNombre();
+        GestorPesistencia gp = GestorPesistencia.getInstance();
+        if (id >= 0 && id < gp.getListaProductos().getListaProductos().size()) {
+            return gp.getListaProductos().getListaProductos().get(id).getNombre();
         }
         return null;
     }
 
     public void setPrecioProductoPorId(int id, double precio) {
-        if (id >= 0 && id < GestorPesistencia.getListaProductos().getListaProductos().size()) {
-            DomainEstadoController.actualizarHistorial();
-            GestorPesistencia.getListaProductos().getListaProductos().get(id).setPrecio(precio);
+        GestorPesistencia gp = GestorPesistencia.getInstance();
+        if (id >= 0 && id < gp.getListaProductos().getListaProductos().size()) {
+            DomainEstadoController.getInstance().actualizarHistorial();
+            gp.getListaProductos().getListaProductos().get(id).setPrecio(precio);
         }
     }
 
     public double getPrecioProductoPorId(int id) {
-        if (id >= 0 && id < GestorPesistencia.getListaProductos().getListaProductos().size()) {
-            return GestorPesistencia.getListaProductos().getListaProductos().get(id).getPrecio();
+        GestorPesistencia gp = GestorPesistencia.getInstance();
+        if (id >= 0 && id < gp.getListaProductos().getListaProductos().size()) {
+            return gp.getListaProductos().getListaProductos().get(id).getPrecio();
         }
         return -1;
     }
 
     public ArrayList<Integer> getProductsIds() {
         ArrayList<Integer> ids = new ArrayList<>();
-        for (int i = 0; i < GestorPesistencia.getListaProductos().getListaProductos().size(); i++) {
+        for (int i = 0; i < GestorPesistencia.getInstance().getListaProductos().getListaProductos().size(); i++) {
             ids.add(i);
         }
         return ids;
     }
 
     public boolean anyadirProducto(String nombre, double precio) {
+        GestorPesistencia gp = GestorPesistencia.getInstance();
         Producto producto = new Producto(nombre, precio);
 
-        for (Producto prod : GestorPesistencia.getListaProductos().getListaProductos()) {
+        for (Producto prod : gp.getListaProductos().getListaProductos()) {
             if (prod.getNombre().equals(producto.getNombre())) {
                 return true;
             }
         }
 
-        DomainEstadoController.actualizarHistorial();
-        GestorPesistencia.getListaProductos().addProducto(producto);
+        DomainEstadoController.getInstance().actualizarHistorial();
+        gp.getListaProductos().addProducto(producto);
 
-        MatrizAdyacencia matrizNueva = new MatrizAdyacencia(GestorPesistencia.getListaProductos().getCantidadProductos());
-        for (int i = 0; i < GestorPesistencia.getMatrizAdyacencia().getNumProductos(); i++)
-            for (int j = 0; j < GestorPesistencia.getMatrizAdyacencia().getNumProductos(); j++)
-                matrizNueva.modificar_sinergias(i, j, GestorPesistencia.getMatrizAdyacencia().getSinergia(i, j));
-        GestorPesistencia.setMatrizAdyacencia(matrizNueva);
+        MatrizAdyacencia matrizNueva = new MatrizAdyacencia(gp.getListaProductos().getCantidadProductos());
+        for (int i = 0; i < gp.getMatrizAdyacencia().getNumProductos(); i++)
+            for (int j = 0; j < gp.getMatrizAdyacencia().getNumProductos(); j++)
+                matrizNueva.modificar_sinergias(i, j, gp.getMatrizAdyacencia().getSinergia(i, j));
+        gp.setMatrizAdyacencia(matrizNueva);
         return false;
     }
 }

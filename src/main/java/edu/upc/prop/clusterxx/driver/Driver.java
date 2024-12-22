@@ -80,7 +80,7 @@ public class Driver {
                 io.write("Opcion: ");
                 int opcion = io.readint();
                 io.writeln();
-                int num_productos = GestorPesistencia.getListaProductos().getListaProductos().size();
+                int num_productos = GestorPesistencia.getInstance().getListaProductos().getListaProductos().size();
                 Solucion s;
                 switch (opcion) {
                     case 1:
@@ -117,9 +117,9 @@ public class Driver {
         io.writeln();
         io.write("Introduce el numero de columnas de la solución: ");
         int columnas = io.readint();
-        GestorPesistencia.nuevaSolucion(filas, columnas);
-        Solucion s = GestorPesistencia.getSolucion();
-        AlgoritmoRapido ar = new AlgoritmoRapido(GestorPesistencia.getMatrizAdyacencia());
+        GestorPesistencia.getInstance().nuevaSolucion(filas, columnas);
+        Solucion s = GestorPesistencia.getInstance().getSolucion();
+        AlgoritmoRapido ar = new AlgoritmoRapido(GestorPesistencia.getInstance().getMatrizAdyacencia());
         ar.ejecutar(s, 30);
         io.writeln("Algoritmo rapido ejecutado con exito!");
         io.writeln("Ha tardado " + s.getNumPasos() + " pasos en ejecutarse");
@@ -136,9 +136,9 @@ public class Driver {
         io.writeln();
         io.write("Introduce el numero de columnas de la solución: ");
         int columnas = io.readint();
-        GestorPesistencia.nuevaSolucion(filas, columnas);
-        Solucion s = GestorPesistencia.getSolucion();
-        AlgoritmoOptimo av = new AlgoritmoOptimo(GestorPesistencia.getMatrizAdyacencia());
+        GestorPesistencia.getInstance().nuevaSolucion(filas, columnas);
+        Solucion s = GestorPesistencia.getInstance().getSolucion();
+        AlgoritmoOptimo av = new AlgoritmoOptimo(GestorPesistencia.getInstance().getMatrizAdyacencia());
         av.ejecutar(s);
         io.writeln("Algoritmo voraz ejecutado con exito!");
         io.writeln("Ha tardado " + s.getNumPasos() + " pasos en ejecutarse");
@@ -169,9 +169,9 @@ public class Driver {
                 io.writeln(p1 == p2 ? "Los productos no pueden ser iguales" : "Producto no valido!");
             }
         } while (bp2);
-        int[] pos1 = GestorPesistencia.getSolucion().buscar_producto(p1);
-        int[] pos2 = GestorPesistencia.getSolucion().buscar_producto(p2);
-        GestorPesistencia.getSolucion().intercambiar_productos(pos1[0], pos1[1], pos2[0], pos2[1]);
+        int[] pos1 = GestorPesistencia.getInstance().getSolucion().buscar_producto(p1);
+        int[] pos2 = GestorPesistencia.getInstance().getSolucion().buscar_producto(p2);
+        GestorPesistencia.getInstance().getSolucion().intercambiar_productos(pos1[0], pos1[1], pos2[0], pos2[1]);
     }
 
     /**
@@ -189,7 +189,7 @@ public class Driver {
             if (id < 0 || id > num_productos) {
                 io.writeln("Producto no valido!");
             } else {
-                p = GestorPesistencia.getListaProductos().getProducto(id).orElse(null);
+                p = GestorPesistencia.getInstance().getListaProductos().getProducto(id).orElse(null);
                 if (p == null) {
                     throw new Exception("Producto no encontrado!");
                 } else {
@@ -197,7 +197,7 @@ public class Driver {
                 }
             }
         }
-        int[] pos = GestorPesistencia.getSolucion().buscar_producto(id);
+        int[] pos = GestorPesistencia.getInstance().getSolucion().buscar_producto(id);
         io.writeln("El producto " + "(" + id + ") se encuentra en la fila " + pos[0] + " y columna " + pos[1]);
     }
 
@@ -207,7 +207,7 @@ public class Driver {
      */
     private static void imprimirListaProductos() throws Exception {
         int i = 0;
-        for (Producto p : GestorPesistencia.getListaProductos().getListaProductos()) {
+        for (Producto p : GestorPesistencia.getInstance().getListaProductos().getListaProductos()) {
             System.out.printf("ID %d - \t%s - %f€\n", i, p.getNombre(), p.getPrecio());
             i++;
         }
@@ -233,7 +233,7 @@ public class Driver {
                 io.write("Opcion: ");
                 int opcion = io.readint();
                 io.writeln();
-                int num_productos = GestorPesistencia.getListaProductos().getCantidadProductos();
+                int num_productos = GestorPesistencia.getInstance().getListaProductos().getCantidadProductos();
                 switch (opcion) {
                     case 1:
                         importarListaProductos();
@@ -261,7 +261,7 @@ public class Driver {
                         imprimirListaProductos();
                         io.write("Introduce el numero del producto a consultar: ");
                         int id = io.readint();
-                        Producto producto = GestorPesistencia.getListaProductos().getProducto(id).orElse(null);
+                        Producto producto = GestorPesistencia.getInstance().getListaProductos().getProducto(id).orElse(null);
                         if (producto != null) {
                             io.writeln("Nombre del producto: " + producto.getNombre());
                             io.writeln("Precio del producto: " + producto.getPrecio());
@@ -292,7 +292,7 @@ public class Driver {
         io.write("Introduce el precio del nuevo producto: ");
         double precio = io.readdouble();
         Producto p = new Producto(nombre_producto, precio);
-        GestorPesistencia.getListaProductos().addProducto(p);
+        GestorPesistencia.getInstance().getListaProductos().addProducto(p);
     }
 
     /**
@@ -303,7 +303,7 @@ public class Driver {
         imprimirListaProductos();
         io.write("Introduce el numero del producto a eliminar: ");
         int num_producto = io.readint();
-        GestorPesistencia.getListaProductos().eliminarProducto(num_producto);
+        GestorPesistencia.getInstance().getListaProductos().eliminarProducto(num_producto);
     }
 
     /**
@@ -335,7 +335,7 @@ public class Driver {
         }
         io.write("Introduce la nueva sinergia entre los productos: ");
         double sinergia = io.readdouble();
-        GestorPesistencia.getMatrizAdyacencia().modificar_sinergias(p1, p2, sinergia);
+        GestorPesistencia.getInstance().getMatrizAdyacencia().modificar_sinergias(p1, p2, sinergia);
     }
 
     /**
@@ -356,7 +356,7 @@ public class Driver {
             } else if (file.isDirectory()) {
                 io.write("El archivo es un directorio!\n");
             } else {
-                GestorPesistencia.importarLista(file);
+                GestorPesistencia.getInstance().importarLista(file);
                 break;
             }
         }
@@ -380,7 +380,7 @@ public class Driver {
             } else if (file.isDirectory()) {
                 io.write("El archivo es un directorio!\n");
             } else {
-                GestorPesistencia.exportarLista(file);
+                GestorPesistencia.getInstance().exportarLista(file);
                 break;
             }
         }
@@ -404,7 +404,7 @@ public class Driver {
             } else if (file.isDirectory()) {
                 io.write("El archivo es un directorio!\n");
             } else {
-                GestorPesistencia.importarEstado(file);
+                GestorPesistencia.getInstance().importarEstado(file);
                 break;
             }
         }
@@ -428,7 +428,7 @@ public class Driver {
             } else if (file.isDirectory()) {
                 io.write("El archivo es un directorio!\n");
             } else {
-                GestorPesistencia.exportarEstado(file);
+                GestorPesistencia.getInstance().exportarEstado(file);
                 break;
             }
         }

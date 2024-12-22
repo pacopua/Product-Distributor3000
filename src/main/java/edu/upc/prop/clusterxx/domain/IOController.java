@@ -7,23 +7,22 @@ import java.io.IOException;
 
 public class IOController {
     public void salir() {
-        GestorPesistencia gestorPesistencia = new GestorPesistencia();
-        gestorPesistencia.salir();
+        GestorPesistencia.getInstance().salir();
     }
 
     public void importarEstado(String ruta_archivo) throws IOException, ClassNotFoundException {
-        GestorPesistencia.importarEstado(new File(ruta_archivo));
+        GestorPesistencia.getInstance().importarEstado(new File(ruta_archivo));
     }
 
     public void exportarEstado(String ruta_archivo) throws IOException {
-        GestorPesistencia.exportarEstado(new File(ruta_archivo));
+        GestorPesistencia.getInstance().exportarEstado(new File(ruta_archivo));
     }
 
     public void importarListaProductos(String ruta_archivo) throws IOException, ClassNotFoundException {
-        GestorPesistencia.importarLista(new File(ruta_archivo));
+        GestorPesistencia.getInstance().importarLista(new File(ruta_archivo));
     }
 
     public void exportarListaProductos(String ruta_archivo) throws IOException {
-        GestorPesistencia.exportarLista(new File(ruta_archivo));
+        GestorPesistencia.getInstance().exportarLista(new File(ruta_archivo));
     }
 }

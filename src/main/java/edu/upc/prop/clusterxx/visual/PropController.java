@@ -47,8 +47,8 @@ public class PropController {
     @FXML
     HBox pasosBox;
     private static IOController ioController = new IOController();
-    private static DomainProductoController domainProductoController = new DomainProductoController();
-    private static DomainSolucionController domainSolucionController = new DomainSolucionController();
+    private static DomainProductoController domainProductoController = DomainProductoController.getInstance();
+    private static DomainSolucionController domainSolucionController = DomainSolucionController.getInstance();
 
     private static ObservableList<Integer> observableProducts = FXCollections.observableArrayList();
     private static ObservableList<Pair<Integer, Integer>> observableProductPairs = FXCollections.observableArrayList();
@@ -80,7 +80,7 @@ public class PropController {
         relacionesView.setCellFactory(productPair -> new RelacionCell());
         relacionesView.setItems(observableProductPairs);
         solucionView.setItems(observableSolutionProducts);
-        DomainEstadoController.actualizarHistorial();
+        DomainEstadoController.getInstance().actualizarHistorial();
     }
 
     public boolean ventanaConfirmar(String mensaje, String titulo) {
@@ -143,7 +143,7 @@ public class PropController {
         File in = abrirFileChooser(true,"data.state", stateFilter);
         if (in == null) return false;
         try {
-            DomainEstadoController.actualizarHistorial();
+            DomainEstadoController.getInstance().actualizarHistorial();
             ioController.importarEstado(in.getAbsolutePath());
             actualizarDatos();
             actualizarSolucion();
@@ -176,7 +176,7 @@ public class PropController {
         File in = abrirFileChooser(true,"products.list", listFilter);
         if (in == null) return false;;
         try {
-            DomainEstadoController.actualizarHistorial();
+            DomainEstadoController.getInstance().actualizarHistorial();
             ioController.importarListaProductos(in.getAbsolutePath());
             actualizarDatos();
             ordenarProductosView();
@@ -425,7 +425,7 @@ public class PropController {
     }
 
     public void onDeshacer() {
-        DomainEstadoController.deshacer();
+        DomainEstadoController.getInstance().deshacer();
         actualizarDatos();
         actualizarSolucion();
     }

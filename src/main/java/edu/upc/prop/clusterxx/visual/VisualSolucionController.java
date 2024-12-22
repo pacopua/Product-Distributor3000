@@ -25,7 +25,7 @@ public class VisualSolucionController {
     @FXML
     protected void onGenerarSolucion() {
         try {
-            DomainSolucionController solucionController = new DomainSolucionController();
+            DomainSolucionController solucionController = DomainSolucionController.getInstance();
             int numFilas = (int)filas.getValue();
             int numColumnas = (int)columnas.getValue();
             Task<Void> task = new Task<>() {
