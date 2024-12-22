@@ -3,9 +3,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="226.0" prefWidth="346.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.upc.prop.clusterxx.visual.VisualSolucionController">
+<AnchorPane prefHeight="226.0" prefWidth="346.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.upc.prop.clusterxx.visual.VisualSolucionController" stylesheets="@styles.css">
 
-    <GridPane alignment="CENTER" prefHeight="226.0" prefWidth="346.0">
+    <GridPane alignment="CENTER" prefHeight="248.0" prefWidth="346.0">
         <columnConstraints>
             <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="16.0" minWidth="16.0" prefWidth="16.0" />
             <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" />
@@ -20,13 +20,14 @@
             <RowConstraints maxHeight="25.0" minHeight="24.0" prefHeight="25.0" valignment="CENTER" vgrow="SOMETIMES" />
             <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
             <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
-            <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="28.0" minHeight="25.0" prefHeight="28.0" valignment="CENTER" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="28.0" minHeight="10.0" prefHeight="25.0" valignment="CENTER" vgrow="SOMETIMES" />
             <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="24.0" minHeight="24.0" prefHeight="24.0" valignment="CENTER" vgrow="NEVER" />
             <RowConstraints maxHeight="23.0" minHeight="16.0" prefHeight="23.0" valignment="CENTER" vgrow="NEVER" />
             <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
             <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
-         <RowConstraints maxHeight="16.0" minHeight="16.0" prefHeight="16.0" valignment="CENTER" vgrow="NEVER" />
+            <RowConstraints maxHeight="16.0" minHeight="16.0" prefHeight="16.0" valignment="CENTER" vgrow="NEVER" />
         </rowConstraints>
         <Label text="Filas" GridPane.columnIndex="1" GridPane.rowIndex="3" />
         <Label text="Columnas" GridPane.columnIndex="3" GridPane.rowIndex="3" />
@@ -47,6 +48,8 @@
             </toggleGroup>
         </RadioButton>
         <RadioButton fx:id="optima" mnemonicParsing="false" text="Solución Óptima" toggleGroup="$tipo_sol" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+        <RadioButton fx:id="ultra_rapida" mnemonicParsing="false" text="Solución UltraRápida" toggleGroup="$tipo_sol" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="7" />
+        <Separator minHeight="32.0" prefHeight="32.0" prefWidth="326.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="8" />
         <Separator minHeight="32.0" prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="7" />
         <Button fx:id="generar" onAction="#onGenerarSolucion" text="_Generar Solución" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="10" />
         <Label minWidth="32.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />

@@ -6,7 +6,9 @@ import javafx.beans.property.DoubleProperty;
 import java.util.List;
 
 public class DomainSolucionController {
-
+    private static AlgoritmoRapido algoRapido;
+    private static AlgoritmoOptimo algoOptimo;
+    private static AlgoritmoSA algoSA;
     public double getCalidadSolucion() {
         return GestorPesistencia.getSolucion().getCalidad();
     }
@@ -31,24 +33,40 @@ public class DomainSolucionController {
         return GestorPesistencia.getSolucion().estaCompletado();
     }
 
+    public void parar_algoritmo() {
+        if (algoRapido != null) algoRapido.stopExecution();
+        if (algoOptimo != null) algoOptimo.stopExecution();
+        //no lo hago para el SA pq al tener un step predeterminado no tiene sentido
+        //tardara muy poquito en acabar
+    }
+
     public void calcularDistribucionRapida(int filas, int columnas, DoubleProperty progreso) {
         Solucion s = GestorPesistencia.nuevaSolucion(filas, columnas);
-        AlgoritmoRapido algo = new AlgoritmoRapido(GestorPesistencia.getMatrizAdyacencia(), progreso);
+        algoRapido = new AlgoritmoRapido(GestorPesistencia.getMatrizAdyacencia(), progreso);
         //lanzamos excepcion si no se puede hacer la distribucion
         if(filas*columnas < s.getListaProductos().getCantidadProductos()) {
             throw new IllegalArgumentException("No se puede hacer la distribución");
         }
-        GestorPesistencia.setSolucion(algo.ejecutar(s, 1));
+        GestorPesistencia.setSolucion(algoRapido.ejecutar(s, 1));
     }
 
     public void calcularDistribucionOptima(int filas, int columnas, DoubleProperty progreso) {
         Solucion s = GestorPesistencia.nuevaSolucion(filas, columnas);
-        AlgoritmoOptimo algo = new AlgoritmoOptimo(GestorPesistencia.getMatrizAdyacencia(), progreso);
+        algoOptimo = new AlgoritmoOptimo(GestorPesistencia.getMatrizAdyacencia(), progreso);
         if(filas*columnas < s.getListaProductos().getCantidadProductos()) {
             //System.out.println("AAAAAAAAA");
             throw new IllegalArgumentException("No se puede hacer la distribución");
         }
-        GestorPesistencia.setSolucion(algo.ejecutar(s));
+        GestorPesistencia.setSolucion(algoOptimo.ejecutar(s));
+    }
+
+    public void calcularDistribucionUltraRapida(int filas, int columnas) {
+        Solucion s = GestorPesistencia.nuevaSolucion(filas, columnas);
+        algoSA = new AlgoritmoSA(GestorPesistencia.getMatrizAdyacencia(), 10000,1, 25, 0.001 );
+        if(filas*columnas < s.getListaProductos().getCantidadProductos()) {
+            throw new IllegalArgumentException("No se puede hacer la distribución");
+        }
+        GestorPesistencia.setSolucion(algoSA.ejecutar(s, 1));
     }
 
     public List<String> getListaNombresProductos() {

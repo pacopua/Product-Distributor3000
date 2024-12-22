@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.upc.prop.clusterxx.visual.IntercambioController">
+<AnchorPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.upc.prop.clusterxx.visual.IntercambioController" stylesheets="@styles.css">
 
     <GridPane alignment="CENTER">
         <columnConstraints>

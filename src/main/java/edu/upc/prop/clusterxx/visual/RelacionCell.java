@@ -56,7 +56,26 @@ public class RelacionCell extends ListCell<Pair<Integer, Integer>> {
 
         relacion = new TextField();
         relacion.setTextFormatter(
-                new TextFormatter<>(new DoubleStringConverter(), 0., doubleFilter));
+                new TextFormatter<>(new DoubleStringConverter(), 0.));
+        relacion.setOnAction(event -> {
+            String newValue = relacion.getText().trim(); // Allow trimming whitespace
+            if (newValue.isEmpty()) {
+                relacion.setText(Double.toString(0.0)); // Revert to the original value
+                VisualProductoController.ventanaErrorProd("El precio no puede estar vacío.", "Precio vacio");
+
+            }
+        });
+
+        relacion.focusedProperty().addListener((observable, oldFocus, newFocus) -> {
+            if (!newFocus) { // Focus lost
+                String newValue = relacion.getText().trim();
+                if (newValue.isEmpty()) {
+                    relacion.setText(Double.toString(0.0)); // Revert to the original value
+                    VisualProductoController.ventanaErrorProd("El precio no puede estar vacío.", "Precio vacio");
+
+                }
+            }
+        });
         pane.add(relacion, 2, 0);
     }
     @Override
