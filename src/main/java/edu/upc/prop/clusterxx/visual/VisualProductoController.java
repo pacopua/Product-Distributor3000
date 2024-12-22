@@ -87,7 +87,7 @@ public class VisualProductoController {
     }
     @FXML
     protected void onAnadirProducto() {
-        DomainProductoController controller = new DomainProductoController();
+        DomainProductoController controller = DomainProductoController.getInstance();
         if (controller.anyadirProducto((String) nombre.getTextFormatter().getValue(), (double) precio.getTextFormatter().getValue())) {
             ventanaErrorProd("El producto ya existe", "Producto ya existente");
         } else {

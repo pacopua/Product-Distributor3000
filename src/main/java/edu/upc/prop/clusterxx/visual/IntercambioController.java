@@ -15,7 +15,7 @@ public class IntercambioController {
     ChoiceBox<String> producto1;
     @FXML
     ChoiceBox<String> producto2;
-    private final DomainSolucionController solucionController = new DomainSolucionController();
+    private final DomainSolucionController solucionController = DomainSolucionController.getInstance();
 
     @FXML
     protected void initialize() {

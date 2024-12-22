@@ -6,35 +6,47 @@ import javafx.application.Platform;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.NoSuchElementException;
 
 public class GestorPesistencia {
-    private static ListaProductos listaProductos = new ListaProductos();
-    private static MatrizAdyacencia matrizAdyacencia = new MatrizAdyacencia(0);
-    private static Solucion solucion = new Solucion(listaProductos);
-    private static final ArrayList<Estado> historial = new ArrayList<>();
+    private static GestorPesistencia instance;
+    private ListaProductos listaProductos = new ListaProductos();
+    private MatrizAdyacencia matrizAdyacencia = new MatrizAdyacencia(0);
+    private Solucion solucion = new Solucion(listaProductos);
+    private final ArrayList<Estado> historial = new ArrayList<>();
 
-    public static ListaProductos getListaProductos() {
+    private GestorPesistencia() {
+    }
+
+    public static GestorPesistencia getInstance() {
+        if (instance == null) {
+            instance = new GestorPesistencia();
+        }
+
+        return instance;
+    }
+
+    public ListaProductos getListaProductos() {
         return listaProductos;
     }
 
-    public static MatrizAdyacencia getMatrizAdyacencia() {
+    public MatrizAdyacencia getMatrizAdyacencia() {
         return matrizAdyacencia;
     }
 
-    public static Solucion getSolucion() {
+    public Solucion getSolucion() {
         return solucion;
     }
 
-    public static void setMatrizAdyacencia(MatrizAdyacencia nuevaMatrizAdyacencia) { // temporal?
+    public void setMatrizAdyacencia(MatrizAdyacencia nuevaMatrizAdyacencia) { // temporal?
         matrizAdyacencia = nuevaMatrizAdyacencia;
     }
 
-    public static void setSolucion(Solucion s) {
+    public void setSolucion(Solucion s) {
         solucion = s;
     }
 
-    public static void importarEstado(File f) throws IOException, ClassNotFoundException {
+    public void importarEstado(File f) throws IOException, ClassNotFoundException {
         FileInputStream fileIn = new FileInputStream(f);
         ObjectInputStream objectIn = new ObjectInputStream(fileIn);
         Estado estado = (Estado) objectIn.readObject();
@@ -43,14 +55,14 @@ public class GestorPesistencia {
         solucion = estado.getSolucion();
     }
 
-    public static void exportarEstado(File f) throws IOException {
+    public void exportarEstado(File f) throws IOException {
         Estado estado = new Estado(solucion, listaProductos, matrizAdyacencia);
         FileOutputStream fileOut = new FileOutputStream(f);
         ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
         objectOut.writeObject(estado);
     }
 
-    public static void importarLista(File f) throws IOException, ClassNotFoundException {
+    public void importarLista(File f) throws IOException, ClassNotFoundException {
         FileInputStream fileIn = new FileInputStream(f);
         ObjectInputStream objectIn = new ObjectInputStream(fileIn);
         Estado estado = (Estado) objectIn.readObject();
@@ -58,7 +70,7 @@ public class GestorPesistencia {
         matrizAdyacencia = estado.getMatrizAdyacencia();
     }
 
-    public static void exportarLista(File f) throws IOException {
+    public void exportarLista(File f) throws IOException {
         Estado estado = new Estado(new Solucion(listaProductos, 0, 0), listaProductos, matrizAdyacencia);
         FileOutputStream fileOut = new FileOutputStream(f);
         ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
@@ -77,42 +89,49 @@ public class GestorPesistencia {
         objectOut.writeObject(solucion);
     }
     */
-    public static void salir() {
+    public void salir() {
         Platform.exit();
         System.exit(0);
     }
 
-    public static Solucion nuevaSolucion(int filas, int columnas) throws IllegalArgumentException {
+    public Solucion nuevaSolucion(int filas, int columnas) throws IllegalArgumentException {
         return new Solucion(listaProductos.clone(), filas, columnas);
     }
 
-    public static void guardarEstadoEnHistorial() {
-        Estado estado;
+    private Estado getEstadoActual()  {
+        return new Estado(solucion.clone(), listaProductos.clone(), matrizAdyacencia.clone());
+    }
+
+    public void guardarEstadoEnHistorial() {
+        Estado estado = getEstadoActual();
+        Estado last;
         try {
-            estado = new Estado(solucion.clone(), listaProductos.clone(), matrizAdyacencia.clone());
-        } catch (CloneNotSupportedException e) {
-            return;
+            last = historial.getLast();
+        } catch (NoSuchElementException e) {
+            last = null;
         }
-        if (historial.isEmpty() || !compararEstados(estado, historial.getLast())) {
+        if (last == null || !compararEstados(estado, last)) {
             historial.add(estado);
         }
     }
 
-    public static void deshacerCambio() {
+    public void deshacerCambio() {
         if (!historial.isEmpty()) {
             Estado estado;
             do {
                 estado = historial.getLast();
                 historial.removeLast();
-            } while (compararEstados(estado, new Estado(solucion, listaProductos, matrizAdyacencia)));
+            } while (!historial.isEmpty() && compararEstados(estado, getEstadoActual()));
             listaProductos = estado.getListaProductos();
             matrizAdyacencia = estado.getMatrizAdyacencia();
             solucion = estado.getSolucion();
-            if (historial.isEmpty()) guardarEstadoEnHistorial(); // Guardamos el estado actual
+            if (historial.isEmpty()) {
+                guardarEstadoEnHistorial();
+            }
         }
     }
 
-    private static boolean compararEstados(Estado e1, Estado e2) {
+    public boolean compararEstados(Estado e1, Estado e2) {
         ListaProductos lp1, lp2;
         MatrizAdyacencia ma1, ma2;
         Solucion s1, s2;
@@ -135,7 +154,7 @@ public class GestorPesistencia {
     }
 
 
-    private static boolean compararListaProductos(ListaProductos lp1, ListaProductos lp2) {
+    private boolean compararListaProductos(ListaProductos lp1, ListaProductos lp2) {
         if (lp2.getCantidadProductos() != lp1.getCantidadProductos())
             return false;
 
@@ -149,11 +168,7 @@ public class GestorPesistencia {
         return true;
     }
 
-    public static void reiniciarHistorial() {
-        historial.clear();
-    }
-
-    public static void borrarUltimoEstadoHistorial() {
+    public void borrarUltimoEstadoHistorial() {
         historial.removeLast();
     }
 }

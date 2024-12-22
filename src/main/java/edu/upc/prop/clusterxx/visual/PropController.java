@@ -47,8 +47,8 @@ public class PropController {
     @FXML
     HBox pasosBox;
     private static IOController ioController = new IOController();
-    private static DomainProductoController domainProductoController = new DomainProductoController();
-    private static DomainSolucionController domainSolucionController = new DomainSolucionController();
+    private static DomainProductoController domainProductoController = DomainProductoController.getInstance();
+    private static DomainSolucionController domainSolucionController = DomainSolucionController.getInstance();
 
     private static ObservableList<Integer> observableProducts = FXCollections.observableArrayList();
     private static ObservableList<Pair<Integer, Integer>> observableProductPairs = FXCollections.observableArrayList();
@@ -80,7 +80,7 @@ public class PropController {
         relacionesView.setCellFactory(productPair -> new RelacionCell());
         relacionesView.setItems(observableProductPairs);
         solucionView.setItems(observableSolutionProducts);
-        DomainEstadoController.actualizarHistorial();
+        DomainEstadoController.getInstance().actualizarHistorial();
     }
 
     public boolean ventanaConfirmar(String mensaje, String titulo) {
@@ -143,7 +143,7 @@ public class PropController {
         File in = abrirFileChooser(true,"data.state", stateFilter);
         if (in == null) return false;
         try {
-            DomainEstadoController.actualizarHistorial();
+            DomainEstadoController.getInstance().actualizarHistorial();
             ioController.importarEstado(in.getAbsolutePath());
             actualizarDatos();
             actualizarSolucion();
@@ -176,7 +176,7 @@ public class PropController {
         File in = abrirFileChooser(true,"products.list", listFilter);
         if (in == null) return false;;
         try {
-            DomainEstadoController.actualizarHistorial();
+            DomainEstadoController.getInstance().actualizarHistorial();
             ioController.importarListaProductos(in.getAbsolutePath());
             actualizarDatos();
             ordenarProductosView();
@@ -407,12 +407,10 @@ public class PropController {
     }
 
     public static void eliminarProducto(int id) {
-        DomainEstadoController.actualizarHistorial();
         domainProductoController.eliminarProductoPorId(id);
     }
 
     public static void cambiarNombreProducto(int id, String newName) {
-        DomainEstadoController.actualizarHistorial();
         domainProductoController.cambiarNombreProducto(id, newName);
     }
 
@@ -421,7 +419,6 @@ public class PropController {
     }
 
     public static void setSinergias(int id1, int id2, double sinergia) {
-        DomainEstadoController.actualizarHistorial();
         domainProductoController.setSinergias(id1, id2, sinergia);
     }
 
@@ -434,16 +431,11 @@ public class PropController {
     }
 
     public static void setPrecioProducto(int id, double precio) {
-        DomainEstadoController.actualizarHistorial();
         domainProductoController.setPrecioProductoPorId(id, precio);
     }
 
-    public static void onGuardarEstado() {
-        DomainEstadoController.actualizarHistorial();
-    }
-
     public void onDeshacer() {
-        DomainEstadoController.deshacer();
+        DomainEstadoController.getInstance().deshacer();
         actualizarDatos();
         actualizarSolucion();
     }
