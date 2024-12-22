@@ -54,8 +54,7 @@ public class DomainSolucionController {
     public void parar_algoritmo() {
         if (algoRapido != null) algoRapido.stopExecution();
         if (algoOptimo != null) algoOptimo.stopExecution();
-        //no lo hago para el SA pq al tener un step predeterminado no tiene sentido
-        //tardara muy poquito en acabar
+        if (algoSA != null) algoSA.stopExecution();
     }
 
     public void calcularDistribucionRapida(int filas, int columnas) {

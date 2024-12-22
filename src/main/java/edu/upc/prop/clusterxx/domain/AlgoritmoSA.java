@@ -10,6 +10,13 @@ public class AlgoritmoSA extends Algoritmo {
     int stiter;
     double k;
     double lambda;
+
+    private volatile boolean stopRequested = false;
+    public void stopExecution() {
+        stopRequested = true;
+    }
+
+
     final float T0 = 1000;
     final float coolingRate = 0.003f;
 
@@ -51,6 +58,7 @@ public class AlgoritmoSA extends Algoritmo {
     public Solucion ejecutar(Solucion s, int intentos, long seed) {
         Solucion bestSolution = s;
         for (int attempt = 0; attempt < intentos; ++attempt) {
+            if(stopRequested) return bestSolution;
             initializeSolution(s);
             s.setCalidad(calcular_todas(s));
             Solucion candidateSolution = simulatedAnnealing(s, seed);
@@ -58,7 +66,10 @@ public class AlgoritmoSA extends Algoritmo {
                 bestSolution = candidateSolution;
             }
         }
-        bestSolution.setCompletado(true);
+        if(!stopRequested)bestSolution.setCompletado(true);
+        else {
+            System.out.println("Algoritmo detenido");
+        }
         return bestSolution;
     }
 
@@ -74,6 +85,7 @@ public class AlgoritmoSA extends Algoritmo {
             }
         }
         for (int i = 0; i < matrizAdyacencia.getMatriz().length; ++i) {
+            if(stopRequested) return;
             int aux_i = random.nextInt(0, s.getDistribucion().length);
             int aux_j = random.nextInt(0, s.getDistribucion()[0].length);
             while (s.getDistribucion()[aux_i][aux_j] < i && s.getDistribucion()[aux_i][aux_j] != -1) {
@@ -111,6 +123,7 @@ public class AlgoritmoSA extends Algoritmo {
         Random random = new Random(seed);
 
         while (current.getNumPasos() < numPasos) {
+            if(stopRequested) return bestSolution;
             Solucion neighbor = copiar_solucion(current);
             int i1 = random.nextInt(current.getDistribucion().length);
             int j1 = random.nextInt(current.getDistribucion()[0].length);
