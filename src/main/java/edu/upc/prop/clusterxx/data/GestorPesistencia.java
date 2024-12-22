@@ -8,18 +8,40 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 
+/**
+ * Clase GestorPesistencia
+ * Gestiona la persistencia de los datos
+ */
 public class GestorPesistencia {
+    /**
+     * Instancia única de GestorPesistencia
+     */
     private static GestorPesistencia instance;
+    /**
+     * Lista de productos
+     */
     private ListaProductos listaProductos = new ListaProductos();
+    /**
+     * Matriz de adyacencia
+     */
     private MatrizAdyacencia matrizAdyacencia = new MatrizAdyacencia(0);
+    /**
+     * Solución
+     */
     private Solucion solucion = new Solucion(listaProductos);
+    /**
+     * Historial de estados
+     */
     private final ArrayList<Estado> historial = new ArrayList<>();
 
+    /**
+     * Constructor privado de la clase GestorPesistencia
+     */
     private GestorPesistencia() {
     }
 
     /**
-     * Singleton
+     * Metodo que devuelve la instancia única de GestorPesistencia
      * @return instancia única de GestorPesistencia
      */
     public static GestorPesistencia getInstance() {

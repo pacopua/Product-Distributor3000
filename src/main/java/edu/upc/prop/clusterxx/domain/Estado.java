@@ -7,23 +7,23 @@ import java.io.Serializable;
  */
 public class Estado implements Serializable {
     /**
-     * Solucion del estado
+     * Solucion
      */
     private Solucion solucion;
     /**
-     * Lista de productos del estado
+     * Lista de productos
      */
     private ListaProductos listaProductos;
     /**
-     * Matriz de adyacencia del estado
+     * Matriz de adyacencia
      */
     private MatrizAdyacencia matrizAdyacencia;
 
     /**
      * Constructor de la clase Estado
-     * @param solucion Solucion del estado
-     * @param listaProductos Lista de productos del estado
-     * @param matrizAdyacencia Matriz de adyacencia del estado
+     * @param solucion Solucion
+     * @param listaProductos Lista de productos
+     * @param matrizAdyacencia Matriz de adyacencia
      */
     public Estado(Solucion solucion, ListaProductos listaProductos, MatrizAdyacencia matrizAdyacencia) {
         this.solucion = solucion;
