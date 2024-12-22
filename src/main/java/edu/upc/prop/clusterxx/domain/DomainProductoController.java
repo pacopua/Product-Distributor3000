@@ -6,6 +6,9 @@ import javafx.util.Pair;
 import java.util.ArrayList;
 
 public class DomainProductoController {
+    /**
+     * Instancia única de DomainProductoController
+     */
     private static DomainProductoController instance;
 
     /**
@@ -83,8 +86,10 @@ public class DomainProductoController {
      * @param nuevoNombre nuevo nombre del producto
      */
     public void cambiarNombreProducto(int id, String nuevoNombre) {
-        DomainEstadoController.getInstance().actualizarHistorial();
-        GestorPesistencia.getInstance().getListaProductos().getListaProductos().get(id).setNombre(nuevoNombre);
+        if (!existeProductoConDiferenteID(id, nuevoNombre)) {
+            DomainEstadoController.getInstance().actualizarHistorial();
+            GestorPesistencia.getInstance().getListaProductos().getListaProductos().get(id).setNombre(nuevoNombre);
+        }
     }
 
     /**
@@ -145,7 +150,7 @@ public class DomainProductoController {
      */
     public ArrayList<Integer> getProductsIds() {
         ArrayList<Integer> ids = new ArrayList<>();
-        for (int i = 0; i < GestorPesistencia.getInstance().getListaProductos().getListaProductos().size(); i++) {
+        for (int i = 0; i < GestorPesistencia.getInstance().getListaProductos().getCantidadProductos(); i++) {
             ids.add(i);
         }
         return ids;

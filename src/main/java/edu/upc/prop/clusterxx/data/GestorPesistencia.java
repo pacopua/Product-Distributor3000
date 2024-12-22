@@ -119,7 +119,6 @@ public class GestorPesistencia {
 
     /**
      * Importa una matriz de adyacencia de un archivo
-     * @param f archivo a importar
      */
     public void salir() {
         Platform.exit();
