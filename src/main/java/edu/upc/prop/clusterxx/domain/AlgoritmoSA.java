@@ -3,6 +3,8 @@
 //package src.main.java.edu.upc.prop.clusterxx;   <- marcad src como root para no poner el path entero -Marcel
 package edu.upc.prop.clusterxx.domain;
 
+import javafx.beans.property.DoubleProperty;
+
 import java.util.Random;
 
 public class AlgoritmoSA extends Algoritmo {
@@ -23,6 +25,13 @@ public class AlgoritmoSA extends Algoritmo {
      */
     public AlgoritmoSA(MatrizAdyacencia m, int numPasos,int stiter, double k, double lambda) {
         super(m);
+        this.numPasos = numPasos;
+        this.stiter = stiter;
+        this.k = k;
+        this.lambda = lambda;
+    }
+    public AlgoritmoSA(MatrizAdyacencia m, int numPasos,int stiter, double k, double lambda, DoubleProperty progreso) {
+        super(m, progreso);
         this.numPasos = numPasos;
         this.stiter = stiter;
         this.k = k;
@@ -119,6 +128,7 @@ public class AlgoritmoSA extends Algoritmo {
             neighbor.intercambiar_productos(i1, j1, i2, j2);
             neighbor.setCalidad(calcular_todas(neighbor));
             neighbor.setNumPasos(neighbor.getNumPasos() + 1);
+            actualizar_progreso(neighbor.getNumPasos());
 
             double currentEnergy = current.getCalidad();
             double neighborEnergy = neighbor.getCalidad();

@@ -60,9 +60,9 @@ public class DomainSolucionController {
         GestorPesistencia.setSolucion(algoOptimo.ejecutar(s));
     }
 
-    public void calcularDistribucionUltraRapida(int filas, int columnas) {
+    public void calcularDistribucionUltraRapida(int filas, int columnas, DoubleProperty progreso) {
         Solucion s = GestorPesistencia.nuevaSolucion(filas, columnas);
-        algoSA = new AlgoritmoSA(GestorPesistencia.getMatrizAdyacencia(), 10000,1, 25, 0.001 );
+        algoSA = new AlgoritmoSA(GestorPesistencia.getMatrizAdyacencia(), 10000,1, 25, 0.001, progreso);
         if(filas*columnas < s.getListaProductos().getCantidadProductos()) {
             throw new IllegalArgumentException("No se puede hacer la distribución");
         }
