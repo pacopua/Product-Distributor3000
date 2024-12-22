@@ -50,6 +50,15 @@ public class DomainSolucionController {
         GestorPesistencia.setSolucion(algo.ejecutar(s));
     }
 
+    public void calcularDistribucionUltraRapida(int filas, int columnas) {
+        Solucion s = GestorPesistencia.nuevaSolucion(filas, columnas);
+        AlgoritmoSA algo = new AlgoritmoSA(GestorPesistencia.getMatrizAdyacencia(), 10000,1, 25, 0.001 );
+        if(filas*columnas < s.getListaProductos().getCantidadProductos()) {
+            throw new IllegalArgumentException("No se puede hacer la distribución");
+        }
+        GestorPesistencia.setSolucion(algo.ejecutar(s, 1));
+    }
+
     public List<String> getListaNombresProductos() {
         return GestorPesistencia.getSolucion().getListaProductos().getListaProductos().stream()
                 .map(Producto::getNombre)

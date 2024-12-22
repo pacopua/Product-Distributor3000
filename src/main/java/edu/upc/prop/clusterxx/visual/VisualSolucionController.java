@@ -17,6 +17,8 @@ public class VisualSolucionController {
     @FXML
     RadioButton optima;
     @FXML
+    RadioButton ultra_rapida;
+    @FXML
     Spinner filas;
     @FXML
     Spinner columnas;
@@ -38,6 +40,10 @@ public class VisualSolucionController {
                       } else if (optima.isSelected()) {
                           //return
                           solucionController.calcularDistribucionOptima(numFilas, numColumnas);
+                      }
+                      else if (ultra_rapida.isSelected()) {
+                          //return
+                          solucionController.calcularDistribucionUltraRapida(numFilas, numColumnas);
                       }
                   } catch (IllegalArgumentException ex) {
                       throw new Exception("el número de filas y columnas es insuficiente para el número de productos", ex);
