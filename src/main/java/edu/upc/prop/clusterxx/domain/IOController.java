@@ -6,6 +6,18 @@ import java.io.File;
 import java.io.IOException;
 
 public class IOController {
+    private static IOController instance;
+
+    private IOController() {
+    }
+
+    public static IOController getInstance() {
+        if (instance == null) {
+            instance = new IOController();
+        }
+        return instance;
+    }
+
     public void salir() {
         GestorPesistencia.getInstance().salir();
     }

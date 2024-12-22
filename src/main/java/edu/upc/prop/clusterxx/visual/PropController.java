@@ -47,7 +47,7 @@ public class PropController {
     HBox calidadBox;
     @FXML
     HBox pasosBox;
-    private static IOController ioController = new IOController();
+    private static IOController ioController = IOController.getInstance();
     private static DomainProductoController domainProductoController = DomainProductoController.getInstance();
     private static DomainSolucionController domainSolucionController = DomainSolucionController.getInstance();
 
@@ -286,7 +286,7 @@ public class PropController {
         Optional<ButtonType> eleccion = alerta.showAndWait();
         // guardamos y salimos
         //if(!alerta.isShowing()) return false;
-         IOController ioController = new IOController();
+         IOController ioController = IOController.getInstance();
         if (eleccion.get() == si) {
             if(onExportarEstado()) {
                 ioController.salir();

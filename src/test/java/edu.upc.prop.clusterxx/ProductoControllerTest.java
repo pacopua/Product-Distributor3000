@@ -130,6 +130,8 @@ public class ProductoControllerTest {
 
     @Test
     public void testConsistencia() {
+        tearDown();
+        setUp();
         assertEquals(4, gestorPesistencia.getListaProductos().getCantidadProductos());
         assertEquals(4, gestorPesistencia.getMatrizAdyacencia().getMatriz().length);
         assertEquals(4, gestorPesistencia.getMatrizAdyacencia().getMatriz()[0].length);
