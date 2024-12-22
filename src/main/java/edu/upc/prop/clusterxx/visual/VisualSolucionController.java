@@ -83,6 +83,15 @@ public class VisualSolucionController {
             );
             alerta.setTitle("Geometría incompatible");
             alerta.showAndWait();
+        } catch (Exception ex) {
+            generar.setDisable(false);
+            generar.getScene().getWindow().setOnCloseRequest(e -> {});
+            Alert alerta = new Alert(
+                    Alert.AlertType.ERROR,
+                    "La ejecución se ha detenido por un error inesperado: " + ex.getMessage()
+            );
+            alerta.setTitle("Error inesperado");
+            alerta.showAndWait();
         }
     }
 }
