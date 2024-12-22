@@ -5,8 +5,18 @@ import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 
+/**
+ * Clase MatrizAdyacencia
+ * Representa una matriz de adyacencia entre productos
+ */
 public class MatrizAdyacencia implements Serializable, Cloneable {
+    /**
+     * Matriz de adyacencia
+     */
     private double[][] matriz;
+    /**
+     * Número de productos
+     */
     private int numProductos;
 
     /**

@@ -5,6 +5,10 @@ import javafx.util.Pair;
 
 import java.util.ArrayList;
 
+/**
+ * Clase DomainProductoController
+ * Controlador de productos del dominio
+ */
 public class DomainProductoController {
     /**
      * Instancia única de DomainProductoController

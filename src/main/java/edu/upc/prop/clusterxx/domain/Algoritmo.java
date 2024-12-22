@@ -3,9 +3,19 @@
 //package src.main.java.edu.upc.prop.clusterxx;   <- marcad src como root para no poner el path entero -Marcel
 package edu.upc.prop.clusterxx.domain;
 
+/**
+ * Clase abstracta que define los métodos que deben implementar los algoritmos
+ */
 public class Algoritmo {
+    /**
+     * La matriz de adyacencia que se usará para calcular las sinergias
+     */
     protected MatrizAdyacencia matrizAdyacencia;
-    
+
+    /**
+     * Constructor de la clase Algoritmo
+     * @param m la matriz de adyacencia que se usará para calcular las sinergias
+     */
     public Algoritmo(MatrizAdyacencia m) {
         matrizAdyacencia = m;
     }

@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Clase Solucion
+ * Representa una solución de la distribución de productos
+ */
 public class Solucion implements Serializable, Cloneable {
     private final ListaProductos productos;
     private int[][] distribucion;

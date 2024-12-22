@@ -1,12 +1,26 @@
-//package src.main.java.edu.upc.prop.clusterxx;   <- marcad src como root para no poner el path entero -Marcel
 package edu.upc.prop.clusterxx.domain;
 
 import java.io.Serializable;
 
+/**
+ * Clase Producto
+ * Representa un producto con un nombre y un precio
+ */
 public class Producto implements Serializable, Cloneable {
+    /**
+     * Nombre del producto
+     */
     private String nombre;
+    /**
+     * Precio del producto
+     */
     private double precio;
 
+    /**
+     * Constructor de la clase Producto
+     * @param nombre Nombre del producto
+     * @param precio Precio del producto
+     */
     public Producto(String nombre, double precio) {
         this.nombre = nombre;
         this.precio = precio;
@@ -29,6 +43,10 @@ public class Producto implements Serializable, Cloneable {
         this.precio = precio;
     }
 
+    /**
+     * Método toString
+     * @return Representación en cadena del producto
+     */
     @Override
     public String toString() {
         return "Producto{" +
@@ -37,6 +55,10 @@ public class Producto implements Serializable, Cloneable {
                 '}';
     }
 
+    /**
+     * Método clone
+     * @return Clon del producto
+     */
     @Override
     public Producto clone() {
         try {

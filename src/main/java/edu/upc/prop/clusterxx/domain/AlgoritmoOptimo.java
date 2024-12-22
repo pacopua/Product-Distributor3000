@@ -11,21 +11,40 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+/**
+ * Clase que implementa el algoritmo óptimo para resolver el problema de la distribución de productos
+ */
 public class AlgoritmoOptimo extends Algoritmo {
+    /**
+     * Numero de filas de la distribucion
+     */
     private int dist_files = 0;
+    /**
+     * Numero de columnas de la distribucion
+     */
     private int dist_columnes = 0;
+    /**
+     * Variable que indica si se ha solicitado parar la ejecución del algoritmo
+     */
     private volatile boolean stopRequested = false;
 
+    /**
+     * Constructor de la clase AlgoritmoOptimo
+     * @param m matriz de adyacencia que se usara para calcular la solucion
+     */
     public AlgoritmoOptimo(MatrizAdyacencia m) {
         super(m);
     }
 
+    /**
+     * Metodo para detener la ejecucion del algoritmo
+     */
     public void stopExecution() {
         stopRequested = true;
     }
 
     /**
-     * calcula la cantidad de pasos que se necesitan para llegar a la solución
+     * Calcula la cantidad de pasos que se necesitan para llegar a la solución
      * @return la calidad de pasos
      */
     public long getNumIters() {

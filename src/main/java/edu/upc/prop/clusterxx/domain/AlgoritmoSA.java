@@ -5,19 +5,48 @@ package edu.upc.prop.clusterxx.domain;
 
 import java.util.Random;
 
+/**
+ * Clase que implementa el algoritmo Simulated Annealing
+ */
 public class AlgoritmoSA extends Algoritmo {
+    /**
+     * Numero de pasos
+     */
     int numPasos;
+    /**
+     * Numero de iteraciones para bajar la temperatura
+     */
     int stiter;
+    /**
+     * Coeficiente lineal
+     */
     double k;
+    /**
+     * Coeficiente exponencial
+     */
     double lambda;
 
+    /**
+     * Variable para indicar si se ha solicitado detener la ejecución
+     */
     private volatile boolean stopRequested = false;
+
+    /**
+     * Metodo para detener la ejecución del algoritmo
+     */
     public void stopExecution() {
         stopRequested = true;
     }
 
 
+    /**
+     * Temperatura inicial
+     */
     final float T0 = 1000;
+
+    /**
+     * Tasa de enfriamiento
+     */
     final float coolingRate = 0.003f;
 
     /**

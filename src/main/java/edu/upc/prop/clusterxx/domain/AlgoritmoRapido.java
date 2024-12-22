@@ -10,19 +10,42 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+/**
+ * Clase que implementa el algoritmo rápido para resolver el problema de la distribución de productos
+ */
 public class AlgoritmoRapido extends Algoritmo {
+    /**
+     * Numero de filas de la distribucion
+     */
     private int dist_files = 0;
+    /**
+     * Numero de columnas de la distribucion
+     */
     private int dist_columnes = 0;
+    /**
+     * Variable que indica si se ha solicitado la parada del algoritmo
+     */
     private volatile boolean stopRequested = false;
 
+    /**
+     * Función que solicita la parada del algoritmo
+     */
     public void stopExecution() {
         stopRequested = true;
     }
 
+    /**
+     * Función que devuelve si se ha solicitado la parada del algoritmo
+     * @return
+     */
     public boolean isStopRequested() {
         return stopRequested;
     }
 
+    /**
+     * Constructor de la clase AlgoritmoRapido
+     * @param m matriz de adyacencia que se va a utilizar
+     */
     public AlgoritmoRapido(MatrizAdyacencia m) {
         super(m);
     }
