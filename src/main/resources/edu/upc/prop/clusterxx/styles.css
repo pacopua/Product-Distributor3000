@@ -188,4 +188,8 @@
     -fx-background-color: #290025;
 }
 
+.scroll-pane .viewport {
+    -fx-background-color: #290025;
+}
+
 
