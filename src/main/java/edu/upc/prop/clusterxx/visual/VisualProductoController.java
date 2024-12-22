@@ -93,35 +93,5 @@ public class VisualProductoController {
         } else {
             ((Stage) nombre.getScene().getWindow()).close();
         }
-        /*
-        Producto producto = new Producto(
-                (String) nombre.getTextFormatter().getValue(),
-                (double) precio.getTextFormatter().getValue()
-        );
-
-        boolean existe = false;
-        for (Producto prod : Sistema.getListaProductos().getListaProductos()) {
-            if (prod.getNombre().equals(producto.getNombre())) {
-                existe = true;
-                break;
-            }
-        }
-
-        if (existe) {
-            ventanaErrorProd();
-            return;
-        }
-
-        Sistema.getListaProductos().addProducto(producto);
-
-        MatrizAdyacencia matrizNueva = new MatrizAdyacencia(Sistema.getListaProductos().getCantidadProductos());
-        for (int i = 0; i < Sistema.getMatrizAdyacencia().getNumProductos(); i++)
-            for (int j = 0; j < Sistema.getMatrizAdyacencia().getNumProductos(); j++)
-                matrizNueva.modificar_sinergias(i, j, Sistema.getMatrizAdyacencia().getSinergia(i, j));
-        Sistema.setMatrizAdyacencia(matrizNueva);
-
-        ((Stage) nombre.getScene().getWindow()).close();
-
-         */
     }
 }
