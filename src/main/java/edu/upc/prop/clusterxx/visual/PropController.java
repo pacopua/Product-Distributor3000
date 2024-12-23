@@ -160,40 +160,6 @@ public class PropController {
                 calidad.setText(Double.toString(domainSolucionController.getCalidadSolucion()));
                 pasos.setText(Integer.toString(domainSolucionController.getPasosSolucion()));
             }
-            /*
-            ArrayList<Pair<String, Integer>> productosConID = domainSolucionController.getProductosConID();
-            //Print the arraylist
-            // Clear the current observableSolutionProducts
-            observableSolutionProducts.clear();
-
-            // Separate the products into rows and add them to observableSolutionProducts
-            int rowLength = domainSolucionController.getDistLenght();
-            for (int i = 0; i < productosConID.size(); i += rowLength) {
-                Pair<String, Integer>[] row = new Pair[rowLength];
-                for (int j = 0; j < rowLength && (i + j) < productosConID.size(); j++) {
-                    row[j] = productosConID.get(i + j);
-                }
-                observableSolutionProducts.add(row);
-            }
-
-            solucionView.getColumns().clear();
-
-            // Add new columns
-            for (int i = 0; i < rowLength; i++) {
-                TableColumn<Pair<String, Integer>[], String> col = new TableColumn<>(Integer.toString(i + 1));
-                int index = i;
-                col.setCellValueFactory(param -> {
-                    Pair<String, Integer> prodPair = param.getValue()[index];
-                    if (prodPair == null) return new SimpleStringProperty("");
-                    else return new SimpleStringProperty(prodPair.getKey());
-                });
-                solucionView.getColumns().add(col);
-            }
-
-            solucionView.setItems(observableSolutionProducts);
-            solucionView.refresh();
-
-             */
             ArrayList<Pair<String, Integer>> productosConID = domainSolucionController.getProductosConID();
             observableSolutionProducts.clear();
 
@@ -392,12 +358,10 @@ public class PropController {
     public static ObservableList<String> getProductsIntercambio() {
         ObservableList<String> productNames = FXCollections.observableArrayList();
         for (Pair<String, Integer>[] row : observableSolutionProducts) {
-            boolean primera = true;
             for (Pair<String, Integer> pair : row) {
-                if (!primera && pair != null && pair.getKey() != null) {
+                if (pair != null && pair.getKey() != null && !pair.getKey().isEmpty()) {
                     productNames.add(pair.getKey());
                 }
-                primera = false;
             }
         }
         return productNames;
