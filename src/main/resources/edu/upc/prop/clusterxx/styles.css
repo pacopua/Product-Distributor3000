@@ -60,6 +60,10 @@
     -fx-text-base-color: #FFFFFF; /* White text for contrast */
 }
 
+.tab-header-area .tab-header-background {
+    -fx-background-color: linear-gradient(#3A015C, #4F0147); /* Deep purple for the tab header area */
+}
+
 /* Text Fields */
 .text-field {
     -fx-text-fill: #E0FBFC; /* Light text for text fields */
