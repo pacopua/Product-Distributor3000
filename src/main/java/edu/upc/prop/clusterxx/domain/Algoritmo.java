@@ -100,6 +100,13 @@ public class Algoritmo {
         best_solution.setNumPasos(s.getNumPasos());
         return best_solution;
     }
+
+    /**
+     * Actualiza el observable de progreso del controlador de solución
+     */
+    protected void actualizarProgreso(double current, double max) {
+        DomainSolucionController.getInstance().setProgreso(current/max);
+    }
 }
 
 

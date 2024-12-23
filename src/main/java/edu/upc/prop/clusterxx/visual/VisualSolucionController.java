@@ -6,9 +6,7 @@ import edu.upc.prop.clusterxx.domain.DomainEstadoController;
 import edu.upc.prop.clusterxx.domain.DomainSolucionController;
 import javafx.fxml.FXML;
 import javafx.concurrent.Task;
-import javafx.scene.control.Alert;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.Spinner;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 public class VisualSolucionController {
@@ -23,9 +21,14 @@ public class VisualSolucionController {
     @FXML
     Spinner columnas;
     @FXML
+    Button generar;
+    @FXML
+    ProgressBar barra;
+    @FXML
     protected void onGenerarSolucion() {
         try {
             DomainSolucionController solucionController = DomainSolucionController.getInstance();
+            solucionController.bindProgreso(barra);
             int numFilas = (int)filas.getValue();
             int numColumnas = (int)columnas.getValue();
             Task<Void> task = new Task<>() {
@@ -61,13 +64,26 @@ public class VisualSolucionController {
             });
 
             new Thread(task).start();
+            generar.setDisable(true);
+            generar.getScene().getWindow().setOnCloseRequest(e -> solucionController.parar_algoritmo());
 
         } catch (IllegalArgumentException ex) {
+            generar.setDisable(false);
+            generar.getScene().getWindow().setOnCloseRequest(e -> {});
             Alert alerta = new Alert(
                     Alert.AlertType.ERROR,
                     "El número de filas y columnas es insuficiente para el número de productos."
             );
             alerta.setTitle("Geometría incompatible");
+            alerta.showAndWait();
+        } catch (Exception ex) {
+            generar.setDisable(false);
+            generar.getScene().getWindow().setOnCloseRequest(e -> {});
+            Alert alerta = new Alert(
+                    Alert.AlertType.ERROR,
+                    "La ejecución se ha detenido por un error inesperado: " + ex.getMessage()
+            );
+            alerta.setTitle("Error inesperado");
             alerta.showAndWait();
         }
     }

@@ -27,7 +27,14 @@ public class AlgoritmoOptimo extends Algoritmo {
      * Variable que indica si se ha solicitado parar la ejecución del algoritmo
      */
     private volatile boolean stopRequested = false;
-
+    /**
+     * Variable que indica el número de pasos realizados
+     */
+    private int pasosTotales = 0;
+    /**
+     * Número máximo de pasos a realizar
+     */
+    private long maxIters = -1;
     /**
      * Constructor de la clase AlgoritmoOptimo
      * @param m matriz de adyacencia que se usara para calcular la solucion
@@ -48,9 +55,13 @@ public class AlgoritmoOptimo extends Algoritmo {
      * @return la calidad de pasos
      */
     public long getNumIters() {
+        if (maxIters >= 0) {
+            return maxIters;
+        }
         int m = matrizAdyacencia.getMatriz().length;
         int n = matrizAdyacencia.getMatriz()[0].length;
-        return factorial(m * n);
+        maxIters = Math.max(0, factorial(m * n));
+        return maxIters;
     }
 
     /**
@@ -156,6 +167,8 @@ public class AlgoritmoOptimo extends Algoritmo {
                 int x_enviada = (x + 1) % dist_columnes;
                 int y_enviada = x_enviada == 0 ? y + 1 : y;
                 aux.setNumPasos(aux.getNumPasos() + 1);
+                pasosTotales += 1;
+                actualizarProgreso();
                 aux = recursive_calcular(aux, y_enviada, x_enviada);
                 if (aux.getCalidad() > best_solution.getCalidad()) best_solution = aux;
                 else if(aux.getCalidad() == best_solution.getCalidad()) {
@@ -164,6 +177,12 @@ public class AlgoritmoOptimo extends Algoritmo {
                 }
             }
         }
+        best_solution.setNumPasos(pasosTotales);
         return best_solution;
+    }
+
+    private void actualizarProgreso() {
+        //System.out.println(pasosTotales + " " + getNumIters());
+        actualizarProgreso(pasosTotales, getNumIters());
     }
 }

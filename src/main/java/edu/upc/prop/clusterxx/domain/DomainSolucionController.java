@@ -1,6 +1,9 @@
 package edu.upc.prop.clusterxx.domain;
 
 import edu.upc.prop.clusterxx.data.GestorPesistencia;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.scene.control.ProgressBar;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
@@ -27,6 +30,10 @@ public class DomainSolucionController {
      * Algoritmo SA
      */
     private static AlgoritmoUltraRapido algoSA;
+    /**
+     * Observable para la barra de progreso
+     */
+    private static DoubleProperty progreso = new SimpleDoubleProperty(0);
 
     /**
      * Constructor privado de la clase DomainSolucionController
@@ -192,5 +199,21 @@ public class DomainSolucionController {
         int[] pos_p1 = solucion.buscar_producto(p1);
         int[] pos_p2 = solucion.buscar_producto(p2);
         solucion.intercambiar_productos(pos_p1[0], pos_p1[1], pos_p2[0], pos_p2[1]);
+    }
+
+    /**
+     * Establece un bind entre una progress bar y el observable de progreso
+     * @param barra progress bar a la que bindear el observable
+     */
+    public void bindProgreso(ProgressBar barra) {
+        progreso.setValue(0);
+        barra.progressProperty().bind(progreso);
+    }
+    /**
+     * Actualiza el valor del observable de progreso
+     * @param v Nuevo valor, [0, 1]
+     */
+    public void setProgreso(double v) {
+        progreso.setValue(v);
     }
 }

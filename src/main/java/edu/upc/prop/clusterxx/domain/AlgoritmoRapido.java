@@ -26,6 +26,18 @@ public class AlgoritmoRapido extends Algoritmo {
      * Variable que indica si se ha solicitado la parada del algoritmo
      */
     private volatile boolean stopRequested = false;
+    /**
+     * Variable que indica el número de pasos realizados
+     */
+    private int pasosTotales = 0;
+    /**
+     * Variable que indica el número de pasos realizados, teniendo en cuenta los pasos ahorrados por soluciones terminadas
+     */
+    private double progreso = 0;
+    /**
+     * numero de veces que se repite el algorismo (util para intentar no encontrar maximos locales)
+     */
+    private int intentos;
 
     /**
      * Función que solicita la parada del algoritmo
@@ -51,13 +63,21 @@ public class AlgoritmoRapido extends Algoritmo {
     }
 
     /**
+     * Número máximo de pasos a realizar por cada intento
+     */
+    private long maxIters = -1;
+    /**
      * Calcula una fita superior muy probable de la cantidad de pasos que se necesitan para llegar a la solución
      * @return la fita de cantidad de pasos
      */
     public long getNumIters() {
+        if (maxIters >= 0) {
+            return maxIters;
+        }
         int m = matrizAdyacencia.getMatriz().length;
         int n = matrizAdyacencia.getMatriz()[0].length;
-        return (long) Math.pow(m * n, 4);
+        maxIters = Math.max(0, (long) Math.pow(m * n, 4));
+        return maxIters;
     }
 
     /**
@@ -70,6 +90,7 @@ public class AlgoritmoRapido extends Algoritmo {
     public Solucion ejecutar(Solucion s, int intentos) { //, int semilla) {
         dist_files = s.getDistribucion().length;
         dist_columnes = s.getDistribucion()[0].length;
+        this.intentos = intentos;
 
         ExecutorService executor = Executors.newFixedThreadPool(1);
         List<Future<Solucion>> futures = new ArrayList<>();
@@ -120,6 +141,9 @@ public class AlgoritmoRapido extends Algoritmo {
         for (Future<Solucion> future : futures) {
             try {
                 Solucion result = future.get();
+                progreso -= result.getNumPasos();
+                progreso += getNumIters();
+                actualizarProgreso();
                 if (result.getCalidad() > best_solution.getCalidad()) {
                     best_solution = result;
                 } else if (result.getCalidad() == best_solution.getCalidad()) {
@@ -166,10 +190,13 @@ public class AlgoritmoRapido extends Algoritmo {
                         for(int x = j; x < dist_columnes; ++x) {
                             if(stopRequested) return currentSolution;
                             if(i == y && j == x) continue;
+                            currentSolution.setNumPasos(currentSolution.getNumPasos() + 1);
+                            pasosTotales += 1;
+                            progreso += 1;
+                            actualizarProgreso();
                             Solucion neighbor = copiar_solucion(currentSolution);
                             neighbor.intercambiar_productos(i, j, y, x);
                             neighbor.setCalidad(calcular_todas(neighbor));
-                            neighbor.setNumPasos(neighbor.getNumPasos() + 1);
 
                             if(neighbor.getCalidad() >= bestSolution.getCalidad()) {
                                 if(neighbor.getCalidad() > bestSolution.getCalidad()
@@ -187,7 +214,11 @@ public class AlgoritmoRapido extends Algoritmo {
             //currentSolution.imprimir_distribucion();
         }
 
-
+        bestSolution.setNumPasos(pasosTotales);
         return bestSolution;
+    }
+
+    private void actualizarProgreso() {
+        actualizarProgreso(progreso, getNumIters() * intentos);
     }
 }
