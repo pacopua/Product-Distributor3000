@@ -1,5 +1,6 @@
 package edu.upc.prop.clusterxx.visual;
 
+import edu.upc.prop.clusterxx.PropApp;
 import edu.upc.prop.clusterxx.domain.DomainProductoController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -84,6 +85,7 @@ public class VisualProductoController {
                 Alert.AlertType.ERROR,
                 error
         );
+        alerta.getDialogPane().getStylesheets().add(PropApp.class.getResource("/edu/upc/prop/clusterxx/styles.css").toExternalForm());
         alerta.setTitle(titulo);
         alerta.show();
     }

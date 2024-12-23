@@ -1,5 +1,6 @@
 package edu.upc.prop.clusterxx.visual;
 
+import edu.upc.prop.clusterxx.PropApp;
 import edu.upc.prop.clusterxx.domain.DomainSolucionController;
 import javafx.fxml.FXML;
 import javafx.concurrent.Task;
@@ -74,6 +75,7 @@ public class VisualSolucionController {
                         "El número de espacios es muy alto para este tipo de solución, podría tardar mucho o incluso no terminar nunca.\n\n" +
                                 "El número de columnas multiplicado por el número de filas no debería ser superior a " + maxEspacios + " para este tipo de solución."
                 );
+                alerta.getDialogPane().getStylesheets().add(PropApp.class.getResource("/edu/upc/prop/clusterxx/styles.css").toExternalForm());
                 alerta.setTitle("Geometría no recomendable");
                 alerta.showAndWait();
             }
