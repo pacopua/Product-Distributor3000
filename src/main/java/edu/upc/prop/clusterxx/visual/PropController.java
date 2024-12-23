@@ -358,10 +358,12 @@ public class PropController {
     public static ObservableList<String> getProductsIntercambio() {
         ObservableList<String> productNames = FXCollections.observableArrayList();
         for (Pair<String, Integer>[] row : observableSolutionProducts) {
+            boolean primera = true;
             for (Pair<String, Integer> pair : row) {
-                if (pair != null && pair.getKey() != null) {
+                if (!primera && pair != null && pair.getKey() != null) {
                     productNames.add(pair.getKey());
                 }
+                primera = false;
             }
         }
         return productNames;

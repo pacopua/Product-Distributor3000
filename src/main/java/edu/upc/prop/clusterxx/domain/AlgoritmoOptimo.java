@@ -58,8 +58,9 @@ public class AlgoritmoOptimo extends Algoritmo {
         if (maxIters >= 0) {
             return maxIters;
         }
+        int n = 0;
         int m = matrizAdyacencia.getMatriz().length;
-        int n = matrizAdyacencia.getMatriz()[0].length;
+        if(m > 0) n = matrizAdyacencia.getMatriz()[0].length;
         maxIters = Math.max(0, factorial(m * n));
         return maxIters;
     }

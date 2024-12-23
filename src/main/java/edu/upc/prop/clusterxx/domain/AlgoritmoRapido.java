@@ -74,8 +74,9 @@ public class AlgoritmoRapido extends Algoritmo {
         if (maxIters >= 0) {
             return maxIters;
         }
+        int n = 0;
         int m = matrizAdyacencia.getMatriz().length;
-        int n = matrizAdyacencia.getMatriz()[0].length;
+        if(m > 0) n = matrizAdyacencia.getMatriz()[0].length;
         maxIters = Math.max(0, (long) Math.pow(m * n, 4));
         return maxIters;
     }
@@ -92,7 +93,7 @@ public class AlgoritmoRapido extends Algoritmo {
         dist_columnes = s.getDistribucion()[0].length;
         this.intentos = intentos;
 
-        ExecutorService executor = Executors.newFixedThreadPool(1);
+        ExecutorService executor = Executors.newFixedThreadPool(8);
         List<Future<Solucion>> futures = new ArrayList<>();
         //Random first_random = new Random(semilla);
         for (int t = 0; t < 8; ++t) {
@@ -101,6 +102,7 @@ public class AlgoritmoRapido extends Algoritmo {
                 Random random = new Random();
                 Solucion best_solution = copiar_solucion(s);
                 Solucion pruebas = copiar_solucion(s);
+                best_solution.setCalidad(-1);
                 for (int indice_intentos = 0; indice_intentos < intentos; ++indice_intentos) {
                     if(stopRequested) return pruebas;
                     for (int i = 0; i < dist_files; ++i) {
