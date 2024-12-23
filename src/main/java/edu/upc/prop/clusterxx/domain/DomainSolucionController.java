@@ -199,6 +199,8 @@ public class DomainSolucionController {
             if (_nombre.equals(nombreP2)) p2 = i;
         }
 
+        if (p1 == -1 || p2 == -1) return;
+
         DomainEstadoController.getInstance().actualizarHistorial();
         int[] pos_p1 = solucion.buscar_producto(p1);
         int[] pos_p2 = solucion.buscar_producto(p2);
