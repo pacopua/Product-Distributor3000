@@ -31,6 +31,31 @@ public class VisualSolucionController {
             solucionController.bindProgreso(barra);
             int numFilas = (int)filas.getValue();
             int numColumnas = (int)columnas.getValue();
+
+            // Indica si la solución que se está intentando generar tiene un número de pasos demasiado alto
+            // Se considera demasiado alto si super el límite de long, punto a partir del cual el tipo de datos no permite llevar la cuenta de los pasos
+            boolean demasiadoGrande = false;
+            int maxEspacios = 0;
+            if (rapida.isSelected()) {
+                // determinado de forma experimental, de todas formas se produciría stack overflow por recursividad
+                maxEspacios = 10000;
+                demasiadoGrande = ((long) numFilas * (long) numColumnas) > maxEspacios;
+            } else if (optima.isSelected()) {
+                maxEspacios = 12; // 12! superaría el límite
+                demasiadoGrande = numFilas * numColumnas > maxEspacios;
+            } else if (ultra_rapida.isSelected()) {
+                demasiadoGrande = false; // el número de pasos es fijo
+            }
+            if (demasiadoGrande) {
+                Alert alerta = new Alert(
+                        Alert.AlertType.WARNING,
+                        "El número de espacios es muy alto para este tipo de solución, podría tardar mucho o incluso no terminar nunca.\n\n" +
+                                "El número de columnas multiplicado por el número de filas no debería ser superior a " + maxEspacios + " para este tipo de solución."
+                );
+                alerta.setTitle("Geometría no recomendable");
+                alerta.showAndWait();
+            }
+
             Task<Void> task = new Task<>() {
                 @Override
                 protected Void call() throws Exception {
@@ -54,12 +79,12 @@ public class VisualSolucionController {
             });
 
             task.setOnFailed(event -> {
+                solucionController.parar_algoritmo();
                 Alert alerta = new Alert(
                         Alert.AlertType.ERROR,
-                        "Ocurrió un error al generar la solución."
+                        "Ocurrió un error al generar la solución: " + task.getException().getMessage()
                 );
                 alerta.setTitle("Error de generación");
-                alerta.setContentText(task.getException().getMessage());
                 alerta.showAndWait();
             });
 
@@ -68,6 +93,7 @@ public class VisualSolucionController {
             generar.getScene().getWindow().setOnCloseRequest(e -> solucionController.parar_algoritmo());
 
         } catch (IllegalArgumentException ex) {
+            DomainSolucionController.getInstance().parar_algoritmo();
             generar.setDisable(false);
             generar.getScene().getWindow().setOnCloseRequest(e -> {});
             Alert alerta = new Alert(
@@ -76,7 +102,8 @@ public class VisualSolucionController {
             );
             alerta.setTitle("Geometría incompatible");
             alerta.showAndWait();
-        } catch (Exception ex) {
+        } catch (Throwable ex) {
+            DomainSolucionController.getInstance().parar_algoritmo();
             generar.setDisable(false);
             generar.getScene().getWindow().setOnCloseRequest(e -> {});
             Alert alerta = new Alert(
