@@ -380,9 +380,16 @@ public class PropController {
             calidad.setText(Double.toString(domainSolucionController.getCalidadSolucion()));
             pasos.setText(Integer.toString(domainSolucionController.getPasosSolucion()));
 
+            TableColumn<Pair<String, Integer>[], String> colNumeros = new TableColumn<>("#");
+            colNumeros.setCellValueFactory(param -> {
+                Pair<String, Integer> prodPair = param.getValue()[0];
+                return new SimpleStringProperty(Integer.toString(prodPair.getValue()));
+            });
+            solucionView.getColumns().add(colNumeros);
+
             for (int i = 0; i < domainSolucionController.getDistLenght(); i++) {
                 TableColumn<Pair<String, Integer>[], String> col = new TableColumn<>(Integer.toString(i + 1));
-                int index = i;
+                int index = i + 1;
                 col.setCellValueFactory(param -> {
                     Pair<String, Integer> prodPair = param.getValue()[index];
                     if (prodPair == null) return new SimpleStringProperty("");
@@ -393,11 +400,12 @@ public class PropController {
 
             observableSolutionProducts = FXCollections.observableArrayList();
             for (int i = 0; i < domainSolucionController.getDistHeight(); i++) {
-                Pair<String, Integer>[] row = new Pair[domainSolucionController.getDistLenght()];
+                Pair<String, Integer>[] row = new Pair[domainSolucionController.getDistLenght() + 1];
+                row[0] = new Pair<>("", i + 1);
                 for (int j = 0; j < domainSolucionController.getDistLenght(); j++) {
                     Integer prodID = domainSolucionController.getDistValue(i, j);
                     String prodName = prodID == null ? "" : domainProductoController.getNombreProductoPorId(prodID);
-                    row[j] = new Pair<>(prodName, prodID);
+                    row[j + 1] = new Pair<>(prodName, prodID);
                 }
                 observableSolutionProducts.add(row);
             }
