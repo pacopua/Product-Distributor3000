@@ -115,26 +115,6 @@ public class ProductoCell extends ListCell<Integer> {
         precio.setTextFormatter(
                 new TextFormatter<>(new DoubleStringConverter(), 0.));
 
-        precio.setOnAction(event -> {
-            String newValue = precio.getText().trim(); // Allow trimming whitespace
-            if (newValue.isEmpty()) {
-                precio.setText(Double.toString(PropController.getPrecioProducto(id))); // Revert to the original value
-                VisualProductoController.ventanaErrorProd("El precio no puede estar vacío.", "Precio vacio");
-
-            } else {
-                try {
-                    double price = Double.parseDouble(newValue);
-                    if(price < 0) {
-                        throw new NumberFormatException("Negative price");
-                    }
-                    PropController.setPrecioProducto(id, price);
-                } catch (NumberFormatException e) {
-                    VisualProductoController.ventanaErrorProd("Debe ingresar un valor numérico válido.", "Error precio");
-                    precio.setText(Double.toString(PropController.getPrecioProducto(id))); // Revert to the original value
-                }
-            }
-        });
-
         precio.focusedProperty().addListener((observable, oldFocus, newFocus) -> {
             if (!newFocus) { // Focus lost
                 try {
