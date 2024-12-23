@@ -414,6 +414,11 @@ public class PropController {
                 }
                 observableSolutionProducts.add(row);
             }
+
+            solucionView.getColumns().forEach(tableColumn -> {
+                tableColumn.setSortable(false);
+                tableColumn.setReorderable(false);
+            });
             solucionView.setItems(observableSolutionProducts);
         }
     }
