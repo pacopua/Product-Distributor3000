@@ -81,7 +81,11 @@ public class DomainSolucionController {
      * @return int con el ancho de la distribucion de la solucion
      */
     public int getDistLenght() {
-        return GestorPesistencia.getInstance().getSolucion().getDistribucion()[0].length;
+        try {
+            return GestorPesistencia.getInstance().getSolucion().getDistribucion()[0].length;
+        } catch (IndexOutOfBoundsException e) {
+            return 0;
+        }
     }
 
     /**
