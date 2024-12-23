@@ -49,6 +49,8 @@ public class AlgoritmoSA extends Algoritmo {
      */
     final float coolingRate = 0.003f;
 
+
+
     /**
      * Constructor de la clase AlgoritmoSA
      * @param m matriz de adyacencia
@@ -63,6 +65,15 @@ public class AlgoritmoSA extends Algoritmo {
         this.stiter = stiter;
         this.k = k;
         this.lambda = lambda;
+    }
+
+    /**
+     * Constructor de la clase AlgoritmoSA con parámetros por defecto
+     * @param m matriz de adyacencia
+     */
+    public AlgoritmoSA(MatrizAdyacencia m) {
+        this(m, 10000, 1, 25, 0.001);
+        // parámetros por defecto obtenidos de la experimentación previa
     }
 
     /**
