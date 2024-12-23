@@ -172,6 +172,7 @@ public class AlgoritmoUltraRapido extends Algoritmo {
             neighbor.intercambiar_productos(i1, j1, i2, j2);
             neighbor.setCalidad(calcular_todas(neighbor));
             neighbor.setNumPasos(neighbor.getNumPasos() + 1);
+            actualizarProgreso(neighbor.getNumPasos());
 
             double currentEnergy = current.getCalidad();
             double neighborEnergy = neighbor.getCalidad();
@@ -187,6 +188,7 @@ public class AlgoritmoUltraRapido extends Algoritmo {
             if (current.getNumPasos() % stiter == 0) temperature *= 1 - coolingRate;
         }
 
+        bestSolution.setNumPasos(numPasos);
         return bestSolution;
     }
 
@@ -203,5 +205,9 @@ public class AlgoritmoUltraRapido extends Algoritmo {
         }
         double F = k * Math.exp(-lambda * temperature);
         return Math.exp((neighborEnergy - currentEnergy) / F);
+    }
+
+    private void actualizarProgreso(double progreso) {
+        actualizarProgreso(progreso, numPasos);
     }
 }
