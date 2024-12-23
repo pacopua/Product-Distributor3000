@@ -140,7 +140,7 @@ public class GestorPesistencia {
     }
 
     /**
-     * Importa una matriz de adyacencia de un archivo
+     * Metodo para parar la ejecución de los algoritmos
      */
     public void salir() {
         Platform.exit();

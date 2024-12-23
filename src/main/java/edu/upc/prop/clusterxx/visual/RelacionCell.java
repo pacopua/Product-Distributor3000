@@ -1,8 +1,5 @@
 package edu.upc.prop.clusterxx.visual;
 
-//import edu.upc.prop.clusterxx.data.GestorPesistencia;
-//import edu.upc.prop.clusterxx.domain.Producto;
-import edu.upc.prop.clusterxx.PropApp;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -12,15 +9,39 @@ import javafx.scene.layout.Priority;
 import javafx.util.Pair;
 import javafx.util.converter.DoubleStringConverter;
 
-import static edu.upc.prop.clusterxx.visual.VisualProductoController.doubleFilter;
-
+/**
+ * Clase ProductoCell
+ * Celda para representar la relación entre dos productos
+ */
 public class RelacionCell extends ListCell<Pair<Integer, Integer>> {
+    /**
+     * Nombre del producto 1
+     */
     private Label nombre1 ;
+    /**
+     * Nombre del producto 2
+     */
     private Label nombre2 ;
+    /**
+     * Relación entre los productos
+     */
     private TextField relacion ;
+    /**
+     * Panel de la celda
+     */
     private GridPane pane ;
+    /**
+     * Id del producto 1
+     */
     private int id1;
+    /**
+     * Id del producto 2
+     */
     private int id2;
+
+    /**
+     * Constructor de la clase RelacionCell
+     */
     public RelacionCell() {
         super();
 
@@ -69,23 +90,38 @@ public class RelacionCell extends ListCell<Pair<Integer, Integer>> {
         relacion.focusedProperty().addListener((observable, oldFocus, newFocus) -> {
             if (!newFocus) { // Focus lost
                 String newValue = relacion.getText().trim();
-                if (newValue.isEmpty()) {
-                    relacion.setText(Double.toString(0.0)); // Revert to the original value
-                    VisualProductoController.ventanaErrorProd("El precio no puede estar vacío.", "Precio vacio");
-
+                try {
+                    if (newValue.isEmpty()) {
+                        relacion.setText(Double.toString(0.0)); // Revert to the original value
+                        throw new NumberFormatException("El precio no puede estar vacío.");
+                    }
+                    if (Double.parseDouble(newValue) < 0) {
+                        relacion.setText(Double.toString(0.0)); // Revert to the original value
+                        throw new NumberFormatException("La relación no puede ser negativa.");
+                    }
+                    PropController.setSinergias(id1, id2, Double.parseDouble(newValue));
+                } catch (NumberFormatException e) {
+                    VisualProductoController.ventanaErrorProd(e.getMessage(), "Valor de relación incorrecto!");
                 }
             }
         });
+
+
+
         pane.add(relacion, 2, 0);
     }
+
+    /**
+     * Método que se llama cuando se actualiza la celda
+     * @param productos par de productos
+     * @param empty si la celda está vacía
+     */
     @Override
     public void updateItem(Pair<Integer, Integer> productos, boolean empty) {
         super.updateItem(productos, empty);
 
         setEditable(false);
         if (productos != null) {
-            //id1 = GestorPesistencia.getListaProductos().getListaProductos().indexOf(productos.getKey());
-            //id2 = GestorPesistencia.getListaProductos().getListaProductos().indexOf(productos.getValue());
             id1 = productos.getKey();
             id2 = productos.getValue();
 
@@ -93,11 +129,6 @@ public class RelacionCell extends ListCell<Pair<Integer, Integer>> {
             nombre2.setText(PropController.getNombreProducto(id2));
             double relacionValue = PropController.getSinergia(id1, id2);
             relacion.setText(Double.toString(relacionValue));
-            relacion.textProperty().addListener(
-                    (observable, oldValue, newValue) -> {
-                        PropController.setSinergias(id1, id2, Double.parseDouble(newValue));
-                    }
-            );
             setGraphic(pane);
         } else {
             setGraphic(null);
