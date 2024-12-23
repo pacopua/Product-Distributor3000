@@ -135,6 +135,11 @@ public class PropController {
             });
             solucionView.getColumns().add(col);
         }
+
+        solucionView.getColumns().forEach(tableColumn -> {
+            tableColumn.setSortable(false);
+            tableColumn.setReorderable(false);
+        });
         solucionView.setItems(observableSolutionProducts);
         solucionView.refresh();
     }
