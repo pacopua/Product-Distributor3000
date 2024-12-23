@@ -74,10 +74,7 @@ public class AlgoritmoRapido extends Algoritmo {
         if (maxIters >= 0) {
             return maxIters;
         }
-        int n = 0;
-        int m = matrizAdyacencia.getMatriz().length;
-        if(m > 0) n = matrizAdyacencia.getMatriz()[0].length;
-        maxIters = Math.max(0, (long) Math.pow(m * n, 4));
+        maxIters = Math.max(0, (long) Math.pow(dist_files * dist_columnes, 4));
         return maxIters;
     }
 

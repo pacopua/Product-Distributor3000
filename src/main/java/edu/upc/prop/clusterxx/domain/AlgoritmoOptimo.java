@@ -58,10 +58,7 @@ public class AlgoritmoOptimo extends Algoritmo {
         if (maxIters >= 0) {
             return maxIters;
         }
-        int n = 0;
-        int m = matrizAdyacencia.getMatriz().length;
-        if(m > 0) n = matrizAdyacencia.getMatriz()[0].length;
-        maxIters = Math.max(0, factorial(m * n));
+        maxIters = Math.max(0, factorial(dist_files * dist_columnes)*2);
         return maxIters;
     }
 
@@ -115,7 +112,9 @@ public class AlgoritmoOptimo extends Algoritmo {
                 Solucion aux = copiar_solucion(s);
                 aux.intercambiar_productos(0, 0, i, j);
                 futures.add(executor.submit(() -> {
-                    Solucion result = recursive_calcular(aux, 0, 1);
+                    int x_enviada = (1) % dist_columnes;
+                    int y_enviada = x_enviada == 0 ? 1 : 0;
+                    Solucion result = recursive_calcular(aux, y_enviada, x_enviada);
                     return result;
                 }));
             }
@@ -159,6 +158,7 @@ public class AlgoritmoOptimo extends Algoritmo {
         }
         Solucion best_solution = s;
         if(y >= dist_files) return best_solution;
+        pasosTotales += 1;
         for(int i = y; i < dist_files; ++i) {
             for(int j = (y == i) ? x : 0; j < dist_columnes; ++j) {
                 if (stopRequested) return best_solution;
@@ -170,9 +170,8 @@ public class AlgoritmoOptimo extends Algoritmo {
                 int x_enviada = (x + 1) % dist_columnes;
                 int y_enviada = x_enviada == 0 ? y + 1 : y;
                 aux.setNumPasos(aux.getNumPasos() + 1);
-                pasosTotales += 1;
-                actualizarProgreso();
                 aux = recursive_calcular(aux, y_enviada, x_enviada);
+                actualizarProgreso();
                 if (aux.getCalidad() > best_solution.getCalidad()) best_solution = aux;
                 else if(aux.getCalidad() == best_solution.getCalidad()) {
                     if(aux.getNumPasos() < best_solution.getNumPasos()) best_solution = aux;
