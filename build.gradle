@@ -62,7 +62,21 @@ javafx {
 
 jlink {
     imageZip = project.file("${layout.buildDirectory}/distributions/app-${javafx.platform.classifier}.zip")
-    options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
+
+    options = [
+            '--strip-debug',
+            '--compress', '2',
+            '--no-header-files',
+            '--no-man-pages'
+    ]
+    addExtraDependencies("org.openjfx:javafx:17")
+    addExtraDependencies("org.openjfx:javafx-swing:17")
+    addExtraDependencies("org.openjfx:javafx-media:21.0.2")
+    addExtraDependencies("org.openjfx:javafx-web:17")
+    addExtraDependencies("org.openjfx:javafx-graphics:17")
+    addExtraDependencies("org.openjfx:javafx-base:17")
+    addExtraDependencies("org.openjfx:javafx-controls:17")
+    addExtraDependencies("org.openjfx:javafx-fxml:17")
     launcher {
         name = 'app'
     }
@@ -70,4 +84,35 @@ jlink {
 
 jlinkZip {
     group = 'distribution'
+}
+
+tasks.register('createWinInstaller', Exec) {
+    dependsOn 'jlink'
+    commandLine 'jpackage',
+            '--name', 'Product Distributor 3000',
+            '--runtime-image', 'build/image',
+            '--input', 'build/libs',
+            '--main-jar', 'gradlepoc-1.0-SNAPSHOT.jar',
+            '--main-class', 'edu.upc.prop.clusterxx.PropApp',
+            '--type', 'msi',
+            '--dest', 'build/windows/instalador',
+            '--win-dir-chooser',
+            '--win-shortcut-prompt',
+            '--win-menu'
+}
+
+tasks.register('createWinExecutable', Exec) {
+    dependsOn 'jlink'
+    commandLine 'jpackage',
+            '--name', 'Product Distributor 3000',
+            '--runtime-image', 'build/image',
+            '--input', 'build/libs',
+            '--type', 'app-image',
+            '-m', 'edu.upc.prop.clusterxx/edu.upc.prop.clusterxx.PropApp',
+            '--dest', 'build/windows/ejecutable'
+}
+
+tasks.register('createAll') {
+    dependsOn 'createWinInstaller'
+    dependsOn 'createWinExecutable'
 }
