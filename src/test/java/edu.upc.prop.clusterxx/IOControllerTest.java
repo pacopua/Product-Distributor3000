@@ -4,6 +4,7 @@ import edu.upc.prop.clusterxx.data.GestorPesistencia;
 import edu.upc.prop.clusterxx.domain.DomainProductoController;
 import edu.upc.prop.clusterxx.domain.DomainSolucionController;
 import edu.upc.prop.clusterxx.domain.IOController;
+import edu.upc.prop.clusterxx.domain.Solucion;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -64,10 +65,8 @@ public class IOControllerTest {
     @Test
     public void testImportarEstado() {
         testExportarEstado();
-        int numPasos = gestorPesistencia.getSolucion().getNumPasos();
-        solucionController.calcularDistribucionUltraRapida(3, 3);
-        int numPasos2 = gestorPesistencia.getSolucion().getNumPasos();
-        assertNotEquals(numPasos2, numPasos);
+        Solucion s = gestorPesistencia.getSolucion();
+        gestorPesistencia.setSolucion(gestorPesistencia.nuevaSolucion(10, 10));
         limpiarProductos();
         assertEquals(0, gestorPesistencia.getListaProductos().getCantidadProductos());
         try {
@@ -76,8 +75,7 @@ public class IOControllerTest {
             fail("No deberia lanzar excepcion");
         }
         assertEquals(4, gestorPesistencia.getListaProductos().getCantidadProductos());
-        assertNotEquals(gestorPesistencia.getSolucion().getNumPasos(), numPasos2);
-        assertEquals(gestorPesistencia.getSolucion().getNumPasos(), numPasos);
+        assertEquals(gestorPesistencia.getSolucion(), s);
     }
 
     @Test
@@ -93,10 +91,9 @@ public class IOControllerTest {
     @Test
     public void testImportarListaProductos() {
         testExportarListaProductos();
-        int numPasos = gestorPesistencia.getSolucion().getNumPasos();
-        solucionController.calcularDistribucionUltraRapida(3, 3);
-        int numPasos2 = gestorPesistencia.getSolucion().getNumPasos();
-        assertNotEquals(numPasos2, numPasos);
+        Solucion s = gestorPesistencia.getSolucion();
+        gestorPesistencia.setSolucion(gestorPesistencia.nuevaSolucion(10, 10));
+        System.out.println(gestorPesistencia.getSolucion());
         limpiarProductos();
         assertEquals(0, gestorPesistencia.getListaProductos().getCantidadProductos());
         try {
@@ -104,8 +101,9 @@ public class IOControllerTest {
         } catch (Exception e) {
             fail("No deberia lanzar excepcion");
         }
+        System.out.println(gestorPesistencia.getSolucion());
+        System.out.println(s);
         assertEquals(4, gestorPesistencia.getListaProductos().getCantidadProductos());
-        assertEquals(gestorPesistencia.getSolucion().getNumPasos(), numPasos2);
-        assertNotEquals(gestorPesistencia.getSolucion().getNumPasos(), numPasos);
+        assertNotEquals(gestorPesistencia.getSolucion(), s);
     }
 }

@@ -208,6 +208,9 @@ public class AlgoritmoUltraRapido extends Algoritmo {
         return Math.exp((neighborEnergy - currentEnergy) / F);
     }
 
+    /**
+     * Actualiza el observable de progreso del controlador de solución
+     */
     private void actualizarProgreso(double progreso) {
         actualizarProgreso(progreso, numPasos);
     }

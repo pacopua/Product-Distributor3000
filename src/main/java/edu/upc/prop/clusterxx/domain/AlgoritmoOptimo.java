@@ -184,8 +184,10 @@ public class AlgoritmoOptimo extends Algoritmo {
         return best_solution;
     }
 
+    /**
+     * Actualiza el observable de progreso del controlador de solución
+     */
     private void actualizarProgreso() {
-        //System.out.println(pasosTotales + " " + getNumIters());
         actualizarProgreso(pasosTotales, getNumIters());
     }
 }

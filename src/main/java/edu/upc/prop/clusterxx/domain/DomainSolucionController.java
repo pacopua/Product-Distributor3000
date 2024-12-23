@@ -209,6 +209,7 @@ public class DomainSolucionController {
         progreso.setValue(0);
         barra.progressProperty().bind(progreso);
     }
+
     /**
      * Actualiza el valor del observable de progreso
      * @param v Nuevo valor, [0, 1]

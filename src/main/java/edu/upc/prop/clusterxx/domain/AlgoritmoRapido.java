@@ -219,6 +219,9 @@ public class AlgoritmoRapido extends Algoritmo {
         return bestSolution;
     }
 
+    /**
+     * Actualiza el observable de progreso del controlador de solución
+     */
     private void actualizarProgreso() {
         actualizarProgreso(progreso, getNumIters() * intentos);
     }
