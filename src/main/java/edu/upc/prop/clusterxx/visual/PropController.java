@@ -27,53 +27,109 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
 
+/**
+ * Clase PropController
+ * Controlador principal de la capa de presentación
+ */
 public class PropController {
 
+    /**
+     * Panel de pestañas
+     */
     @FXML
     private TabPane pane;
+    /**
+     * Lista de productos
+     */
     @FXML
     private ListView productosView;
+    /**
+     * Lista de relaciones
+     */
     @FXML
     private ListView relacionesView;
+    /**
+     * Lista de solución
+     */
     @FXML
     private TableView<Pair<String, Integer>[]> solucionView;
+    /**
+     * Etiqueta de la calidad de la solución
+     */
     @FXML
     private Label calidad;
+    /**
+     * Etiqueta de los pasos de la solución
+     */
     @FXML
     private Label pasos;
+    /**
+     * Botón para abrir el menú de intercambiar productos
+     */
     @FXML
     private Button intercambiar;
+    /**
+     * Contenedor de la calidad de la solución
+     */
     @FXML
     HBox calidadBox;
+    /**
+     * Contenedor de los pasos de la solución
+     */
     @FXML
     HBox pasosBox;
+    /**
+     * Controlador de entrada/salida
+     */
     private static IOController ioController = IOController.getInstance();
+    /**
+     * Controlador de productos
+     */
     private static DomainProductoController domainProductoController = DomainProductoController.getInstance();
+    /**
+     * Controlador de soluciones
+     */
     private static DomainSolucionController domainSolucionController = DomainSolucionController.getInstance();
 
+    /**
+     * Lista observable de productos
+     */
     private static ObservableList<Integer> observableProducts = FXCollections.observableArrayList();
+    /**
+     * Lista observable de relaciones
+     */
     private static ObservableList<Pair<Integer, Integer>> observableProductPairs = FXCollections.observableArrayList();
+    /**
+     * Lista observable de solución
+     */
     private static ObservableList<Pair<String, Integer>[]> observableSolutionProducts = FXCollections.observableArrayList();
 
+    /**
+     * Botón de confirmación
+     */
     ButtonType si = new ButtonType("Sí", ButtonBar.ButtonData.OK_DONE);
+    /**
+     * Botón de cancelación
+     */
     ButtonType no = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
+    /**
+     * Filtro de archivos de estado
+     */
     FileChooser.ExtensionFilter stateFilter = new FileChooser.ExtensionFilter(
             "Archivo de estado",
             Arrays.asList("*.state")
-        );
+    );
+    /**
+     * Filtro de archivos de productos
+     */
     FileChooser.ExtensionFilter listFilter = new FileChooser.ExtensionFilter(
             "Archivo de productos",
             Arrays.asList("*.list")
     );
-    FileChooser.ExtensionFilter relacionesFilter = new FileChooser.ExtensionFilter(
-            "Archivo de relaciones",
-            Arrays.asList("*.matrix")
-    );
-    FileChooser.ExtensionFilter solucionFilter = new FileChooser.ExtensionFilter(
-            "Archivo de solución",
-            Arrays.asList("*.solution")
-    );
 
+    /**
+     * Método de inicialización
+     */
     @FXML
     private void initialize() {
         productosView.setCellFactory(producto -> new ProductoCell(this));
@@ -84,6 +140,13 @@ public class PropController {
         DomainEstadoController.getInstance().actualizarHistorial();
     }
 
+    /**
+     * Método para mostrar una ventana de confirmación
+     *
+     * @param mensaje mensaje de la ventana
+     * @param titulo  título de la ventana
+     * @return true si se confirma, false si se cancela
+     */
     public boolean ventanaConfirmar(String mensaje, String titulo) {
         // pedimos confirmación
         Alert alerta = new Alert(
@@ -98,8 +161,11 @@ public class PropController {
         return eleccion.get() == si;
     }
 
+    /**
+     * Método para actualizar la vista de la solución
+     */
     private void ActualizarSolucionProductosVista() {
-        if(domainSolucionController.is_complete()) {
+        if (domainSolucionController.is_complete()) {
             calidadBox.setDisable(false);
             pasosBox.setDisable(false);
             intercambiar.setDisable(false);
@@ -144,6 +210,9 @@ public class PropController {
         solucionView.refresh();
     }
 
+    /**
+     * Método para mostrar una ventana de error de exportación
+     */
     private void ventanaErrorExportar() {
         Alert alerta = new Alert(
                 Alert.AlertType.ERROR,
@@ -154,6 +223,10 @@ public class PropController {
         alerta.setTitle("Error de exportación");
         alerta.showAndWait();
     }
+
+    /**
+     * Método para mostrar una ventana de error de archivo
+     */
     private void ventanaErrorArchivo() {
         Alert alerta = new Alert(
                 Alert.AlertType.ERROR,
@@ -164,6 +237,10 @@ public class PropController {
         alerta.setTitle("Archivo incorrecto");
         alerta.showAndWait();
     }
+
+    /**
+     * Método para mostrar una ventana de error interno de archivo
+     */
     private void ventanaErrorInternoArchivo() {
         Alert alerta = new Alert(
                 Alert.AlertType.ERROR,
@@ -174,6 +251,14 @@ public class PropController {
         alerta.setTitle("Error interno al importar");
         alerta.showAndWait();
     }
+
+    /**
+     * Método para abrir un FileChooser
+     * @param in true si es para abrir un archivo de entrada, false si es para abrir un archivo de salida
+     * @param archivo nombre del archivo
+     * @param filtro filtro del archivo
+     * @return archivo seleccionado
+     */
     private File abrirFileChooser(boolean in, String archivo, FileChooser.ExtensionFilter filtro) {
         FileChooser fileChooser = new FileChooser();
         if (in) fileChooser.setTitle("Escoja el archivo de origen");
@@ -185,10 +270,15 @@ public class PropController {
         else return fileChooser.showSaveDialog(pane.getScene().getWindow());
 
     }
+
+    /**
+     * Método para intercambiar productos
+     * @return true si se ha intercambiado, false si no
+     */
     @FXML
     protected boolean onImportarEstado() {
         if (!ventanaConfirmar("Esta acción reemplazará los datos.\n¿Desea continuar?", "Importar estado")) return false;
-        File in = abrirFileChooser(true,"data.state", stateFilter);
+        File in = abrirFileChooser(true, "data.state", stateFilter);
         if (in == null) return false;
         try {
             DomainEstadoController.getInstance().actualizarHistorial();
@@ -210,9 +300,14 @@ public class PropController {
         }
         return true;
     }
+
+    /**
+     * Método para exportar el estado
+     * @return true si se ha exportado, false si no
+     */
     @FXML
     protected boolean onExportarEstado() {
-        File out = abrirFileChooser(false,"data.state", stateFilter);
+        File out = abrirFileChooser(false, "data.state", stateFilter);
         if (out == null) return false;
         try {
             ioController.exportarEstado(out.getAbsolutePath());
@@ -222,11 +317,19 @@ public class PropController {
         }
         return true;
     }
+
+    /**
+     * Método para ordenar la vista de productos
+     * @return true si se ha ordenado, false si no
+     */
     @FXML
     protected boolean onImportarLista() {
-        if (!ventanaConfirmar("Esta acción reemplazará los productos.\n¿Desea continuar?", "Importar Productos")) return false;;
-        File in = abrirFileChooser(true,"products.list", listFilter);
-        if (in == null) return false;;
+        if (!ventanaConfirmar("Esta acción reemplazará los productos.\n¿Desea continuar?", "Importar Productos"))
+            return false;
+        ;
+        File in = abrirFileChooser(true, "products.list", listFilter);
+        if (in == null) return false;
+        ;
         try {
             DomainEstadoController.getInstance().actualizarHistorial();
             ioController.importarListaProductos(in.getAbsolutePath());
@@ -242,9 +345,14 @@ public class PropController {
         }
         return true;
     }
+
+    /**
+     * Método para ordenar la vista de productos
+     * @return true si se ha ordenado, false si no
+     */
     @FXML
     protected boolean onExportarLista() {
-        File out = abrirFileChooser(false,"products.list", listFilter);
+        File out = abrirFileChooser(false, "products.list", listFilter);
         if (out == null) return false;
         try {
             ioController.exportarListaProductos(out.getAbsolutePath());
@@ -255,33 +363,10 @@ public class PropController {
         return true;
     }
 
-    /*
-    @FXML
-    protected void onImportarSolucion() {
-        if (!ventanaConfirmar()) return;
-        File in = abrirFileChooser(true,"result.solution", solucionFilter);
-        if (in == null) return;
-        try {
-            Sistema.importarSolucion(in);
-            actualizarSolucion();
-        } catch (IOException e) {
-            ventanaErrorArchivo();
-        } catch (ClassNotFoundException e) {
-            ventanaErrorInternoArchivo();
-        }
-    }
-
-    @FXML
-    protected void onExportarSolucion() {
-        File out = abrirFileChooser(false,"result.solution", solucionFilter);
-        if (out == null) return;
-        try {
-            Sistema.exportarSolucion(out);
-        } catch (IOException e) {
-            ventanaErrorExportar();
-        }
-    }
-    */
+    /**
+     * Método para salir
+     * @return true si se ha salido, false si no
+     */
     @FXML
     public boolean onSalir() {
         // preguntamos si quiere guardar antes de salir
@@ -296,9 +381,9 @@ public class PropController {
         Optional<ButtonType> eleccion = alerta.showAndWait();
         // guardamos y salimos
         //if(!alerta.isShowing()) return false;
-         IOController ioController = IOController.getInstance();
+        IOController ioController = IOController.getInstance();
         if (eleccion.get() == si) {
-            if(onExportarEstado()) {
+            if (onExportarEstado()) {
                 ioController.salir();
                 return true;
             }
@@ -323,6 +408,11 @@ public class PropController {
         return false;
     }
 
+    /**
+     * Método para abrir una ventana
+     * @param nombre nombre de la ventana
+     * @param controlador controlador de la ventana
+     */
     private void abrirVentana(String nombre, String controlador) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(PropApp.class.getResource(controlador));
         Scene scene = new Scene(fxmlLoader.load());
@@ -335,36 +425,47 @@ public class PropController {
         stage.showAndWait();
     }
 
+    /**
+     * Método para abrir una ventana para generar una solución
+     */
     @FXML
     protected void onNuevaSolucion() throws IOException {
-        if(domainSolucionController.is_complete())
-            if (!ventanaConfirmar("Esta acción reemplazará la solución.\n¿Desea continuar?", "Reemplazar solución")) return;
+        if (domainSolucionController.is_complete())
+            if (!ventanaConfirmar("Esta acción reemplazará la solución.\n¿Desea continuar?", "Reemplazar solución"))
+                return;
         abrirVentana("Nueva Solución", "nueva-solucion-view.fxml");
         actualizarSolucion();
     }
 
-    private static ArrayList<Integer>getProductosIds() {
+    /**
+     * Método para obtener un listado con los ids de los productos
+     * @return ArrayList con los ids de los productos
+     */
+    private static ArrayList<Integer> getProductosIds() {
         return domainProductoController.getProductsIds();
     }
 
+    /**
+     * Método para actualizar los datos de la interficie gráfica
+     */
     public static void actualizarDatos() {
-        //System.out.println("actualizando_datos...");
         observableProducts.setAll(getProductosIds());
-
         ArrayList<Pair<Integer, Integer>> productPairs = domainProductoController.lista_sinergias();
-        /*
-        for (Producto p1 : GestorPesistencia.getListaProductos().getListaProductos())
-            for (Producto p2 : GestorPesistencia.getListaProductos().getListaProductos())
-                if(GestorPesistencia.getListaProductos().getListaProductos().indexOf(p1) < GestorPesistencia.getListaProductos().getListaProductos().indexOf(p2)) productPairs.add(new Pair(p1, p2));
-        */
         observableProductPairs.setAll(productPairs);
-
-        //productosView.refresh();
     }
 
+    /**
+     * Método para obtener la lista observable de productos
+     * @return lista observable de productos
+     */
     public ObservableList<Pair<String, Integer>[]> getObservableSolutionProducts() {
         return observableSolutionProducts;
     }
+
+    /**
+     * Método para obtener la lista observable de productos
+     * @return lista observable de productos
+     */
     public static ObservableList<String> getProductsIntercambio() {
         ObservableList<String> productNames = FXCollections.observableArrayList();
         for (Pair<String, Integer>[] row : observableSolutionProducts) {
@@ -377,6 +478,9 @@ public class PropController {
         return productNames;
     }
 
+    /**
+     * Método para actualizar la solución
+     */
     private void actualizarSolucion() {
         calidadBox.setDisable(true);
         pasosBox.setDisable(true);
@@ -428,7 +532,12 @@ public class PropController {
         }
     }
 
-    public void actualizarAfterSwap(String nombreP1,String nombreP2) {
+    /**
+     * Método para actualizar la solución después de un intercambio
+     * @param nombreP1 nombre del primer producto
+     * @param nombreP2 nombre del segundo producto
+     */
+    public void actualizarAfterSwap(String nombreP1, String nombreP2) {
         //change the products in the observable list
         Pair<String, Integer> pos1 = null;
         Pair<String, Integer> pos2 = null;
@@ -457,69 +566,28 @@ public class PropController {
         }
         //solucionView.setItems(observableSolutionProducts);
     }
-    /*
-    private void actualizarSolucion() {
-        calidadBox.setDisable(true);
-        pasosBox.setDisable(true);
-        intercambiar.setDisable(true);
-        solucionView.getColumns().clear();
 
-        if (domainSolucionController.is_complete()) {
-            calidadBox.setDisable(false);
-            pasosBox.setDisable(false);
-            intercambiar.setDisable(false);
-            calidad.setText(Double.toString(domainSolucionController.getCalidadSolucion()));
-            pasos.setText(Integer.toString(domainSolucionController.getPasosSolucion()));
-
-            for (int i = 0; i < domainSolucionController.getDistLenght(); i++) {
-                TableColumn<Integer[], String> col = new TableColumn<>(Integer.toString(i + 1));
-                int index = i;
-                col.setCellValueFactory(param -> {
-                            Integer prodID = param.getValue()[index];
-                            if (prodID == null) return new SimpleStringProperty("");
-                            else return new SimpleStringProperty(domainProductoController.getNombreProductoPorId(prodID));
-                        }
-                );
-                solucionView.getColumns().add(col);
-            }
-
-            observableSolutionProducts = FXCollections.observableArrayList();
-            for (int i = 0; i < domainSolucionController.getDistHeight(); i++) {
-                Integer[] row = new Integer[domainSolucionController.getDistLenght()];
-                for (int j = 0; j < domainSolucionController.getDistLenght(); j++)
-                    row[j] = domainSolucionController.getDistValue(i, j);
-                            //GestorPesistencia.getSolucion().getDistribucion()[i][j];
-                observableSolutionProducts.add(row);
-            }
-                //observableSolutionProducts.add(GestorPesistencia.getSolucion().getDistribucionProductos()[i]);
-            solucionView.setItems(observableSolutionProducts);
-        }
-    }
-
+    /**
+     * Método que se ejecuta al creaer un nuevo producto
      */
-
     @FXML
     protected void onNuevoProducto() throws IOException {
         abrirVentana("Nuevo Producto", "nuevo-producto-view.fxml");
         actualizarDatos();
-        //ArrayList<String> s = new ArrayList<String>();
-        //int espacio = observableProducts.size();
-        //for(int i = 0; i < espacio; i++) {
-            //lo añadimos  ala lista s
-            //s.add(domainProductoController.getNombreProductoPorId(observableProducts.get(i)));
-        //}
-        //SortedList<String> sortedData = new SortedList<String>();
         ordenarProductosView();
         ordenarRelacionesView();
     }
 
+    /**
+     * Método para ordenar la vista de relaciones
+     */
     private void ordenarRelacionesView() {
         SortedList<Pair<Integer, Integer>> sortedData = new SortedList<>(observableProductPairs);
         sortedData.setComparator((p1, p2) -> {
             String name1First = domainProductoController.getNombreProductoPorId(p1.getKey()) + domainProductoController.getNombreProductoPorId(p1.getValue());
             String name2First = domainProductoController.getNombreProductoPorId(p2.getKey()) + domainProductoController.getNombreProductoPorId(p2.getValue());
             int comparacion = name1First.compareToIgnoreCase(name2First);
-            if(comparacion == 0) {
+            if (comparacion == 0) {
                 String name1Second = domainProductoController.getNombreProductoPorId(p1.getValue()) + domainProductoController.getNombreProductoPorId(p1.getKey());
                 String name2Second = domainProductoController.getNombreProductoPorId(p2.getValue()) + domainProductoController.getNombreProductoPorId(p2.getKey());
                 comparacion = name1Second.compareToIgnoreCase(name2Second);
@@ -528,6 +596,10 @@ public class PropController {
         });
         relacionesView.setItems(sortedData);
     }
+
+    /**
+     * Método para ordenar la vista de productos
+     */
     public void ordenarProductosView() {
         SortedList<Integer> sortedData = new SortedList<>(observableProducts);
         sortedData.setComparator((id1, id2) -> {
@@ -537,57 +609,112 @@ public class PropController {
         });
         productosView.setItems(sortedData);
     }
+
+    /**
+     * Método para abrir la ventana de intercambio de un producto
+     */
     @FXML
     protected void onIntercambiarProductos() throws IOException {
         abrirVentana("Intercambiar Productos", "intercambiar-productos-view.fxml");
-        //actualizarSolucion();
         solucionView.refresh();
     }
 
+    /**
+     * Método para saber si existe un producto con el mismo nombre y diferente id
+     * @param id id del producto
+     * @param nombre nombre del producto
+     * @return true si existe, false si no
+     */
     public static boolean existeProductoConDiferenteID(int id, String nombre) {
         return domainProductoController.existeProductoConDiferenteID(id, nombre);
     }
 
+    /**
+     * Método para eliminar un producto
+     * @param id id del producto
+     */
     public static void eliminarProducto(int id) {
         domainProductoController.eliminarProductoPorId(id);
     }
 
+    /**
+     * Método para cambiar el nombre de un producto
+     * @param id id del producto
+     * @param newName nuevo nombre del producto
+     */
     public static void cambiarNombreProducto(int id, String newName) {
         domainProductoController.cambiarNombreProducto(id, newName);
     }
 
+    /**
+     * Método para obtener la sinergia entre dos productos
+     * @param id1 id del producto
+     * @param id2 id del producto
+     * @return sinergia entre los productos
+     */
     public static double getSinergia(int id1, int id2) {
         return domainProductoController.getSinergias(id1, id2);
     }
 
+    /**
+     * Método para establecer la sinergia entre dos productos
+     * @param id1 id del producto 1
+     * @param id2 id del producto 2
+     * @param sinergia sinergia entre los productos
+     */
     public static void setSinergias(int id1, int id2, double sinergia) {
         domainProductoController.setSinergias(id1, id2, sinergia);
     }
 
+    /**
+     * Método para obtener el nombre de un producto
+     * @param id id del producto
+     * @return nombre del producto
+     */
     public static String getNombreProducto(int id) {
         return domainProductoController.getNombreProductoPorId(id);
     }
 
+    /**
+     * Método para obtener el precio de un producto
+     * @param id id del producto
+     * @return precio del producto
+     */
     public static double getPrecioProducto(int id) {
         return domainProductoController.getPrecioProductoPorId(id);
     }
 
+    /**
+     * Método para establecer el precio de un producto
+     * @param id id del producto
+     * @param precio precio del producto
+     */
     public static void setPrecioProducto(int id, double precio) {
         domainProductoController.setPrecioProductoPorId(id, precio);
     }
 
+    /**
+     * Método para obtener la lista de productos con su id
+     * @return lista de productos con su id
+     */
     public static ObservableList<Pair<String, Integer>[]> getSolutionProducts() {
         return observableSolutionProducts;
     }
 
+    /**
+     * Método para establecer la lista de productos de la solución
+     * @param p lista de productos de la solución
+     */
     public static void setSolutionProducts(ObservableList<Pair<String, Integer>[]> p) {
         observableSolutionProducts = p;
     }
 
+    /**
+     * Método para deshacer un cambio
+     */
     public void onDeshacer() {
         DomainEstadoController.getInstance().deshacer();
         actualizarDatos();
-        //actualizarSolucion();
         ActualizarSolucionProductosVista();
     }
 }

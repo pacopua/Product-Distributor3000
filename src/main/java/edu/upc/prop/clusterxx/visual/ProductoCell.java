@@ -1,7 +1,5 @@
 package edu.upc.prop.clusterxx.visual;
 
-//import edu.upc.prop.clusterxx.data.GestorPesistencia;
-import edu.upc.prop.clusterxx.domain.Producto;
 import javafx.geometry.HPos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
@@ -13,16 +11,40 @@ import javafx.scene.layout.Priority;
 import javafx.util.converter.DefaultStringConverter;
 import javafx.util.converter.DoubleStringConverter;
 
-import static edu.upc.prop.clusterxx.visual.VisualProductoController.doubleFilter;
-import static edu.upc.prop.clusterxx.visual.VisualProductoController.nonEmptyFilter;
-
+/**
+ * Clase ProductoCell
+ * Celda de la lista de productos
+ */
 public class ProductoCell extends ListCell<Integer> {
+    /**
+     * Controlador principal de la capa de presentación
+     */
     private PropController propController;
+    /**
+     * Botón de acción
+     */
     private Button actionBtn;
+    /**
+     * Campo de texto para el nombre
+     */
     private TextField nombre ;
+    /**
+     * Campo de texto para el precio
+     */
     private TextField precio ;
+    /**
+     * Panel de la celda
+     */
     private GridPane pane ;
+    /**
+     * Identificador del producto
+     */
     private int id;
+
+    /**
+     * Constructor de la clase ProductoCell
+     * @param p controlador principal de la capa de presentación
+     */
     public ProductoCell(PropController p) {
         super();
         propController = p;
@@ -55,28 +77,14 @@ public class ProductoCell extends ListCell<Integer> {
         nombre = new TextField();
         nombre.setTextFormatter(
                 new TextFormatter<>(new DefaultStringConverter(), "Nuevo Producto"));
-        /*
-        nombre.textProperty().addListener(
-                (observable, oldValue, newValue) -> {
-                    if (propController.existeProductoConDiferenteID(id, newValue)) {
-                        nombre.textProperty().setValue(oldValue);
-                        VisualProductoController.ventanaErrorProd();
-                        PropController.actualizarDatos();
-                        return;
-                    }
-                    PropController.cambiarNombreProducto(id, newValue);
-                    PropController.actualizarDatos();
-                }
-        );
 
-         */
         nombre.setOnAction(event -> {
             String newValue = nombre.getText().trim();
             if(newValue.isEmpty()) {
                 nombre.setText(PropController.getNombreProducto(id));
                 VisualProductoController.ventanaErrorProd("El nombre no puede estar vacío.", "Nombre vacío");
             }
-            else if (propController.existeProductoConDiferenteID(id, newValue)) {
+            else if (PropController.existeProductoConDiferenteID(id, newValue)) {
                 nombre.setText(PropController.getNombreProducto(id)); // Revert to the original value
                 VisualProductoController.ventanaErrorProd("El nombre ya existe.", "Nombre ya existe");
             } else {
@@ -92,7 +100,7 @@ public class ProductoCell extends ListCell<Integer> {
                     nombre.setText(PropController.getNombreProducto(id));
                     VisualProductoController.ventanaErrorProd("El nombre no puede estar vacío.", "Nombre vacío");
                 }
-                else if (propController.existeProductoConDiferenteID(id, newValue)) {
+                else if (PropController.existeProductoConDiferenteID(id, newValue)) {
                     nombre.setText(PropController.getNombreProducto(id)); // Revert to the original value
                     VisualProductoController.ventanaErrorProd("El nombre ya existe.", "Nombre ya existe");
                 } else {
@@ -106,35 +114,7 @@ public class ProductoCell extends ListCell<Integer> {
         precio = new TextField();
         precio.setTextFormatter(
                 new TextFormatter<>(new DoubleStringConverter(), 0.));
-        /*
-        precio.textProperty().addListener(
-                (observable, oldValue, newValue) -> GestorPesistencia.getListaProductos().getProducto(id).get().setPrecio(Double.parseDouble(newValue))
-        );
-         */
-        /*
-        precio.setOnAction(event -> {
-            try {
-                double newValue = Double.parseDouble(precio.getText());
-                PropController.setPrecioProducto(id, newValue);
-            } catch (NumberFormatException e) {
-                VisualProductoController.ventanaErrorProd("Error al añadir precio", "Error precio"); // Handle invalid input
-                precio.setText(Double.toString(PropController.getPrecioProducto(id))); // Revert to the original value
-            }
-        });
 
-        precio.focusedProperty().addListener((observable, oldFocus, newFocus) -> {
-            if (!newFocus) { // Focus lost
-                try {
-                    double newValue = Double.parseDouble(precio.getText());
-                    PropController.setPrecioProducto(id, newValue);
-                } catch (NumberFormatException e) {
-                    VisualProductoController.ventanaErrorProd("Error al añadir precio", "Error precio"); // Handle invalid input
-                    precio.setText(Double.toString(PropController.getPrecioProducto(id))); // Revert to the original value
-                }
-            }
-        });
-
-         */
         precio.setOnAction(event -> {
             String newValue = precio.getText().trim(); // Allow trimming whitespace
             if (newValue.isEmpty()) {
@@ -190,15 +170,16 @@ public class ProductoCell extends ListCell<Integer> {
             }
         });
         pane.add(actionBtn, 3, 0);
-        //System.out.println("ProductoCell");
-        //GestorPesistencia.imprimirListaProductos();
-        //System.out.println("AAAA");
-        //PropController.actualizarDatos();
     }
+
+    /**
+     * Metodo que se llama cuando se actualiza la celda
+     * @param index Indice del producto
+     * @param empty Si la celda está vacía
+     */
     @Override
     public void updateItem(Integer index, boolean empty) {
         super.updateItem(index, empty);
-        //System.out.println("BBB");
 
         setEditable(false);
         if (index != null && !empty) {

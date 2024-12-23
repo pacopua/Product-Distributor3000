@@ -1,7 +1,5 @@
 package edu.upc.prop.clusterxx.visual;
 
-import edu.upc.prop.clusterxx.data.GestorPesistencia;
-import edu.upc.prop.clusterxx.domain.DomainEstadoController;
 import edu.upc.prop.clusterxx.domain.DomainProductoController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -11,27 +9,25 @@ import javafx.stage.Stage;
 import javafx.util.converter.DefaultStringConverter;
 import javafx.util.converter.DoubleStringConverter;
 
-import java.util.function.UnaryOperator;
-
+/**
+ * Clase VisualProductoController
+ * Controlador de la ventana de producto
+ */
 public class VisualProductoController {
+    /**
+     * Campo de texto para el nombre
+     */
     @FXML
     TextField nombre;
+    /**
+     * Campo de texto para el precio
+     */
     @FXML
     TextField precio;
-    public static UnaryOperator<TextFormatter.Change> nonEmptyFilter = change -> {
-        String newText = change.getControlNewText();
-        if (newText.matches(".+")) {
-            return change;
-        }
-        return null;
-    };
-    public static UnaryOperator<TextFormatter.Change> doubleFilter = change -> {
-        String newText = change.getControlNewText();
-        if (newText.matches("[0-9]+\\.?[0-9]?[0-9]?")) {
-            return change;
-        }
-        return null;
-    };
+
+    /**
+     * Metodo que inicializa la ventana
+     */
     @FXML
     protected void initialize() {
         nombre.setTextFormatter(
@@ -77,6 +73,12 @@ public class VisualProductoController {
             }
         });
     }
+
+    /**
+     * Metodo para mostrar una ventana de error
+     * @param error mensaje de error
+     * @param titulo titulo de la ventana
+     */
     static void ventanaErrorProd(String error, String titulo) {
         Alert alerta = new Alert(
                 Alert.AlertType.ERROR,
@@ -85,6 +87,10 @@ public class VisualProductoController {
         alerta.setTitle(titulo);
         alerta.show();
     }
+
+    /**
+     * Metodo que se llama al pulsar el boton de añadir producto
+     */
     @FXML
     protected void onAnadirProducto() {
         DomainProductoController controller = DomainProductoController.getInstance();

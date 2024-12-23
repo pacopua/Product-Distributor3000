@@ -1,51 +1,73 @@
 package edu.upc.prop.clusterxx.visual;
 
-//import edu.upc.prop.clusterxx.data.Sistema;
-//import edu.upc.prop.clusterxx.domain.Solucion;
-import edu.upc.prop.clusterxx.domain.DomainEstadoController;
 import edu.upc.prop.clusterxx.domain.DomainSolucionController;
 import javafx.fxml.FXML;
 import javafx.concurrent.Task;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+/**
+ * Clase VisualSolucionController
+ * Controlador de la vista de solución
+ */
 public class VisualSolucionController {
+    /**
+     * RadioButton para la solución rápida
+     */
     @FXML
     RadioButton rapida;
+    /**
+     * RadioButton para la solución óptima
+     */
     @FXML
     RadioButton optima;
+    /**
+     * RadioButton para la solución ultra rápida
+     */
     @FXML
     RadioButton ultra_rapida;
+    /**
+     * Spinner para el número de filas
+     */
     @FXML
     Spinner filas;
+    /**
+     * Spinner para el número de columnas
+     */
     @FXML
     Spinner columnas;
+    /**
+     * Botón para generar la solución
+     */
     @FXML
     Button generar;
+    /**
+     * Barra de progreso del calculo de la solución
+     */
     @FXML
     ProgressBar barra;
+
+    /**
+     * Método que se ejecuta al generar una solución
+     */
     @FXML
     protected void onGenerarSolucion() {
         try {
             DomainSolucionController solucionController = DomainSolucionController.getInstance();
             solucionController.bindProgreso(barra);
-            int numFilas = (int)filas.getValue();
-            int numColumnas = (int)columnas.getValue();
+            int numFilas = (int) filas.getValue();
+            int numColumnas = (int) columnas.getValue();
 
-            // Indica si la solución que se está intentando generar tiene un número de pasos demasiado alto
-            // Se considera demasiado alto si super el límite de long, punto a partir del cual el tipo de datos no permite llevar la cuenta de los pasos
             boolean demasiadoGrande = false;
             int maxEspacios = 0;
             if (rapida.isSelected()) {
-                // determinado de forma experimental, de todas formas se produciría stack overflow por recursividad
                 maxEspacios = 10000;
                 demasiadoGrande = ((long) numFilas * (long) numColumnas) > maxEspacios;
             } else if (optima.isSelected()) {
-                maxEspacios = 12; // 12! superaría el límite
+                maxEspacios = 12;
                 demasiadoGrande = numFilas * numColumnas > maxEspacios;
-            } else if (ultra_rapida.isSelected()) {
-                demasiadoGrande = false; // el número de pasos es fijo
             }
+
             if (demasiadoGrande) {
                 Alert alerta = new Alert(
                         Alert.AlertType.WARNING,
@@ -59,17 +81,17 @@ public class VisualSolucionController {
             Task<Void> task = new Task<>() {
                 @Override
                 protected Void call() throws Exception {
-                  try {
-                      if (rapida.isSelected()) {
-                          solucionController.calcularDistribucionRapida(numFilas, numColumnas);
-                      } else if (optima.isSelected()) {
-                          solucionController.calcularDistribucionOptima(numFilas, numColumnas);
-                      } else if (ultra_rapida.isSelected()) {
-                          solucionController.calcularDistribucionUltraRapida(numFilas, numColumnas);
-                      }
-                  } catch (IllegalArgumentException ex) {
-                      throw new Exception("el número de filas y columnas es insuficiente para el número de productos", ex);
-                  }
+                    try {
+                        if (rapida.isSelected()) {
+                            solucionController.calcularDistribucionRapida(numFilas, numColumnas);
+                        } else if (optima.isSelected()) {
+                            solucionController.calcularDistribucionOptima(numFilas, numColumnas);
+                        } else if (ultra_rapida.isSelected()) {
+                            solucionController.calcularDistribucionUltraRapida(numFilas, numColumnas);
+                        }
+                    } catch (IllegalArgumentException ex) {
+                        throw new Exception("el número de filas y columnas es insuficiente para el número de productos", ex);
+                    }
                     return null;
                 }
             };
@@ -95,7 +117,8 @@ public class VisualSolucionController {
         } catch (IllegalArgumentException ex) {
             DomainSolucionController.getInstance().parar_algoritmo();
             generar.setDisable(false);
-            generar.getScene().getWindow().setOnCloseRequest(e -> {});
+            generar.getScene().getWindow().setOnCloseRequest(e -> {
+            });
             Alert alerta = new Alert(
                     Alert.AlertType.ERROR,
                     "El número de filas y columnas es insuficiente para el número de productos."
@@ -105,7 +128,8 @@ public class VisualSolucionController {
         } catch (Throwable ex) {
             DomainSolucionController.getInstance().parar_algoritmo();
             generar.setDisable(false);
-            generar.getScene().getWindow().setOnCloseRequest(e -> {});
+            generar.getScene().getWindow().setOnCloseRequest(e -> {
+            });
             Alert alerta = new Alert(
                     Alert.AlertType.ERROR,
                     "La ejecución se ha detenido por un error inesperado: " + ex.getMessage()
