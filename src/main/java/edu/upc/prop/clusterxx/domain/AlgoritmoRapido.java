@@ -60,6 +60,11 @@ public class AlgoritmoRapido extends Algoritmo {
      */
     public AlgoritmoRapido(MatrizAdyacencia m) {
         super(m);
+        dist_files = 0;
+        dist_columnes = 0;
+        pasosTotales = 0;
+        maxIters = -1;
+        stopRequested = false;
     }
 
     /**

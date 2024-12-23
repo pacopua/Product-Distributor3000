@@ -65,6 +65,7 @@ public class AlgoritmoUltraRapido extends Algoritmo {
         this.stiter = stiter;
         this.k = k;
         this.lambda = lambda;
+        stopRequested = false;
     }
 
     /**
