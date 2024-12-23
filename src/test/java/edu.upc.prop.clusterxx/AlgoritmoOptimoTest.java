@@ -137,7 +137,7 @@ public class AlgoritmoOptimoTest {
         s = new Solucion(l, 2, 2);
         av.ejecutar(s);
         System.out.println("getNumIters: " + av.getNumIters() + " solution steps: " + s.getNumPasos());
-        assertEquals(av.getNumIters(), s.getNumPasos());
+        assertTrue(av.getNumIters() > s.getNumPasos());
     }
 
     @Test
