@@ -7,12 +7,12 @@ import java.util.Random;
 
 import static org.junit.Assert.*;
 
-public class AlgoritmoSAtest {
+public class AlgoritmoUltraRapidoTest {
     private ListaProductos l;
     private Solucion s;
     private MatrizAdyacencia ma4x4;
     private MatrizAdyacencia ma9x9;
-    private AlgoritmoSA as;
+    private AlgoritmoUltraRapido as;
 
     @Before
     public void initMatrizAdyacencia() {
@@ -37,7 +37,7 @@ public class AlgoritmoSAtest {
         for (int i = 0; i < 4; i++) l.addProducto(new Producto(Integer.toString(i), 0.));
         s = new Solucion(l, 2, 2);
 
-        as = new AlgoritmoSA(ma4x4);
+        as = new AlgoritmoUltraRapido(ma4x4);
         s = as.ejecutar(s, 30);
         assertTrue(s.getCalidad() >= 80);
     }
@@ -63,7 +63,7 @@ public class AlgoritmoSAtest {
         for (int i = 0; i < 9; i++) l.addProducto(new Producto(Integer.toString(i), 0.));
         s = new Solucion(l, 3, 3);
 
-        as = new AlgoritmoSA(ma9x9);
+        as = new AlgoritmoUltraRapido(ma9x9);
         s = as.ejecutar(s, 1);
         assertTrue(s.getCalidad() >= 246);
         System.out.println("la calidad es: " + s.getCalidad());
@@ -88,7 +88,7 @@ public class AlgoritmoSAtest {
         for (int i = 0; i < 100; i++) l.addProducto(new Producto(Integer.toString(i), 0.));
         s = new Solucion(l, 10, 10);
 
-        as = new AlgoritmoSA(ma20x20);
+        as = new AlgoritmoUltraRapido(ma20x20);
         long currentTime = System.currentTimeMillis();
         s = as.ejecutar(s, 1);
         long endTime = System.currentTimeMillis();

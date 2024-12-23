@@ -1,12 +1,10 @@
 package edu.upc.prop.clusterxx.domain;
-import edu.upc.prop.clusterxx.PropApp;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Random;
 
 
-public class AlgoritmoSAestudio {
+public class AlgoritmoUltraRapidoEstudio {
 
     final static String[] productos = {"Jamón", "Queso", "Pan", "Tomate", "Lechuga", "Mayonesa", "Ketchup", "Mostaza", "Detergente",
             "Suavizante", "Lejía", "Cerveza", "Vino", "Refresco", "Agua", "Café", "Té", "Azúcar", "Sal", "Pimienta",
@@ -216,7 +214,7 @@ public class AlgoritmoSAestudio {
             FileWriter writer = new FileWriter("/home2/users/alumnes/1289647/Desktop/datos_sa/HCvsSA/results_" + k + "_K_" + lambda + "Lambda.csv");
             writer.write("QUALITY_DIFF_SA-HC TIME_DIFF_SA-HC\n");
             for (int i = 0; i < SAMPLE_AMOUNT; i++) {
-                AlgoritmoSA sa = new AlgoritmoSA(matriz, steps, stiter, k, lambda);
+                AlgoritmoUltraRapido sa = new AlgoritmoUltraRapido(matriz, steps, stiter, k, lambda);
                 AlgoritmoRapido hc = new AlgoritmoRapido(matriz);
                 long startTime = System.currentTimeMillis();
                 Solucion resultSA = sa.ejecutar(solucion, 1, RandomSeeds[i]);

@@ -26,10 +26,8 @@ public class AlgoritmoTest {
                 else matrizAdyacencia.modificar_sinergias(i, j, i+j);
             }
         }
-        // añadir más si hace falta
     }
 
-    // TODO: productos de prueba para las soluciones
 
     @Test
     public void testCalcularSinergias() {
@@ -43,7 +41,7 @@ public class AlgoritmoTest {
         };
         solucion.setDistribucion(distribucion);
         double synergy = algoritmo.calcular_sinergias(solucion, 0, 0);
-        // Esperado: derecha (1) + abajo (2) + izquierda (dando la vuelta pq es una locura esto) (3)
+        // Esperado: derecha (1) + abajo (2) + izquierda (3)
         assertEquals(6, synergy, 0.001);
     }
 
@@ -63,12 +61,5 @@ public class AlgoritmoTest {
         double expected =  38; // todos están conectados
         assertEquals(expected, totalSynergy, 0.001);
     }
-    /*
-    @Test
-    public void testCalcularSinergias2() {
-        Solucion solucion = new Solucion(4, 4);
-        int[][] distribucion = {}
-    }
-    */
 
 }

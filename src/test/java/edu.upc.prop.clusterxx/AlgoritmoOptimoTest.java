@@ -16,13 +16,9 @@ public class AlgoritmoOptimoTest {
     private MatrizAdyacencia ma16x16;
     private AlgoritmoOptimo av;
 
-    @Before
-    public void initSolucion() {
-
-    }
 
     @Test
-    public void testAlgoritmoOptimo4x4() {
+    public void testAlgoritmoOptimoDist2x2() {
         ma4x4 = new MatrizAdyacencia(
                 new double[][]{
                         {0, 10, 15, 20},
@@ -40,7 +36,7 @@ public class AlgoritmoOptimoTest {
     }
 
     @Test
-    public void testAlgoritmoOptimo9x9() {
+    public void testAlgoritmoOptimoDist3x3() {
         ma9x9 = new MatrizAdyacencia(
                 new double[][]{
                         {0, 29, 82, 46, 68, 52, 72, 42, 51},
@@ -142,5 +138,32 @@ public class AlgoritmoOptimoTest {
         av.ejecutar(s);
         System.out.println("getNumIters: " + av.getNumIters() + " solution steps: " + s.getNumPasos());
         assertEquals(av.getNumIters(), s.getNumPasos());
+    }
+
+    @Test
+    public void testCopiarSolucion() {
+        ma4x4 = new MatrizAdyacencia(
+                new double[][]{
+                        {0, 10, 15, 20},
+                        {10, 0, 35, 25},
+                        {15, 35, 0, 30},
+                        {20, 25, 30, 0}
+                }
+        );
+        av = new AlgoritmoOptimo(ma4x4);
+        l = new ListaProductos();
+        for (int i = 0; i < 4; i++) l.addProducto(new Producto(Integer.toString(i), 0.));
+        s = new Solucion(l, 2, 2);
+        s = av.ejecutar(s);
+        Solucion s2 = av.copiar_solucion(s);
+        assertEquals(s.getCalidad(), s2.getCalidad(), 0.001);
+        assertEquals(s.getNumPasos(), s2.getNumPasos());
+        assertEquals(s.getDistribucion().length, s2.getDistribucion().length);
+        assertEquals(s.getDistribucion()[0].length, s2.getDistribucion()[0].length);
+        for (int i = 0; i < s.getDistribucion().length; i++) {
+            for (int j = 0; j < s.getDistribucion()[0].length; j++) {
+                assertEquals(s.getDistribucion()[i][j], s2.getDistribucion()[i][j]);
+            }
+        }
     }
 }

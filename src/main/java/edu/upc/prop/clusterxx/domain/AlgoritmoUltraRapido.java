@@ -8,7 +8,7 @@ import java.util.Random;
 /**
  * Clase que implementa el algoritmo Simulated Annealing
  */
-public class AlgoritmoSA extends Algoritmo {
+public class AlgoritmoUltraRapido extends Algoritmo {
     /**
      * Numero de pasos
      */
@@ -59,7 +59,7 @@ public class AlgoritmoSA extends Algoritmo {
      * @param k coeficiente lineal
      * @param lambda coeficiente exponencial
      */
-    public AlgoritmoSA(MatrizAdyacencia m, int numPasos,int stiter, double k, double lambda) {
+    public AlgoritmoUltraRapido(MatrizAdyacencia m, int numPasos, int stiter, double k, double lambda) {
         super(m);
         this.numPasos = numPasos;
         this.stiter = stiter;
@@ -71,7 +71,7 @@ public class AlgoritmoSA extends Algoritmo {
      * Constructor de la clase AlgoritmoSA con parámetros por defecto
      * @param m matriz de adyacencia
      */
-    public AlgoritmoSA(MatrizAdyacencia m) {
+    public AlgoritmoUltraRapido(MatrizAdyacencia m) {
         this(m, 10000, 1, 25, 0.001);
         // parámetros por defecto obtenidos de la experimentación previa
     }

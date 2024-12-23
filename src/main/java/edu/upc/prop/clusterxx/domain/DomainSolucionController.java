@@ -26,7 +26,7 @@ public class DomainSolucionController {
     /**
      * Algoritmo SA
      */
-    private static AlgoritmoSA algoSA;
+    private static AlgoritmoUltraRapido algoSA;
 
     /**
      * Constructor privado de la clase DomainSolucionController
@@ -155,7 +155,7 @@ public class DomainSolucionController {
         DomainEstadoController.getInstance().actualizarHistorial();
         GestorPesistencia gp = GestorPesistencia.getInstance();
         Solucion s = gp.nuevaSolucion(filas, columnas);
-        algoSA = new AlgoritmoSA(gp.getMatrizAdyacencia(), 10000,1, 25, 0.001 );
+        algoSA = new AlgoritmoUltraRapido(gp.getMatrizAdyacencia(), 10000,1, 25, 0.001 );
         if(filas*columnas < s.getListaProductos().getCantidadProductos()) {
             throw new IllegalArgumentException("No se puede hacer la distribución");
         }

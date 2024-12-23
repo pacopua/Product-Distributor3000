@@ -14,17 +14,8 @@ public class AlgoritmoRapidoTest {
     private MatrizAdyacencia ma9x9;
     private AlgoritmoRapido ar;
 
-    @Before
-    public void initMatrizAdyacencia() {
-
-    }
-
-    @Before
-    public void initSolucion() {
-    }
-
     @Test
-    public void testAlgoritmoRapido4x4() {
+    public void testAlgoritmoRapidoDist2x2() {
         ma4x4 = new MatrizAdyacencia(
                 new double[][] {
                         { 0, 10,  15,  20 },
@@ -43,7 +34,7 @@ public class AlgoritmoRapidoTest {
     }
 
     @Test
-    public void testAlgoritmoRapido9x9() {
+    public void testAlgoritmoRapido3x3() {
 
         ma9x9 = new MatrizAdyacencia(
                 new double[][] {
@@ -129,7 +120,6 @@ public class AlgoritmoRapidoTest {
         assertTrue(time2 < time);
     }
 
-    //write a test for the stopExecution method in parallel with the execution of the algorithm
     @Test
     public void testStopExecutionParallel() {
         ma9x9 = new MatrizAdyacencia(
