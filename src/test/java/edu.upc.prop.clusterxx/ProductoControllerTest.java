@@ -117,13 +117,13 @@ public class ProductoControllerTest {
 
     @Test
     public void testAnyadirProducto() {
-        assertTrue(productoController.anyadirProducto("Test #3", 29.99));
-        assertFalse(productoController.anyadirProducto("Test #5", 29.99));
-        assertTrue(productoController.anyadirProducto("Test #5", 29.99));
+        assertEquals(0, productoController.anyadirProducto("Test #3", 29.99));
+        assertEquals(1, productoController.anyadirProducto("Test #5", 29.99));
+        assertEquals(0, productoController.anyadirProducto("Test #5", 29.99));
         assertEquals(5, gestorPesistencia.getListaProductos().getCantidadProductos());
         assertEquals(29.99, productoController.getPrecioProductoPorId(4), 0);
         assertEquals("Test #5", productoController.getNombreProductoPorId(4));
-        productoController.anyadirProducto("Test #6", -0.99);
+        assertEquals(-1, productoController.anyadirProducto("Test #6", -0.99));
         assertEquals(5, gestorPesistencia.getListaProductos().getCantidadProductos());
     }
 

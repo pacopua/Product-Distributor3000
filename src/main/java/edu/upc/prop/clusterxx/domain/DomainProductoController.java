@@ -164,15 +164,18 @@ public class DomainProductoController {
      * Añade un producto a la lista de productos
      * @param nombre nombre del producto
      * @param precio precio del producto
-     * @return true si el producto ya existe, false en caso contrario
+     * @return -1 si el precio es negativo, 0 si el producto ya existe, 1 si se ha añadido correctamente
      */
-    public boolean anyadirProducto(String nombre, double precio) {
+    public int anyadirProducto(String nombre, double precio) {
+        if (precio < 0) {
+            return -1;
+        }
         GestorPesistencia gp = GestorPesistencia.getInstance();
         Producto producto = new Producto(nombre, precio);
 
         for (Producto prod : gp.getListaProductos().getListaProductos()) {
             if (prod.getNombre().equals(producto.getNombre())) {
-                return true;
+                return 0;
             }
         }
 
@@ -184,6 +187,6 @@ public class DomainProductoController {
             for (int j = 0; j < gp.getMatrizAdyacencia().getNumProductos(); j++)
                 matrizNueva.modificar_sinergias(i, j, gp.getMatrizAdyacencia().getSinergia(i, j));
         gp.setMatrizAdyacencia(matrizNueva);
-        return false;
+        return 1;
     }
 }

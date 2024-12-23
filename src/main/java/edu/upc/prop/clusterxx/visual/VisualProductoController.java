@@ -88,10 +88,15 @@ public class VisualProductoController {
     @FXML
     protected void onAnadirProducto() {
         DomainProductoController controller = DomainProductoController.getInstance();
-        if (controller.anyadirProducto((String) nombre.getTextFormatter().getValue(), (double) precio.getTextFormatter().getValue())) {
-            ventanaErrorProd("El producto ya existe", "Producto ya existente");
-        } else {
-            ((Stage) nombre.getScene().getWindow()).close();
+        switch (controller.anyadirProducto((String) nombre.getTextFormatter().getValue(), (double) precio.getTextFormatter().getValue())) {
+            case -1:
+                ventanaErrorProd("El precio no puede ser negativo", "Precio negativo");
+                break;
+            case 0:
+                ventanaErrorProd("El producto ya existe", "Producto ya existente");
+                break;
+            case 1:
+                ((Stage) nombre.getScene().getWindow()).close();
         }
     }
 }
