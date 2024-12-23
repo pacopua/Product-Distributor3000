@@ -144,6 +144,9 @@ public class ProductoCell extends ListCell<Integer> {
             } else {
                 try {
                     double price = Double.parseDouble(newValue);
+                    if(price < 0) {
+                        throw new NumberFormatException("Negative price");
+                    }
                     PropController.setPrecioProducto(id, price);
                 } catch (NumberFormatException e) {
                     VisualProductoController.ventanaErrorProd("Debe ingresar un valor numérico válido.", "Error precio");
@@ -158,7 +161,12 @@ public class ProductoCell extends ListCell<Integer> {
                 if (newValue.isEmpty()) {
                     VisualProductoController.ventanaErrorProd("El precio no puede estar vacío.", "Precio vacio");
                     precio.setText(Double.toString(PropController.getPrecioProducto(id))); // Revert to the original value
-                } else {
+                }
+                if (Double.parseDouble(newValue) < 0) {
+                    VisualProductoController.ventanaErrorProd("El precio no puede ser negativo.", "Precio negativo");
+                    precio.setText(Double.toString(PropController.getPrecioProducto(id))); // Revert to the original value
+                }
+                else {
                     try {
                         double price = Double.parseDouble(newValue);
                         PropController.setPrecioProducto(id, price);
