@@ -141,6 +141,8 @@ public class AlgoritmoOptimo extends Algoritmo {
 
         if(!stopRequested)best_solution.setCompletado(true);
         else System.out.println("Algoritmo detenido");
+
+        best_solution.setNumPasos(pasosTotales);
         return best_solution;
     }
     /**
@@ -177,7 +179,7 @@ public class AlgoritmoOptimo extends Algoritmo {
                 }
             }
         }
-        best_solution.setNumPasos(pasosTotales);
+
         return best_solution;
     }
 

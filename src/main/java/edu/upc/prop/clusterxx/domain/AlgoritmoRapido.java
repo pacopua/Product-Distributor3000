@@ -37,7 +37,7 @@ public class AlgoritmoRapido extends Algoritmo {
     /**
      * numero de veces que se repite el algorismo (util para intentar no encontrar maximos locales)
      */
-    private int intentos;
+    private int intentos = 1;
 
     /**
      * Función que solicita la parada del algoritmo
@@ -165,9 +165,9 @@ public class AlgoritmoRapido extends Algoritmo {
         else {
             System.out.println("Algoritmo detenido");
         }
+
+        best_solution.setNumPasos(pasosTotales);
         return best_solution;
-
-
     }
 
     /**
@@ -214,7 +214,6 @@ public class AlgoritmoRapido extends Algoritmo {
             //currentSolution.imprimir_distribucion();
         }
 
-        bestSolution.setNumPasos(pasosTotales);
         return bestSolution;
     }
 

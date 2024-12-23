@@ -110,6 +110,8 @@ public class AlgoritmoUltraRapido extends Algoritmo {
         else {
             System.out.println("Algoritmo detenido");
         }
+
+        bestSolution.setNumPasos(numPasos);
         return bestSolution;
     }
 
@@ -188,7 +190,6 @@ public class AlgoritmoUltraRapido extends Algoritmo {
             if (current.getNumPasos() % stiter == 0) temperature *= 1 - coolingRate;
         }
 
-        bestSolution.setNumPasos(numPasos);
         return bestSolution;
     }
 
