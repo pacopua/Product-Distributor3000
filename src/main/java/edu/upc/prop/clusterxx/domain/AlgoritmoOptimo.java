@@ -104,7 +104,7 @@ public class AlgoritmoOptimo extends Algoritmo {
         s.setCalidad(calcular_todas(s));
         s.imprimir_distribucion();
 
-        ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+        ExecutorService executor = Executors.newFixedThreadPool(8);
         List<Future<Solucion>> futures = new ArrayList<>();
 
         for (int i = 0; i < dist_files; ++i) {

@@ -79,13 +79,13 @@ public class AlgoritmoOptimoTest {
         l = new ListaProductos();
         for (int i = 0; i < 9; i++) l.addProducto(new Producto(Integer.toString(i), 0.));
         s = new Solucion(l, 3, 3);
-        long current = System.currentTimeMillis();
+        long current = System.nanoTime();
         s = av.ejecutar(s);
         av.stopExecution();
-        long time = System.currentTimeMillis() - current;
-        long current2 = System.currentTimeMillis();
+        long time = System.nanoTime() - current;
+        long current2 = System.nanoTime();
         s = av.ejecutar(s);
-        long time2 = System.currentTimeMillis() - current2;
+        long time2 = System.nanoTime() - current2;
         assertTrue(time2 < time);
     }
 
@@ -109,15 +109,15 @@ public class AlgoritmoOptimoTest {
         l = new ListaProductos();
         for (int i = 0; i < 9; i++) l.addProducto(new Producto(Integer.toString(i), 0.));
         s = new Solucion(l, 3, 3);
-        long current = System.currentTimeMillis();
+        long current = System.nanoTime();
         new Thread(() -> {
             s = av.ejecutar(s);
         }).start();
         av.stopExecution();
-        long time = System.currentTimeMillis() - current;
-        long current2 = System.currentTimeMillis();
+        long time = System.nanoTime() - current;
+        long current2 = System.nanoTime();
         s = avNoStop.ejecutar(s);
-        long time2 = System.currentTimeMillis() - current2;
+        long time2 = System.nanoTime() - current2;
         assertTrue(time < time2);
     }
 
