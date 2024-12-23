@@ -31,14 +31,26 @@ public class Estado implements Serializable {
         this.matrizAdyacencia = matrizAdyacencia;
     }
 
+    /**
+     * Devuelve la solucion
+     * @return Solucion
+     */
     public Solucion getSolucion() {
         return solucion;
     }
 
+    /**
+     * Devuelve la lista de productos
+     * @return Lista de productos
+     */
     public ListaProductos getListaProductos() {
         return listaProductos;
     }
 
+    /**
+     * Devuelve la matriz de adyacencia
+     * @return Matriz de adyacencia
+     */
     public MatrizAdyacencia getMatrizAdyacencia() {
         return matrizAdyacencia;
     }

@@ -12,12 +12,33 @@ import java.util.List;
  * Representa una solución de la distribución de productos
  */
 public class Solucion implements Serializable, Cloneable {
+    /**
+     * Lista de productos de la solución
+     */
     private final ListaProductos productos;
+    /**
+     * Distribución de los productos en la solución
+     */
     private int[][] distribucion;
+    /**
+     * Calidad de la solución
+     */
     private double calidad;
+    /**
+     * Número de pasos realizados para calcular la distribución de la solución
+     */
     private int numPasos;
+    /**
+     * Filas de la distribución
+     */
     private int filas;
+    /**
+     * Columnas de la distribución
+     */
     private int columnas;
+    /**
+     * Indica si la solución está completada
+     */
     private boolean completado;
 
     /**

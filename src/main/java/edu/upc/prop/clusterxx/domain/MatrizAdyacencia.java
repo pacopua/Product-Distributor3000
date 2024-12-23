@@ -131,6 +131,10 @@ public class MatrizAdyacencia implements Serializable, Cloneable {
         return numProductos;
     }
 
+    /**
+     * Clona la matriz de adyacencia
+     * @return Matriz de adyacencia clonada
+     */
     @Override
     public MatrizAdyacencia clone() {
         try {

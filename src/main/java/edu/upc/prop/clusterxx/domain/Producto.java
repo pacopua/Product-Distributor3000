@@ -26,26 +26,41 @@ public class Producto implements Serializable, Cloneable {
         this.precio = precio;
     }
 
-
+    /**
+     * Método que devuelve el nombre del producto
+     * @return Nombre del producto
+     */
     public String getNombre() {
         return nombre;
     }
 
+    /**
+     * Método que establece el nombre del producto
+     * @param nombre Nombre del producto
+     */
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
+    /**
+     * Método que devuelve el precio del producto
+     * @return Precio del producto
+     */
     public double getPrecio() {
         return precio;
     }
 
+    /**
+     * Método que establece el precio del producto
+     * @param precio Precio del producto
+     */
     public void setPrecio(double precio) {
         this.precio = precio;
     }
 
     /**
-     * Método toString
-     * @return Representación en cadena del producto
+     * Método que devuelve el producto como una cadena de texto
+     * @return Producto como cadena de texto
      */
     @Override
     public String toString() {

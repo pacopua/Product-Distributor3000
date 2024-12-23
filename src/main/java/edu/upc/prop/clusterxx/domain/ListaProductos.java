@@ -79,6 +79,10 @@ public class ListaProductos implements Serializable, Cloneable {
         return Optional.ofNullable(productos.get(id));
     }
 
+    /**
+     * Metodo para devolver la lista de productos como un string
+     * @return String con la lista de productos
+     */
     @Override
     public String toString() {
         return "ListaProductos{" +
