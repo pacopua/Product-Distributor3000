@@ -1,0 +1,5 @@
+En esta carpeta estan las fuentes del programa:
+- El archivo "build.bat" permite compilar y generar el ejecutable y el instalador del programa.
+  Estos se copiaran a la carpeta "EXE".
+  Para poder compilar el programa se necesita la herramienta de terceros "WiX 3.0" o superior.
+  Enlace "https://wixtoolset.org/"

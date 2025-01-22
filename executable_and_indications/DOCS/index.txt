@@ -1,0 +1,11 @@
+En esta carpeta esta la documentacion del programa:
+- El archivo UML.svg contiene el UML arreglado.
+- "Manual de usuario.pdf" contiene el manual de usuario
+- "Estudios.pdf" contiene los estudios de los algoritmos
+- "Documentacion.pdf" contiene:
+	- Las mejoras realizadas en el proyecto
+	- La relacion de las clases implementadas por cada miembro del grupo
+	- La explicacion de los cambios en el UML respecto a la 2a entrega
+	- Juegos de prueba
+- "Estudios algoritmos" en esta carpeta estan las clases usadas para realizar el estudio de algoritmos
+- "JAVADOC" es una carpeta con el javadoc generado a partir de nuestro codigo

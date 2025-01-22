@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.upc.prop.clusterxx.visual.IntercambioController" stylesheets="@styles.css">
+
+    <GridPane alignment="CENTER">
+        <columnConstraints>
+            <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="16.0" minWidth="16.0" prefWidth="16.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" />
+            <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="16.0" minWidth="16.0" prefWidth="16.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" />
+            <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="16.0" minWidth="16.0" prefWidth="16.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints maxHeight="16.0" minHeight="16.0" prefHeight="16.0" valignment="CENTER" vgrow="NEVER" />
+            <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+            <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+            <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+         <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+            <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+         <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+         <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+         <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+            <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+         <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+         <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+         <RowConstraints maxHeight="16.0" minHeight="16.0" prefHeight="16.0" valignment="CENTER" vgrow="NEVER" />
+        </rowConstraints>
+         <Label text="Producto 1" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+         <Separator minHeight="32.0" prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="4" />
+         <Separator minHeight="32.0" prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="9" />
+            <Button onAction="#onIntercambiarProducto" text="_Intercambiar" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="10" />
+      <Label text="Producto 2" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+      <ChoiceBox fx:id="producto1" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+      <ChoiceBox fx:id="producto2" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+    </GridPane>
+</AnchorPane>

@@ -1,0 +1,3 @@
+En esta carpeta estan los ejecutables del programa:
+- El archivo "Product Distributor 3000-1.0.msi" es un instalador, que nos permite instalar el programa en el ordenador. Una vez instalado se puede usar como cualquier otro programa.
+- En la carpeta "Product Distributor 3000" esta el ejecutable del programa junto a las librerias que necessita. Para ejecutarlo solo hace falta hacer doble clic encima del archivo "Product Distributor 3000.exe".

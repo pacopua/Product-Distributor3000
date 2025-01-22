@@ -1,17 +1,10 @@
+This proyect has been developed by a group of four people for the PROP subject at the Informatics Faculty of Barcelona. 
+The objective of the project was to simulate supermarket with different products, which have different sinergies between eachother, 
+it had to provide various distributions for a number of shells and products selected. The way this was done is by implementing different
+algorithms, from which the user can choose, two of them are aproximation algorithms (Hill Climbing and Simmulated Annealing) 
+and the last is just a simple brute force algorithm. Asides from the mentioned, the proyect also has some other functionalities
+like the mannagement of the different products and their sinergies. For more information look at the user manual.
 
-Useful commands:
-
-
-./gradlew test: will run your unit tests.
-./gradlew run : will run your application in the environment. This is useful to test your application in the development environment.
-./gradlew jar: will create the jar inside the directory <project root>/build/libs with only the project's code. Not dependencies.
-./gradlew assembleDist: will create a .tar and a .zip (both contain the same) in the directory <project root>/build/distributions that contain
-the whole directory structure that will allow to install your project along with its dependencies in a machine without IDE (only with java 11 installed) and run it.
-./gradlew clean: will clean the compilation files and the created artifacts
-
-
-More info
-
-
-Gradle application plugin
-https://docs.gradle.org/current/userguide/application_plugin.html
+Note: something not mentioned in the manual is that there are some shortcuts added in the program, for instance, if the user
+wants to press a button which label starts with any letter, the user can press Ctrl + <letter>
+in order to activate the button desired

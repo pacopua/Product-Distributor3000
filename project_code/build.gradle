@@ -1,0 +1,118 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.javamodularity.moduleplugin' version '1.8.12'
+    id 'org.openjfx.javafxplugin' version '0.0.13'
+    id 'org.beryx.jlink' version '2.25.0'
+}
+
+group = 'edu.upc.prop.clusterxx'
+version = '1.0-SNAPSHOT'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+ext {
+    javaMainClass = 'edu.upc.prop.clusterxx.Main'
+}
+
+application {
+    mainModule = 'edu.upc.prop.clusterxx'
+    mainClass = 'edu.upc.prop.clusterxx.PropApp'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': javaMainClass
+    }
+}
+
+// Apply a specific Java toolchain to ease working on different environments.
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(22)
+    }
+}
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.google.code.gson:gson:2.8.9'
+    testImplementation('junit:junit:4.13.1')
+    //implementation 'org.openjfx:javafx-controls:23'
+    implementation 'org.openjfx:javafx:17'
+
+    implementation 'org.openjfx:javafx-base:17'
+    implementation 'org.openjfx:javafx-graphics:17'
+    implementation 'org.openjfx:javafx-controls:17'
+    implementation 'org.openjfx:javafx-fxml:17'
+    implementation 'org.openjfx:javafx-swing:17'
+    implementation 'org.openjfx:javafx-media:21.0.2'
+    implementation 'org.openjfx:javafx-web:17'
+}
+
+javafx {
+    version = '17.0.2'
+    modules = ['javafx.controls', 'javafx.fxml']
+}
+
+jlink {
+    imageZip = project.file("${layout.buildDirectory}/distributions/app-${javafx.platform.classifier}.zip")
+
+    options = [
+            '--strip-debug',
+            '--compress', '2',
+            '--no-header-files',
+            '--no-man-pages'
+    ]
+    addExtraDependencies("org.openjfx:javafx:17")
+    addExtraDependencies("org.openjfx:javafx-swing:17")
+    addExtraDependencies("org.openjfx:javafx-media:21.0.2")
+    addExtraDependencies("org.openjfx:javafx-web:17")
+    addExtraDependencies("org.openjfx:javafx-graphics:17")
+    addExtraDependencies("org.openjfx:javafx-base:17")
+    addExtraDependencies("org.openjfx:javafx-controls:17")
+    addExtraDependencies("org.openjfx:javafx-fxml:17")
+    launcher {
+        name = 'app'
+    }
+}
+
+jlinkZip {
+    group = 'distribution'
+}
+
+tasks.register('createWinInstaller', Exec) {
+    dependsOn 'jlink'
+    commandLine 'jpackage',
+            '--name', 'Product Distributor 3000',
+            '--runtime-image', 'build/image',
+            '--input', 'build/libs',
+            '--main-jar', 'gradlepoc-1.0-SNAPSHOT.jar',
+            '--main-class', 'edu.upc.prop.clusterxx.PropApp',
+            '--type', 'msi',
+            '--dest', 'build/windows/instalador',
+            '--win-dir-chooser',
+            '--win-shortcut-prompt',
+            '--win-menu'
+}
+
+tasks.register('createWinExecutable', Exec) {
+    dependsOn 'jlink'
+    commandLine 'jpackage',
+            '--name', 'Product Distributor 3000',
+            '--runtime-image', 'build/image',
+            '--input', 'build/libs',
+            '--type', 'app-image',
+            '-m', 'edu.upc.prop.clusterxx/edu.upc.prop.clusterxx.PropApp',
+            '--dest', 'build/windows/ejecutable'
+}
+
+tasks.register('createAll') {
+    dependsOn 'createWinInstaller'
+    dependsOn 'createWinExecutable'
+}
